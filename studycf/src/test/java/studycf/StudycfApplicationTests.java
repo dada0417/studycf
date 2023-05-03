@@ -1,4 +1,4 @@
-package kr.or.study.studycf;
+package studycf;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

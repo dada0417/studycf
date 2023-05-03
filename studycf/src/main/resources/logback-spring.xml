@@ -45,7 +45,7 @@
     </appender> -->
 	
 	<!-- 프로젝트 패키지 안 클래스에 설정된 로그 출력 -->
-	<logger name="ks43team03" level="info" additivity="false">
+	<logger name="studycf" level="info" additivity="false">
 		<appender-ref ref="STDOUT" />
 	</logger>
 
