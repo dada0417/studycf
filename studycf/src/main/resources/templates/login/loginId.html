@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+ 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/default.html}">
+<th:block layout:fragment="customTitle">
+		<title th:text="${title}"></title>
+</th:block>	  
+
+<!-- 사용자 정의 Js 파일-->
+	<th:block layout:fragment="customJs">	
+		<script type="text/javascript" th:src="@{/assets/js/jquery-3.6.0.min.js}"></script>
+		<script>
+		
+		/*전화번호로 아이디 찾기*/
+			$(function(){
+				$(document).keypress(function(e) {
+		            if (e.keyCode == 13)
+		                e.preventDefault();
+				});
+				
+				function validationCheck(data){
+					if(typeof data == 'undefined' || data == '' || data == null){
+						return false;
+					}
+					return true;
+				} 
+				
+				/*아이디 찾기 버튼 클릭시 유효성 검사*/
+				$('#loginIdBtn').click(function(){
+					var userPhone = $('input[name="userPhone"]').val();
+					console.log(userPhone);
+					var vCheck = validationCheck(userPhone);
+					if(vCheck){
+						$.ajax({
+							type: 'POST',
+							url: '/loginId',
+							data: {
+								'userPhone': userPhone
+							},
+							dataType: 'text'
+						}).done(function(data){
+							console.log(data);
+							if(data){
+								alert("아이디는 " + data + " 입니다.")
+							}else{
+								alert('등록된 전화번호가 없습니다.');
+							}
+						}).fail(function(){
+							alert('데이터 응답 실패');
+						});
+					}
+					
+				});
+				
+			});
+		</script>
+	</th:block>
+
+
+
+	<th:block layout:fragment="customContents">  
+	<div class="col-md-12">
+		<div class="card">
+			<div class="header">
+				<h4 class="title">아이디 찾기</h4>
+			</div>
+            <div class="content">
+				<form id="loginIdForm" th:action="@{/loginId}" method="post">
+					<div class="row">
+                         <div class="col-md-12">
+                             <div class="form-group">
+                                 <label for="userPhone">전화번호 </label>
+                                 <input type="text" class="form-control border-input" name="userPhone" id="userPhone" value="01000000000">
+                             </div>
+                         </div>
+                    </div>     
+  
+					<div style="text-align:center; margin-bottom: 10px;">
+						<a th:href="@{/loginId}"> 아이디 찾기 | </a>
+						<a th:href="@{/loginPw}"> 비밀번호 찾기 | </a>
+						<a th:href="@{/user/addUser}"> 회원 가입</a>
+					</div>	
+                  
+                     <div class="text-center">
+                         <button type="button" class="btn btn-info btn-fill btn-wd" id="loginIdBtn">찾기</button>
+                     </div>
+                     <div class="clearfix"></div>
+                 </form>
+			</div>
+		</div>
+	</div>	
+		
+		<!-- <div th:if="${result != null}"> -->
+		<div th:if="${not #strings.isEmpty(result)}">
+			<p th:text="${result}"></p>
+		</div>
+	</th:block>
+</html>

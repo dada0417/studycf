@@ -20,6 +20,27 @@ public class UserService {
 	
 	private static final Logger log = LoggerFactory.getLogger(UserService.class);
 
+	
+	/**
+	 * 비밀번호 찾기
+	 */
+	
+	public String isIdCheck2(String userId) {
+		
+		String result = userMapper.isIdCheck2(userId);
+		
+		return result;
+	}
+	
+	/**아이디찾기*/
+	public String isPhoneCheck(String userPhone) {
+
+		String result = userMapper.isPhoneCheck(userPhone);
+
+		return result;
+	}
+	
+	
 
 	/**
 	 * *회원상세정보

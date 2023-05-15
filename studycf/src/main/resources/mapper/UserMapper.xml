@@ -13,7 +13,30 @@
 		<result column="user_reg_date"	property="userRegDate"/>
 	</resultMap>
 
-
+	
+	<select id="isIdCheck2" parameterType="String" resultMap="UserResultMap">
+		/*아이디로 비번 찾기*/
+		SELECT
+			user_pw
+		FROM
+			user
+		WHERE
+			user_id = #{userId};
+	
+	</select>
+	
+	<select id="isPhoneCheck" parameterType="String" resultMap="UserResultMap">
+		/*전화번호로 아이디 찾기*/
+		SELECT
+			user_id
+		FROM
+			user
+		WHERE
+			user_phone = #{userPhone};
+	
+	</select>
+	
+	
 	<select id="getUserInfoById" parameterType="String" resultMap="UserResultMap">
 		/*아이디로 회원정보 조회*/
 		SELECT 

@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import studycf.dto.User;
 import studycf.service.UserService;
@@ -23,6 +24,51 @@ public class LoginController {
 	public LoginController(UserService userService) {
 		this.userService = userService;
 	}
+	
+	
+	
+	
+	
+	//아이디 찾기
+	
+		@PostMapping("/loginId")
+		@ResponseBody
+		public String isPhoneCheck(@RequestParam(name = "userPhone" , required = false) String userPhone) {
+			
+			log.info("아이디 찾기 클릭시 요청받은 userEmail의 값: {}", userPhone);
+			
+			String result = userService.isPhoneCheck(userPhone);
+			System.out.println("!!! : "+ result);
+
+			return result;
+		}
+		
+		@GetMapping("/loginId")
+		public String loginId(Model model) {
+			model.addAttribute("title", "아이디 찾기");
+			return "login/loginId";
+		}	
+		
+		//비밀번호 찾기
+		
+		@PostMapping("/loginPw")
+		@ResponseBody
+		public String isIdCheck2(@RequestParam(name = "userId" , required = false) String userId) {
+			
+			log.info("비밀번호 찾기 클릭시 요청받은 userId의 값: {}", userId);
+			
+			String result = userService.isIdCheck2(userId);
+			System.out.println("!!! : "+ result);
+
+			return result;
+		}
+		
+		@GetMapping("/loginPw")
+		public String loginPw(Model model) {
+			model.addAttribute("title", "비밀번호 찾기");
+			return "login/loginPw";
+		}	
+	
 	
 	//로그인
 	@PostMapping("/login")
