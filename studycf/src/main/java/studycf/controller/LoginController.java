@@ -25,7 +25,7 @@ public class LoginController {
 	}
 	
 	//로그인
-	@PostMapping("/")
+	@PostMapping("/login")
 	public String login( @RequestParam(name = "userId", required = false) String userId
 						,@RequestParam(name = "userPw", required = false) String userPw
 						,HttpSession session) {
@@ -46,17 +46,17 @@ public class LoginController {
 					// 이전 destination으로 리디렉트
 					return "redirect:"+dest;
 				}
-				return "/";
+				return "redirect:/";
 			}
 		}
 		
-		return "/";
+		return "redirect:/login";
 	}
 	
-	@GetMapping("/")
+	@GetMapping("/login")
 	public String login(Model model) {
 		model.addAttribute("title", "로그인");
-		return "/";
+		return "login/login";
 	}
 	
 }
