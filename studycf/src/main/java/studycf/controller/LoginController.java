@@ -35,11 +35,10 @@ public class LoginController {
 		@ResponseBody
 		public String isPhoneCheck(@RequestParam(name = "userPhone" , required = false) String userPhone) {
 			
-			log.info("아이디 찾기 클릭시 요청받은 userEmail의 값: {}", userPhone);
+			log.info("아이디 찾기 클릭시 요청받은 userPhone의 값: {}", userPhone);
 			
 			String result = userService.isPhoneCheck(userPhone);
-			System.out.println("!!! : "+ result);
-
+			log.info(result);
 			return result;
 		}
 		
@@ -58,7 +57,6 @@ public class LoginController {
 			log.info("비밀번호 찾기 클릭시 요청받은 userId의 값: {}", userId);
 			
 			String result = userService.isIdCheck2(userId);
-			System.out.println("!!! : "+ result);
 
 			return result;
 		}
@@ -75,8 +73,8 @@ public class LoginController {
 	public String login( @RequestParam(name = "userId", required = false) String userId
 						,@RequestParam(name = "userPw", required = false) String userPw
 						,HttpSession session) {
-		
 		User user = userService.getUserInfoById(userId);
+	
 		
 		if(user != null) {
 			String userPwCheck = user.getUserPw();

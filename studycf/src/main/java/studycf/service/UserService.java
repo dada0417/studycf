@@ -4,11 +4,13 @@ package studycf.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import studycf.dto.User;
 import studycf.mapper.UserMapper;
 
 @Service
+@Transactional
 public class UserService {
 	
 	//생성자 주입 
@@ -26,7 +28,7 @@ public class UserService {
 	 */
 	
 	public String isIdCheck2(String userId) {
-		
+		log.info(userId);
 		String result = userMapper.isIdCheck2(userId);
 		
 		return result;
