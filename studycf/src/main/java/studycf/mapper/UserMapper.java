@@ -7,6 +7,12 @@ import studycf.dto.User;
 @Mapper
 public interface UserMapper {
 	
+	//회원가입
+	public int addUser(User user);
+	
+	//회원 아이디 중복 체크
+	public boolean isIdCheck(String userId);
+	
 	//회원 아이디 찾기
 	public String isPhoneCheck(String userPhone);
 

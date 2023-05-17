@@ -23,6 +23,22 @@ public class UserService {
 	private static final Logger log = LoggerFactory.getLogger(UserService.class);
 
 	
+	
+	
+	/* 회원가입 */
+	public int addUser(User user) {
+		int result = userMapper.addUser(user);
+		return result;
+	}
+	
+	
+	/* 아이디 중복 체크 */
+	public boolean isIdCheck(String userId) {
+		boolean result = userMapper.isIdCheck(userId);
+		return result;
+	}
+	
+	
 	/**
 	 * 비밀번호 찾기
 	 */

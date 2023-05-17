@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/default}">
+<!-- 사용자 정의 title -->
+<th:block layout:fragment="customTitle">
+	<title th:text="${title}"></title>
+</th:block>
+<th:block layout:fragment="customJs">
+	<script type="text/javascript">
+	/* 아이디 중복 여부 검사 */
+	$(function(){
+		
+		function validationCheck(data){
+			if(typeof data == 'undefined' || data == '' || data == null){
+				return false;
+			}
+			return true;
+		}
+		
+		$(document).on('keyup', '#userId', function(){
+			$('#addUserForm input').not('#userId').prop('disabled', true);
+			$('#addUserForm button').not('#idCheck').prop('disabled', true);
+		});
+		
+		$('#idCheck').click(function(){
+			var userId = $('input[name="userId"]').val();
+			
+			var vCheck = validationCheck(userId);
+			
+			if(vCheck){
+				$.ajax({
+					 url: '/user/idCheck'
+					,type: 'POST'
+					,data: {'userId' : userId}
+					,dataType: 'json'
+					,success: function(data){
+						console.log(data);
+						// 화면에서 맨처음 아이디를 제외한 모든 입력하는 요소는 비활성화 (HTML 속성 추가 disabled="disabled") 
+						// 아이디 중복이 발생 않은 경우(회원가입 O) 입력하는 요소는 활성화
+						if(data){
+							$('#idCheckResult').text('사용 가능한 아이디 입니다.');
+							$('#idCheckResult').css('color','blue');
+							$('#addUserForm input').prop('disabled', false);
+							$('#addUserForm button').prop('disabled', false);
+						}else{									
+							// 아이디 중복이 발생하는 경우(회원가입 X) 입력하는 요소는 비활성화
+							$('#idCheckResult').text('중복된 아이디가 있습니다. 다른 아이디를 입력해주세요.');
+							$('#idCheckResult').css('color','red');
+							$('#addUserForm input').not('input[name="userId"]').prop('disabled', true);
+							$('#addUserForm button').not('#idCheck').prop('disabled', true);
+					
+						}
+					}
+				});
+			}
+			
+		});
+		
+		/* 회원가입시 유효성 검사 */
+		$('#addUserBtn').click(function(){
+			var inputObj = $('#addUserForm').find('input');
+			
+			$.each(inputObj, function(){
+				var inputData = $(this).val();
+				var result = validationCheck(inputData);
+				
+				// 사용자가 입력하지 않은 경우
+				if(!result){
+					alert('필수 항목입니다. 입력해주세요');
+					$(this).focus();
+					return false;
+				}
+			});
+			
+		});
+	});
+	</script>
+</th:block>
+
+
+<th:block layout:fragment="customContents">  
+	<div class="col-md-12">
+		<div class="card">
+			<div class="header">
+				<h4 class="title">회원가입</h4>
+			</div>
+            <div class="content">
+				<form id="addUserForm" th:action="@{/user/addUser}" method="post">
+					<div class="row">
+                         <div class="col-md-8">
+                             <div class="form-group">
+                                 <label for="userId">아이디
+                                 	<span class="required">*</span>
+                                 </label>
+                                 <input type="text" class="form-control border-input" placeholder="아이디를 입력해주세요" id="userId" name="userId" required>
+                             </div>
+                         </div>
+                         <div class="col-md-4">
+                         	<div class="form-group">
+                        	 	<label>*</label>
+                         		<button type="button" id="idCheck" class="btn btn-info btn-fill btn-wd form-control">아이디확인</button>                        
+                        	</div>
+                         </div>
+                         <div class="offset-md-3" style="padding-left: 15px;">
+							<span id="idCheckResult"></span>
+						</div>
+                    </div>   
+                    
+                      
+                    <div class="row" >     
+                         <div class="col-md-12">
+                             <div class="form-group">
+                                 <label for="userPw">비밀번호
+                                 	<span class="required">*</span>
+                                 </label>
+                                 <input type="text" class="form-control border-input" placeholder="비밀번호를 입력해주세요" name="userPw" required>
+                             </div>
+                         </div>
+                     </div>
+                    <div class="row" >     
+                         <div class="col-md-12">
+                             <div class="form-group">
+                                 <label for="userNm">이름
+                                 	<span class="required">*</span>	
+                                 </label>
+                                 <input type="text" class="form-control border-input" placeholder="이름을 입력해주세요"  name="userNm" required>
+                             </div>
+                         </div>
+                     </div>
+                    <div class="row" >     
+                         <div class="col-md-12">
+                             <div class="form-group">
+                                 <label for="userPhone">전화번호
+                                 	<span class="required">*</span>
+                                 </label>
+                                 <input type="text" class="form-control border-input" placeholder="숫자만 입력가능합니다"  name="userPhone" required>
+                             </div>
+                         </div>
+                     </div>
+                    <div class="row" >     
+                         <div class="col-md-12">
+                             <div class="form-group">
+                                 <label for="userEmail">이메일</label>
+                                 <input type="email" class="form-control border-input" placeholder="이메일을 입력해주세요" name="userEmail">
+                             </div>
+                         </div>
+                     </div>
+                  
+                     <div class="text-center">
+                         <button type="submit" id="addUserBtn" class="btn btn-info btn-fill btn-wd">회원가입</button>
+                     </div>
+                     <div class="clearfix"></div>
+                 </form>
+			</div>
+		</div>
+	</div>
+
+
+
+
+
+</html>
