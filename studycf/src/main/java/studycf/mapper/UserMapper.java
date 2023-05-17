@@ -7,6 +7,7 @@ import studycf.dto.User;
 @Mapper
 public interface UserMapper {
 	
+	
 	//회원가입
 	public int addUser(User user);
 	

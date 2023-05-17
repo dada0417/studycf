@@ -1,5 +1,7 @@
 package studycf.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -25,6 +27,19 @@ public class UserController {
 	
 	private static final Logger log = LoggerFactory.getLogger(UserController.class);
 	
+	
+	//회원상세정보
+	@GetMapping("/userDetail")
+	public String getUserInfoById(HttpSession session, Model model) {
+		String sessionId = (String)session.getAttribute("SID");
+		
+		log.info("회원정보조회 아이디 : {}", sessionId);
+		User user = userService.getUserInfoById(sessionId);
+		
+		model.addAttribute("title", "회원상세정보");
+		model.addAttribute("user", user);
+		return "user/userDetail";
+	}
 	
 	//회원 가입
 	@PostMapping("/addUser")
