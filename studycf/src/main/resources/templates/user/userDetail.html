@@ -6,6 +6,51 @@
 		<title th:text="${title}"></title>
 </th:block>	
 
+<th:block layout:fragment="customJs">
+	<script type="text/javascript">
+		$(function(){
+			function validationCheck(data){
+				if(typeof data == 'undefined' || data == '' || data == null){
+					return false;
+				}
+				return true;
+			}
+		$('#saveBtn').click(function(){
+			var isSubmit = true;
+			var inputObj = $('#saveBtn').find('input');
+			
+			$.each(inputObj, function(){
+				var inputData = $(this).val();
+				var result = validationCheck(inputData);
+				
+				// 사용자가 입력하지 않은 경우
+				if(!result){
+					alert('필수 항목입니다. 입력해주세요');
+					$(this).focus();
+					isSubmit = false;
+					return false;
+				}
+			});
+			console.log('유효여부 폼전송할건지?' + isSubmit )
+			
+			if(isSubmit) $('#userDetailForm').submit();
+		});
+		$('#modifyUserBtn').click(function(){
+			$('input').attr("readonly",false);
+			$('input').attr("disabled",false);
+			$('#saveBtn').removeAttr( "style" );
+			$('#modifyPwBtn').removeAttr( "style" );
+			$(this).hide();
+		});
+	
+	});
+			
+	</script>
+</th:block>
+
+
+
+
 <th:block layout:fragment = "customContents">
 	<div class="container-fluid" th:if="${#strings.isEmpty(session.SID)}">
 			<h4>로그인이 필요한 서비스입니다.</h4>
@@ -18,22 +63,25 @@
 	                    <h4 class="title">[[${user.userNm}]] Profile</h4>
 	                </div>
 	                <div class="content">
-	                    <form>
+	                    <form id="userDetailForm" th:action="@{/user/userDetail}" method="post">
 	                        <div class="row">
 	                            <div class="col-md-12">
 	                                <div class="form-group">
 	                                    <label for="userId">아이디</label>
-	                                    <input type="text" class="form-control border-input" name="userId" disabled th:value="${user.userId}">
+	                                    <input type="text" class="form-control border-input" name="userId" readonly="readonly" th:value="${user.userId}">
 	                                </div>
 	                            </div>
-	                    
 	                        </div>
-	
+							<div>
+								<a th:href="@{/user/modifyUserPw(userId=${user.userId})}">
+	                            	<button type="button" id="modifyPwBtn" class="btn btn-info btn-fill btn-wd" style="display: none;">비밀번호변경</button>
+								</a>
+	                        </div>
 	                        <div class="row">
 	                            <div class="col-md-12">
 	                                <div class="form-group">
 	                                    <label for="userNm">이름</label>
-	                                    <input type="text" class="form-control border-input" name="userNm" disabled th:value="${user.userNm}">
+	                                    <input type="text" class="form-control border-input" placeholder = "이름을 입력해주세요." name="userNm" readonly="readonly" th:value="${user.userNm}">
 	                                </div>
 	                            </div>
 	                            
@@ -43,7 +91,7 @@
 	                            <div class="col-md-12">
 	                                <div class="form-group">
 	                                    <label for="userPhone">전화번호</label>
-	                                    <input type="text" class="form-control border-input" name="userPhone" readonly="readonly" th:value="${user.userPhone}">
+	                                    <input type="text" class="form-control border-input" name="userPhone" placeholder = "전화번호를 입력해주세요." readonly="readonly" th:value="${user.userPhone}">
 	                                </div>
 	                            </div>
 	                        </div>
@@ -52,7 +100,7 @@
 	                            <div class="col-md-12">
 	                                <div class="form-group">
 	                                    <label for="userEmail">이메일</label>
-	                                    <input type="text" class="form-control border-input" name="userEmail" disabled th:value="${user.userEmail}">
+	                                    <input type="text" class="form-control border-input" name="userEmail" placeholder = "이메일을 입력해주세요." readonly="readonly" th:value="${user.userEmail}">
 	                                </div>
 	                            </div>
 	                          
@@ -60,8 +108,12 @@
 	
 	                        
 	                        <div class="text-center">
-	                            <button type="submit" class="btn btn-info btn-fill btn-wd">정보 수정</button>
+	                            <button type="button" id="modifyUserBtn" class="btn btn-info btn-fill btn-wd">정보 수정</button>
 	                        </div>
+	                        <div class="text-center">
+	                            <button type="submit" id="saveBtn" class="btn btn-info btn-fill btn-wd" style="display: none;">정보 저장</button>
+	                        </div>
+	                        
 	                        <div class="clearfix"></div>
 	                    </form>
 	                </div>
@@ -70,7 +122,7 @@
 	        <div class="col-lg-4 col-md-5">
 	            <div class="card">
 	                <div class="header">
-	                    <h4 class="title">이용중인 이용권</h4>
+	                    <h4 class="title">이용중인 이용권</h4>ㄴ
 	                </div>
 	                <div class="content">
 	                    <ul class="list-unstyled team-members">

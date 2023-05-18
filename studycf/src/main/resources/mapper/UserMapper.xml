@@ -13,6 +13,31 @@
 		<result column="user_reg_date"	property="userRegDate"/>
 	</resultMap>
 
+	<update id="modifyUser" parameterType="User">
+		UPDATE user
+		<trim prefix="SET" prefixOverrides=",">
+			<if test="userPw != null and userPw != ''">
+				user_pw		= #{userPw}
+			</if>
+			<if test="userNm != null and userNm != ''">
+				,user_nm			= #{userNm}
+			</if>
+			<if test="userPhone != null and userPhone != ''">
+				,user_phone			= #{userPhone}
+			</if>
+			<if test="userEmail != null and userEmail != ''">
+				,user_email			= #{userEmail}
+			</if>
+			<if test="userDrop != null and userDrop != ''">
+				,user_drop			= #{userDrop}
+			</if>
+		</trim>
+		WHERE
+			user_id = #{userId};
+	
+	</update>
+	
+	
 	
 	<insert id="addUser" parameterType="User">
 	/*회원가입*/

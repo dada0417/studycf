@@ -27,6 +27,51 @@ public class UserController {
 	
 	private static final Logger log = LoggerFactory.getLogger(UserController.class);
 	
+	//회원 비밀번호 변경
+	@PostMapping("/modifyUserPw")
+	public String modifyUserPw(User user
+							  ,Model model
+							  ,@RequestParam(name="nowUserPwCheck") String nowUserPwCheck) {
+		
+		log.info("비밀번호 변경 회원정보:{}", user);
+		
+		User userCheck = userService.getUserInfoById(user.getUserId());
+		
+		if(nowUserPwCheck.equals(userCheck.getUserPw())) {
+			userService.modifyUser(user);
+			return "redirect:/user/userDetail";
+			
+		}else {
+			model.addAttribute("userId", user.getUserId());
+			model.addAttribute("result", "비밀번호가 일치하지 않습니다.");
+			
+			return "user/modifyUserPw";
+		}
+		
+	}
+	
+	//회원 비밀번호 변경 페이지 이동
+	@GetMapping("/modifyUserPw")
+	public String modifyUserPw(Model model
+							  ,@RequestParam(name="userId",required = false) String userId) {
+		
+		User user = userService.getUserInfoById(userId);
+		
+		log.info("회원 비밀번호 변경 아이디 : {}", userId);
+		
+		model.addAttribute("title", "비밀번호 변경");
+		model.addAttribute("user", user);
+		
+		return "user/modifyUserPw";
+	}
+	
+	//회원정보수정
+	@PostMapping("/userDetail")
+	public String modifyUser(User user) {
+		log.info("수정 내용", user);
+		userService.modifyUser(user);
+		return "user/userDetail";
+	}
 	
 	//회원상세정보
 	@GetMapping("/userDetail")

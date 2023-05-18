@@ -23,6 +23,11 @@ public class UserService {
 	private static final Logger log = LoggerFactory.getLogger(UserService.class);
 	
 	
+	/*회원정보 수정*/
+	public int modifyUser(User user) {
+		int result = userMapper.modifyUser(user);
+		return result;
+	}
 	
 	/* 회원가입 */
 	public int addUser(User user) {
