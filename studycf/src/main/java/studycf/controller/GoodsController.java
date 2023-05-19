@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import studycf.dto.Goods;
@@ -26,6 +26,20 @@ public class GoodsController {
 	
 	private static final Logger log = LoggerFactory.getLogger(GoodsController.class);
 	
+	@PostMapping("/addGoods")
+	public String addGoods(Goods goods) {
+		log.info("이용권 등록에 입력한 데이터 : ", goods);
+		
+		goodsService.addGoods(goods);
+		return "redirect:/goods/goodsList";
+	}
+	
+	@GetMapping("/addGoods")
+	public String addGoods(Model model) {
+		model.addAttribute("title", "이용권 등록");
+		
+		return "/goods/addGoods";
+	}
 	
 	
 	//이용권 목록 조회

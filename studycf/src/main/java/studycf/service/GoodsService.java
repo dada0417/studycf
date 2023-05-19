@@ -25,14 +25,18 @@ public class GoodsService {
 	private static final Logger log = LoggerFactory.getLogger(GoodsService.class);
 
 	
+	public int addGoods(Goods goods) {
+		
+		int result = goodsMapper.addGoods(goods);
+		return result;
+	}
+	
 	
 	public List<Goods> getGoodsList(){
 		
-		
 		List<Goods> goodsList = goodsMapper.getGoodsList();
-		log.info("서비스 됨?");
-		
-		
+		log.info("이용권 리스트 서비스");
+	
 		return goodsList;
 	}
 	

@@ -5,20 +5,43 @@
   
 <mapper namespace="studycf.mapper.GoodsMapper">
 	<resultMap type="Goods" id="GoodsResultMap">
-		<id		column="goods_cd"	property="goodsCd"/>
-		<result column="goods_ctg_cd"	property="goodsCtgCd"/>
-		<result column="goods_nm"	property="goodsNm"/>
-		<result column="goods_time_con"	property="goodsTimeCon"/>
-		<result column="price"	property="price"/>
+		<id		column="goods_cd"				property="goodsCd"/>
+		<result column="goods_ctg_cd"			property="goodsCtgCd"/>
+		<result column="goods_nm"				property="goodsNm"/>
+		<result column="goods_time_con"			property="goodsTimeCon"/>
+		<result column="price"					property="price"/>
 		<result column="goods_expiration_date"	property="goodsExpirationDate"/>
-		<result column="goods_insert_date"	property="goodsInsertDate"/>
-		<association property="goodsCtg"	javaType="GoodsCtg" >
-			<id		column="goods_ctg_cd"	property="goodsCtgCd"/>
-			<result	column="goods_ctg_nm"	property="goodsCtgNm"/>
+		<result column="goods_insert_date"		property="goodsInsertDate"/>
+		<association property="goodsCtg"		javaType="GoodsCtg" >
+			<id		column="goods_ctg_cd"		property="goodsCtgCd"/>
+			<result	column="goods_ctg_nm"		property="goodsCtgNm"/>
 		</association>
 	</resultMap>
 
-
+	
+	<insert id="addGoods" parameterType="Goods">
+		<selectKey resultType="String" keyProperty="goodsCd" order="BEFORE">
+			SELECT sf_new_goods_cd()
+		</selectKey>
+		/*이용권 등록*/
+		INSERT INTO goods
+			(goods_cd
+			,goods_ctg_cd
+			,goods_nm
+			,goods_time_con
+			,price
+			,goods_expiration_date
+			,goods_insert_date)
+			VALUES (
+				sf_new_goods_cd()
+				,#{goodsCtgCd}
+				,#{goodsNm}
+				,#{goodsTimeCon}
+				,#{price}
+				,#{goodsExpirationDate}
+				,NOW());
+	</insert>
+	
 	
 	<select id="getGoodsList" resultType="Goods" resultMap="GoodsResultMap">
 		/*이용권 목록 조회*/

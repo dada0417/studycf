@@ -9,5 +9,10 @@ import studycf.dto.Goods;
 @Mapper
 public interface GoodsMapper {
 
+	
+	//이용권 등록
+	public int addGoods(Goods goods);
+
+	//이용권 리스트
 	public List<Goods> getGoodsList();
 }
