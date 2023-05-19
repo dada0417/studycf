@@ -8,6 +8,6 @@ import lombok.ToString;
 @Setter
 @ToString
 public class GoodsCtg {
-	private String GoodsCtgCd;
-	private String GoodsCtgNm;
+	private String goodsCtgCd;
+	private String goodsCtgNm;
 }

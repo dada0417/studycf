@@ -8,7 +8,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class Seat {
-	private String SeatCd;
-	private String SeatState;
+	private String seatCd;
+	private String seatState;
 	
 }

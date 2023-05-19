@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+ 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/default.html}">
+<th:block layout:fragment="customTitle">
+		<title th:text="${title}"></title>
+</th:block>	
+
+
+<th:block layout:fragment = "customContents">
+	<div class="container-fluid">
+      <div class="row">
+          <div class="col-md-12">
+              <div class="card">
+                  <div class="header">
+                      <h4 class="title">이용권</h4>
+                      <p class="category">Here is a subtitle for this table</p>
+                  </div>
+                  <div class="content table-responsive table-full-width">
+                      <table class="table table-striped">
+                          <thead style="font: bold;">
+                          	<tr>
+	                            <th>이용권 유형</th>
+	                          	<th>이용권 조건</th>
+	                          	<th>이용권 가격</th>
+	                          	<th>이용권 만료일</th>
+                          	</tr>
+                          </thead>
+                          <tbody>
+                              <tr th:if="${not #lists.isEmpty(goodsList)}" th:each="l : ${goodsList}">
+                              	<td th:text="${l.goodsCtg.goodsCtgNm}"></td>
+                              	<td th:text="${l.goodsNm}"></td>
+                              	<td th:text="${l.price}"></td>
+                              	<td th:text="${l.goodsExpirationDate}"></td>
+                              </tr>
+                              <tr th:unless="${not #lists.isEmpty(goodsList)}">
+								<td colspan="4">이용권이 없습니다.</td>
+							</tr>	
+                          </tbody>
+                      </table>
+                  </div>
+              </div>
+          </div>
+		</div>
+	</div>
+</th:block>
+
+</html>

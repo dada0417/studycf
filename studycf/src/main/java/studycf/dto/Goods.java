@@ -8,11 +8,13 @@ import lombok.ToString;
 @Setter
 @ToString
 public class Goods {
-	private String GoodsCd;
-	private String GoodsCtgCd;
-	private String GoodsNm;
-	private String GoodsTimeCon;
-	private String Price;
-	private String GoodsExpirationDate;
-	private String GoodsInsertDate;
+	private String goodsCd;
+	private String goodsCtgCd;
+	private String goodsNm;
+	private String goodsTimeCon;
+	private String price;
+	private String goodsExpirationDate;
+	private String goodsInsertDate;
+	
+	private GoodsCtg goodsCtg;
 }

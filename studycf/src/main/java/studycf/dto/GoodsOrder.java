@@ -8,10 +8,10 @@ import lombok.ToString;
 @Setter
 @ToString
 public class GoodsOrder {
-	private String OrderCd;
-	private String UserId;
-	private String GoodsCd;
-	private String Price;
-	private String OrderExpirationDate;
-	private String OrderInsertDate;
+	private String orderCd;
+	private String userId;
+	private String goodsCd;
+	private String price;
+	private String orderExpirationDate;
+	private String orderInsertDate;
 }
