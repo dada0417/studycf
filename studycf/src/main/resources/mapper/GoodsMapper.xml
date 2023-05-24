@@ -38,6 +38,8 @@
 				goods_expiration_date =	#{goodsExpirationDate}
 			</if>	
 		</trim>	
+		WHERE
+			goods_cd = #{goodsCd};
 	
 	</update>
 
@@ -58,7 +60,7 @@
 			ON
 			g.goods_ctg_cd = c.goods_ctg_cd
 		WHERE
-			g.goods_cd = #{goodsCd};
+			g.goods_cd = #{goodsCd} or g.goods_ctg_cd = #{goodsCtgCd};
 	</select>
 	
 	<insert id="addGoods" parameterType="Goods">

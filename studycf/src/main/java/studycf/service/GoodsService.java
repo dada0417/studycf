@@ -32,8 +32,8 @@ public class GoodsService {
 	}
 	
 	//이용권 상세조회
-	public Goods getGoodsInfoByCd(String goodsCd) {
-		Goods goods = goodsMapper.getGoodsInfoByCd(goodsCd);
+	public Goods getGoodsInfoByCd(String goodsCd, String goodsCtgCd) {
+		Goods goods = goodsMapper.getGoodsInfoByCd(goodsCd, goodsCtgCd);
 		log.info(goods + "goodsService/getGoodsInfoByCd");
 		return goods;
 	}

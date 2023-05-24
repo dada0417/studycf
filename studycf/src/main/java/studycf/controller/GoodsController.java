@@ -39,9 +39,9 @@ public class GoodsController {
 	
 	
 	@GetMapping("/modifyGoods")
-	public String modifyGoods(@RequestParam(value="goodsCd") String goodsCd
+	public String modifyGoods(@RequestParam(value="goodsCd") String goodsCd, String goodsCtgCd
 			,Model model) {
-		Goods goods = goodsService.getGoodsInfoByCd(goodsCd);
+		Goods goods = goodsService.getGoodsInfoByCd(goodsCd, goodsCtgCd);
 		log.info("상세보기 값 = {}", goods);
 		
 		model.addAttribute("title", "이용권 수정");
