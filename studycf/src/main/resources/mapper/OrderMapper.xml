@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="studycf.mapper.OrderMapper">
+	<resultMap type="Order" id="OrderResultMap">
+		<id		column="order_cd"				property="orderCd"/>
+		<result column="goods_cd"			property="goodsCd"/>
+		<result column="user_id"			property="userId"/>
+		<result column="price"					property="price"/>
+		<result column="order_insert_date"		property="orderInsertDate"/>
+		<result column="order_expiration_date"	property="orderExpirationDate"/>
+	</resultMap>
+
+
+	<select id="getOrderInfoById" parameterType="Order" resultMap="OrderResultMap">
+		SELECT 
+			g.goods_cd						
+			,g.goods_ctg_cd					
+			,c.goods_ctg_nm					
+			,g.goods_nm						
+			,g.goods_time_con				
+			,g.price						
+			,g.goods_expiration_date		
+			,g.goods_insert_date			
+		FROM 
+			goods AS g
+			INNER JOIN
+			goods_ctg AS c
+			ON
+			g.goods_ctg_cd = c.goods_ctg_cd
+		WHERE
+			g.goods_cd = #{goodsCd} or g.goods_ctg_cd = #{goodsCtgCd};
+	</select>
+	
+	<insert id="addOrder" parameterType="Order">
+		<selectKey resultType="String" keyProperty="orderCd" order="BEFORE">
+			SELECT sf_new_order_cd()
+		</selectKey>
+		/*이용권 등록*/
+		INSERT INTO goods
+			(goods_cd
+			,goods_ctg_cd
+			,goods_nm
+			,goods_time_con
+			,price
+			,goods_expiration_date
+			,goods_insert_date)
+			VALUES (
+				sf_new_order_cd()
+				,#{goodsCtgCd}
+				,#{goodsNm}
+				,#{goodsTimeCon}
+				,#{price}
+				,#{goodsExpirationDate}
+				,NOW());
+	</insert>
+	
+	
+	<select id="getoOrderList" resultType="Order" resultMap="OrderResultMap">
+		/*이용권 목록 조회*/
+		SELECT 
+			g.goods_cd						
+			,g.goods_ctg_cd					
+			,c.goods_ctg_nm					
+			,g.goods_nm						
+			,g.goods_time_con				
+			,g.price						
+			,g.goods_expiration_date		
+			,g.goods_insert_date			
+		FROM 
+			goods AS g
+			INNER JOIN
+			goods_ctg AS c
+			ON
+			g.goods_ctg_cd = c.goods_ctg_cd;
+	</select>
+
+
+
+
+
+
+
+
+
+
+
+</mapper>  
