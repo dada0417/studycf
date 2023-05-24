@@ -10,6 +10,11 @@ import studycf.dto.Goods;
 public interface GoodsMapper {
 
 	
+	//이용권 수정
+	public int modifyGoods(Goods goods);
+	
+	public Goods getGoodsInfoByCd(String goodsCd);
+	
 	//이용권 등록
 	public int addGoods(Goods goods);
 

@@ -24,14 +24,28 @@ public class GoodsService {
 
 	private static final Logger log = LoggerFactory.getLogger(GoodsService.class);
 
+	//이용권 수정
+	public int modifyGoods(Goods goods) {
+		int result = goodsMapper.modifyGoods(goods);
+		return result;
+		
+	}
 	
+	//이용권 상세조회
+	public Goods getGoodsInfoByCd(String goodsCd) {
+		Goods goods = goodsMapper.getGoodsInfoByCd(goodsCd);
+		log.info(goods + "goodsService/getGoodsInfoByCd");
+		return goods;
+	}
+	
+	//이용권 등록
 	public int addGoods(Goods goods) {
 		
 		int result = goodsMapper.addGoods(goods);
 		return result;
 	}
 	
-	
+	//이용권 목록
 	public List<Goods> getGoodsList(){
 		
 		List<Goods> goodsList = goodsMapper.getGoodsList();

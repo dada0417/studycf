@@ -24,6 +24,7 @@
 	                          	<th>이용권 조건</th>
 	                          	<th>이용권 가격(원)</th>
 	                          	<th>이용권 만료기간(일)</th>
+	                          	<th>수정</th>
                           	</tr>
                           </thead>
                           <tbody>
@@ -32,9 +33,12 @@
                               	<td th:text="${l.goodsNm}"></td>
                               	<td th:text="${l.price}"></td>
                               	<td th:text="${l.goodsExpirationDate}"></td>
+                             	<td>
+                             		<a th:href = "@{/goods/modifyGoods(goodsCd=${l.goodsCd})}">수정</a>	
+                             	</td>
                               </tr>
                               <tr th:unless="${not #lists.isEmpty(goodsList)}">
-								<td colspan="4">이용권이 없습니다.</td>
+								<td colspan="5">이용권이 없습니다.</td>
 							</tr>	
                           </tbody>
                       </table>

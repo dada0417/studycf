@@ -18,6 +18,48 @@
 		</association>
 	</resultMap>
 
+	<update id="modifyGoods" parameterType="Goods">
+	/*이용권수정*/
+		UPDATE goods
+		<trim prefix="SET" prefixOverrides=",">
+			<if test="goodsCtgCd != null and goodsCtgCd != ''">
+				goods_ctg_cd = 			#{goodsCtgCd},
+			</if>	
+			<if test="goodsNm != null and goodsNm != ''">
+				goods_nm = 				#{goodsNm},
+			</if>	
+			<if test="goodsTimeCon != null and goodsTimeCon != ''">
+				goods_time_con = 		#{goodsTimeCon},
+			</if>	
+			<if test="price != null and price != ''">
+				price = 				#{price},
+			</if>	
+			<if test="goodsExpirationDate != null and goodsExpirationDate != ''">
+				goods_expiration_date =	#{goodsExpirationDate}
+			</if>	
+		</trim>	
+	
+	</update>
+
+	<select id="getGoodsInfoByCd" parameterType="Goods" resultMap="GoodsResultMap">
+		SELECT 
+			g.goods_cd						
+			,g.goods_ctg_cd					
+			,c.goods_ctg_nm					
+			,g.goods_nm						
+			,g.goods_time_con				
+			,g.price						
+			,g.goods_expiration_date		
+			,g.goods_insert_date			
+		FROM 
+			goods AS g
+			INNER JOIN
+			goods_ctg AS c
+			ON
+			g.goods_ctg_cd = c.goods_ctg_cd
+		WHERE
+			g.goods_cd = #{goodsCd};
+	</select>
 	
 	<insert id="addGoods" parameterType="Goods">
 		<selectKey resultType="String" keyProperty="goodsCd" order="BEFORE">

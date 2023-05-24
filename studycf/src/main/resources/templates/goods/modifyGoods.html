@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/default}">
+<!-- 사용자 정의 title -->
+<th:block layout:fragment="customTitle">
+	<title th:text="${title}"></title>
+</th:block>
+<th:block layout:fragment="customJs">
+	<script type="text/javascript">
+
+	$(function(){
+		
+		function validationCheck(data){
+			if(typeof data == 'undefined' || data == '' || data == null){
+				return false;
+			}
+			return true;
+		}
+		/* 이용권 등록시 유효성 검사 */
+		$('#modifyBtn').click(function(){
+			var inputObj = $('#modifyForm').find('input');
+			
+			$.each(inputObj, function(){
+				var inputData = $(this).val();
+				var result = validationCheck(inputData);
+				
+				// 사용자가 입력하지 않은 경우
+				if(!result){
+					alert('필수 항목입니다. 입력해주세요');
+					$(this).focus();
+					return false;
+				}
+			});
+			
+		});
+		
+		$goodsCtgVal = $('#goodsCtgCd').attr('data-goodsCtg');
+		console.log($goodsCtgVal);
+		$('#goodsCtgCd option[value='+ $goodsCtgVal + ']').attr('selected', 'selected');
+		
+	});
+	</script>
+</th:block>
+
+
+<th:block layout:fragment="customContents">  
+	<div class="col-md-12">
+		<div class="card">
+			<div class="header">
+				<h4 class="title">이용권 수정</h4>
+			</div>
+            <div class="content">
+				<form id="modifyForm" th:action="@{/goods/modifyGoods}" method="post">
+					<div class="row">
+                         <div class="col-md-12">
+                             <div class="form-group">
+                                 <label for="goodsCtgCd">이용권 유형
+                                 	<span class="required">*</span>
+                                 </label>
+                                 <select class="form-control border-input" name="goodsCtgCd" id="goodsCtgCd" th:data-goodsCtg="${goods.goodsCtg.goodsCtgCd}">
+									<option>선택</option>
+									<option value="time">시간권</option>
+									<option value="term">기간권</option>
+									<option value="day">일일권</option>
+								</select>
+                             </div>
+                         </div>
+                
+                    </div>   
+                    
+                      
+                    <div class="row" >     
+                         <div class="col-md-12">
+                             <div class="form-group">
+                                 <label for="goodsNm">이용권 명
+                                 	<span class="required">*</span>
+                                 </label>
+                                 <input type="text" class="form-control border-input" placeholder="예) 200시간, 2주(고정석)" th:value="${goods.goodsNm}" name="goodsNm" required>
+                             </div>
+                         </div>
+                     </div>
+                    <div class="row" >     
+                         <div class="col-md-12">
+                             <div class="form-group">
+                                 <label for="goodsTimeCon">시간조건
+                                 	<span class="required">*</span>	
+                                 </label>
+                                 <input type="text" class="form-control border-input" placeholder="시간을 분단위로 입력해주세요" th:value="${goods.goodsTimeCon}" name="goodsTimeCon" required>
+                             </div>
+                         </div>
+                     </div>
+                    <div class="row" >     
+                         <div class="col-md-12">
+                             <div class="form-group">
+                                 <label for="price">가격
+                                 	<span class="required">*</span>
+                                 </label>
+                                 <input type="text" class="form-control border-input" placeholder="숫자만 입력가능합니다" th:value="${goods.price}" name="price" required>
+                             </div>
+                         </div>
+                     </div>
+                    <div class="row" >     
+                         <div class="col-md-12">
+                             <div class="form-group">
+                                 <label for="goodsExpirationDate">만료기간(일)
+                                 	<span class="required">*</span>
+                                 </label>
+                                 <input type="text" class="form-control border-input" placeholder="이용권 만료기간을 입력해주세요" th:value="${goods.goodsExpirationDate}" name="goodsExpirationDate" required>
+                             </div>
+                         </div>
+                     </div>
+                  
+                     <div class="text-center">
+                         <button type="submit" id="modifyBtn" class="btn btn-info btn-fill btn-wd">이용권 수정</button>
+                     </div>
+                     <div class="clearfix"></div>
+                 </form>
+			</div>
+		</div>
+	</div>
+
+
+
+
+
+</html>
