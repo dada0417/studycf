@@ -34,18 +34,24 @@ public class OrderController {
 	
 	
 	
-	//이용권 등록
+	//이용권 구매
 	@PostMapping("/addOrder")
 	public String addOrder(Order order) {
 		log.info("이용권 주문에 입력한 데이터 : ", order);
 		
+	
 		orderService.addOrder(order);
 		return "redirect:/goods/goodsList";
 	}
 	
 	@GetMapping("/addOrder")
-	public String addGoods(Model model) {
+	public String addGoods(Model model, 
+			@RequestParam(name="goodsCtgCd", required = false) String goodsCtgCd) {
+		
+		List<Goods> goodsList = goodsService.getGoodsList(goodsCtgCd);
+		
 		model.addAttribute("title", "이용권 등록");
+		model.addAttribute("goodsList", goodsList);
 		
 		return "/order/addOrder";
 	}

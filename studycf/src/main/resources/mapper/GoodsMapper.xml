@@ -60,7 +60,7 @@
 			ON
 			g.goods_ctg_cd = c.goods_ctg_cd
 		WHERE
-			g.goods_cd = #{goodsCd} or g.goods_ctg_cd = #{goodsCtgCd};
+			g.goods_cd = #{goodsCd};
 	</select>
 	
 	<insert id="addGoods" parameterType="Goods">
@@ -103,7 +103,12 @@
 			INNER JOIN
 			goods_ctg AS c
 			ON
-			g.goods_ctg_cd = c.goods_ctg_cd;
+			g.goods_ctg_cd = c.goods_ctg_cd
+		<trim prefix="WHERE" prefixOverrides=",">
+			<if test="goodsCtgCd != null and goodsCtgCd != ''">
+				g.goods_ctg_cd	 =	#{goodsCtgCd};
+			</if>	
+		</trim>
 	</select>
 
 

@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import studycf.dto.Goods;
+import studycf.mapper.GoodsMapper;
 import studycf.service.GoodsService;
 
 @Controller
@@ -20,9 +22,11 @@ import studycf.service.GoodsService;
 public class GoodsController {
 	
 	public final GoodsService goodsService;
+	public final GoodsMapper goodsMapper;
 	
-	public GoodsController(GoodsService goodsService) {
+	public GoodsController(GoodsService goodsService, GoodsMapper goodsMapper) {
 		this.goodsService	=	goodsService;
+		this.goodsMapper	=	goodsMapper;
 	}
 	
 	private static final Logger log = LoggerFactory.getLogger(GoodsController.class);
@@ -39,9 +43,9 @@ public class GoodsController {
 	
 	
 	@GetMapping("/modifyGoods")
-	public String modifyGoods(@RequestParam(value="goodsCd") String goodsCd, String goodsCtgCd
+	public String modifyGoods(@RequestParam(value="goodsCd") String goodsCd
 			,Model model) {
-		Goods goods = goodsService.getGoodsInfoByCd(goodsCd, goodsCtgCd);
+		Goods goods = goodsService.getGoodsInfoByCd(goodsCd);
 		log.info("상세보기 값 = {}", goods);
 		
 		model.addAttribute("title", "이용권 수정");
@@ -67,12 +71,17 @@ public class GoodsController {
 		return "/goods/addGoods";
 	}
 	
+	@PostMapping("/goodsList")
+	@ResponseBody
+	public List<Goods> getTownCdList(@RequestParam(value = "goodsCtgCd" , required = false) String goodsCtgCd){
+		return goodsMapper.getGoodsList(goodsCtgCd);
+	}
 	
 	//이용권 목록 조회
 	@GetMapping ("/goodsList")
-	public String getGoodsList(Model model) {
+	public String getGoodsList(Model model, @RequestParam(value="goodsCtgCd", required = false) String goodsCtgCd) {
 		
-		List<Goods> goodsList = goodsService.getGoodsList();
+		List<Goods> goodsList = goodsService.getGoodsList(goodsCtgCd);
 		
 		model.addAttribute("title", "이용권 목록");
 		model.addAttribute("goodsList", goodsList);

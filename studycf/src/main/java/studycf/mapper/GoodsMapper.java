@@ -13,11 +13,11 @@ public interface GoodsMapper {
 	//이용권 수정
 	public int modifyGoods(Goods goods);
 	
-	public Goods getGoodsInfoByCd(String goodsCd, String goodsCtgCd);
+	public Goods getGoodsInfoByCd(String goodsCd);
 	
 	//이용권 등록
 	public int addGoods(Goods goods);
 
 	//이용권 리스트
-	public List<Goods> getGoodsList();
+	public List<Goods> getGoodsList(String goodsCtgCd);
 }
