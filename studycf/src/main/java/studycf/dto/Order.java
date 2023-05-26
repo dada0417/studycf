@@ -14,4 +14,5 @@ public class Order {
 	private String price;
 	private String orderExpirationDate;
 	private String orderInsertDate;
+	
 }

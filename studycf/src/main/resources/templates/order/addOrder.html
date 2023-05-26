@@ -9,7 +9,33 @@
 <th:block layout:fragment="customJs">
 	<script type="text/javascript">
 	/* 유형에 맞는 상품 가져오기 */
+	
 	$(function(){
+		
+			function validationCheck(data){
+				if(typeof data == 'undefined' || data == '' || data == null){
+					return false;
+				}
+				return true;
+			}
+			
+			/* 이용권 구매 유효성 검사 */
+			$('#orderBtn').click(function(){
+				var isSubmit = true;
+					
+					// 사용자가 입력하지 않은 경우
+					if($("#goodsCd").val() == ""||$("#price").val() == ""|| $("#price").val() == "" || $("#orderInsertDate").val() == "" || $("#orderExpirationDate").val() == ""){
+						alert('구매할 이용권을 선택헤주세요.');
+						isSubmit = false;
+						return false;
+					}if($("#userId").val() == ""){
+						alert("로그인해주세요");
+						isSubmit = false;
+						return false;
+					}
+					if(isSubmit) $('#addOrderForm').submit();
+				});
+				
 			 $(document).on('click','input[name="goodsCtgCd"]', function(e) {
 				var goodsCtgCd = $('input[name="goodsCtgCd"]:checked').val();
 			    $.ajax({
@@ -25,7 +51,7 @@
 			            var txt1='';
 			                for(var i =0;i<data.length;i++)
 			                {
-			              	  txt1 +='<li><div class="row"><input type="radio" class="col-xs-3" id="goodsDetail'+i+'" name="gooodsDetail">' +'<label value="'+data[i].goodsNm+'" '    +' class="col-xs-3">' + data[i].goodsNm+" ("+data[i].goodsExpirationDate+"일)" +"</label>" + '<label value="'+data[i].price+'" '    +'class="col-xs-3">' + data[i].price +" (원)" + "</label></div> </li>" ;
+			              	  txt1 +='<li><div class="row"><input type="radio" class="col-xs-3" id="goodsDetail'+i+'" name="goodsDetail">' +'<label for="goodsDetail'+i+'" class="col-xs-3">' + data[i].goodsNm+" ("+data[i].goodsExpirationDate+"일)" +'</label>' + '<label for="goodsDetail'+i+'" class="col-xs-3">' + data[i].price +" (원)" + '</label><input type="hidden" id="goodsCdSelect" value="'+ data[i].goodsCd + '"></div></li>';
 			                }
 			             
 			                console.log(txt1);
@@ -33,8 +59,71 @@
 			                $('#goodsD').append(txt1);
 			               
 			            }
-			    });
-			}); 
+			   		 });
+				}); 
+			 $(document).on('click','input[name="goodsDetail"]', function(e){
+				 var goodsCtgCd = $('input[name="goodsCtgCd"]:checked').val();
+				 var goodsCtgCdNm = $('input[name="goodsCtgCd"]:checked').next().text();
+				 var goodsNm = $('input:radio[name="goodsDetail"]:checked').next().text();
+				 var goodsNmV = $('input:radio[name="goodsDetail"]:checked').next().text().split("시",1);
+				 var goodsNmD = goodsNm.substring(goodsNm.indexOf(" (")+2,goodsNm.indexOf("일"));
+				 var price = $('input[name="goodsDetail"]:checked').next().next().text();
+				 var price2 = $('input[name="goodsDetail"]:checked').next().next().text().split(' ', 1);
+				 var goodsCd = $('input[name="goodsDetail"]:checked').next().next().next().val();
+		
+				 
+				var date = new Date();
+				console.log(goodsCtgCd);
+				console.log(goodsNmD);
+				
+				var year = date.getFullYear();
+				var month = ('0' + date.getMonth());
+				var day = ('0' + date.getDate()).slice(-2);
+				var hours = ('0' + date.getHours()).slice(-2); 
+				var minutes = ('0' + date.getMinutes()).slice(-2);
+				var seconds = ('0' + date.getSeconds()).slice(-2); 
+				var orderDate = year + '-' + month  + '-' + day + " " + hours + ':' + minutes  + ':' + seconds;
+				
+				
+				 if(goodsCtgCd == "day"){
+					date.setHours(date.getHours() + parseInt(goodsNmV));
+					var year = date.getFullYear();
+					var month = ('0' + date.getMonth());
+					var day = ('0' + date.getDate()).slice(-2);
+					var hours = ('0' + date.getHours()).slice(-2); 
+					var minutes = ('0' + date.getMinutes()).slice(-2);
+					var seconds = ('0' + date.getSeconds()).slice(-2); 
+					var expirationDate = year + '-' + month  + '-' + day + " " + hours + ':' + minutes  + ':' + seconds;
+					$('.orderExpirationDate').text(expirationDate);
+					$('#orderExpirationDate').val(expirationDate);
+				 }else{
+					date.setDate(date.getDate() + parseInt(goodsNmD));
+					console.log(date);
+					var year = date.getFullYear();
+					var month = ('0' + date.getMonth());
+					var day = ('0' + date.getDate()).slice(-2);
+					var hours = ('0' + date.getHours()).slice(-2); 
+					var minutes = ('0' + date.getMinutes()).slice(-2);
+					var seconds = ('0' + date.getSeconds()).slice(-2); 
+					var expirationDate = year + '-' + month  + '-' + day + " " + hours + ':' + minutes  + ':' + seconds;
+					$('.orderExpirationDate').text(expirationDate);
+					$('#orderExpirationDate').val(expirationDate);
+				 }
+				
+				
+				 $('.goodsCtgCdNm').text(goodsCtgCdNm);
+				 $('.goodsNm').text(goodsNm);
+				 $('#goodsCd').val(goodsCd);
+				 $('#price').val(price2);
+				 $('.price').text(price);
+				 $('#price').text(price);
+				 $('#addO').text(goodsCd);
+				 $('.orderInsertDate').text(orderDate);
+				 $('#orderInsertDate').val(orderDate);
+				 
+			 })
+			 
+			 
 		}); 
 			
 	</script>
@@ -111,38 +200,49 @@
 			                <div class="content">
 			                    <ul class="list-unstyled team-members">
 	                                <li>
-	                                <div class="row">
-	                                    	<input type="radio" name="goodsDetail" class="col-xs-3">
-	                                        <label class="col-xs-3" id="goodsNm">dfasd
-	                                        </label>
-	                                        <label class="col-xs-3" id="goodsExpirationDate" >adsfa
-	                                        </label>
-	                                        <label class="col-xs-3" id="price" >asdfa
-	                                        </label>
-	                                    </div>
-	                                </li>
-	                                <li>
 	                                    <div class="row">
+	                                    	<input type="hidden" th:value="${session.SID}" id="userId" name="userId" required>
 	                                        <div class="col-xs-6">
-	                                     		       가격
+	                                     		       상품
 	                                        </div>
 	                                        <div class="col-xs-6">
-	                                              2주(자유석)
+	                                        	<span class="goodsCtgCdNm"></span>
+	                                        	<span class="goodsNm"></span>
+	                                             <input type="hidden" id="goodsCd" name="goodsCd" required>
 	                                        </div>
 	                                    </div>
 	                                </li>
 	                                <li>
 	                                    <div class="row">
 	                                        <div class="col-xs-6">
+	                                      		가격
+	                                        </div>
+	                                        <div class="col-xs-6">
+	                                        	<span class="price"></span>
+	                                      		<input type="hidden" id="price" name="price" required>
+	                                        </div>
+	                                    </div>
+	                                </li>
+	                                <li>
+	                                    <div class="row">
+	                                        <div class="col-xs-6" id="addTime">
 	                                      		사용기간
 	                                        </div>
 	                                        <div class="col-xs-6">
-	                                      		160시간
+	                                        	<span class="orderInsertDate"></span>
+	                                        	<br>
+	                                        	<span class="orderExpirationDate"></span>
+	                                      		<input type="hidden" id="orderInsertDate" name="orderInsertDate" required>
+	                                      		<input type="hidden" id="orderExpirationDate" name="orderExpirationDate" required>
 	                                        </div>
 	                                    </div>
 	                                </li>
 	                            </ul>
 			                </div>
+			                <div class="text-center">
+		                         <button type="submit" id="orderBtn" class="btn btn-info btn-fill btn-wd">구매</button>
+		                     </div>
+                     		<div class="clearfix"></div>
 						</form>
 			        </div>
                 </div>
