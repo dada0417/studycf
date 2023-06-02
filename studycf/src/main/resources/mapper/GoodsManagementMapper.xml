@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="studycf.mapper.GoodsManagementMapper">
+	<resultMap type="GoodsManagement" id="GoodsManagementResultMap">
+		<id		column="goods_management_cd"				property="goodsManagementCd"/>
+		<result column="user_id"							property="userId"/>
+		<result column="goods_order_cd"						property="goodsOrderCd"/>
+		<result column="goods_cd"							property="goodsCd"/>
+		<result column="seat_cd"							property="seatCd"/>
+		<result column="admission_time"						property="admissionTime"/>
+		<result column="leave_time"							property="leaveTime"/>
+		<result column="use_time"							property="useTime"/>
+		<result column="remaining_time"						property="remainingTime"/>
+		<result column="goods_expiration_date"				property="goodsExpirationDate"/>
+		
+	</resultMap>
+
+
+	<insert id="addGoodsManagement" parameterType="GoodsManagement">
+		<selectKey resultType="String" keyProperty="goodsManagementCd" order="BEFORE">
+			SELECT sf_new_goods_management_cd()
+		</selectKey>
+		/*이용권 구매*/
+		INSERT INTO goods_management
+			(goods_management_cd
+			,user_id
+			,goods_order_cd
+			,goods_cd
+			,seat_cd
+			,admission_time
+			,leave_time
+			,use_time
+			,remaining_time
+			,goods_expiration_date)
+			VALUES (
+				sf_new_goods_management_cd()
+				,#{userId}
+				,#{goodsOrderCd}
+				,#{goodsCd}
+				,#{seatCd}
+				,#{admissionTime}
+				,#{leaveTime}
+				,#{useTime}
+				,#{remainingTime}
+				,#{goodsExpirationDate});	
+	</insert>
+	
+	
+<!-- 	<select id="getOrderInfoById" parameterType="Order" resultMap="OrderResultMap">
+		SELECT 
+			g.goods_cd						
+			,g.goods_ctg_cd					
+			,c.goods_ctg_nm					
+			,g.goods_nm						
+			,g.goods_time_con				
+			,g.price						
+			,g.goods_expiration_date		
+			,g.goods_insert_date			
+		FROM 
+			goods AS g
+			INNER JOIN
+			goods_ctg AS c
+			ON
+			g.goods_ctg_cd = c.goods_ctg_cd
+		WHERE
+			g.goods_cd = #{goodsCd} or g.goods_ctg_cd = #{goodsCtgCd};
+	</select>
+	
+	<select id="getoOrderList" resultType="Order" resultMap="OrderResultMap">
+		/*이용권 목록 조회*/
+		SELECT 
+			g.goods_cd						
+			,g.goods_ctg_cd					
+			,c.goods_ctg_nm					
+			,g.goods_nm						
+			,g.goods_time_con				
+			,g.price						
+			,g.goods_expiration_date		
+			,g.goods_insert_date			
+		FROM 
+			goods AS g
+			INNER JOIN
+			goods_ctg AS c
+			ON
+			g.goods_ctg_cd = c.goods_ctg_cd;
+	</select>
+
+ -->
+
+
+
+
+
+
+
+
+
+</mapper>  
