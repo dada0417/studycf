@@ -30,7 +30,7 @@ public class GoodsManagementController {
 	
 	
 	
-	//이용권 구매
+	//이용권 사용
 	@PostMapping("/addGoodsManagement")
 	public String addGoodsManagement(GoodsManagement goodsManagement) {
 		log.info("이용권 주문에 입력한 데이터 : ", goodsManagement);

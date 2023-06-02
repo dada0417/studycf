@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="studycf.mapper.SeatMapper">
+	<resultMap type="Seat" id="SeatResultMap">
+		<id		column="seat_cd"				property="seatCd"/>
+		<result column="seat_state"			property="seatState"/>
+		
+	</resultMap>
+	
+	<update id="modifySeat" parameterType="Seat">
+		/*좌석 사용*/
+		UDATE 
+			seat
+		SET
+			seat_state = #{seatState}
+		WHERE
+			seat_cd = #{seatState}; 
+	</update>
+
+	
+	<select id="getSeatList" resultType="Seat" resultMap="SeatResultMap">
+		/*좌석 목록 조회*/
+		SELECT 
+			seat_cd
+			,seat_state	
+		FROM 
+			seat;
+	</select>
+
+
+
+
+
+
+
+
+
+
+
+</mapper>  
