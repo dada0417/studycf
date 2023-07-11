@@ -161,7 +161,6 @@
 	    color: #fff;
 	}
 </style>
-<th:block layout:fragment="customContents">
 		<div class="content">
             <div class="container-fluid">
                 <div class="card">
@@ -201,7 +200,6 @@
 			                    <ul class="list-unstyled team-members">
 	                                <li>
 	                                    <div class="row">
-	                                    	<input type="hidden" th:value="${session.SID}" id="userId" name="userId" required>
 	                                        <div class="col-xs-6">
 	                                     		       상품
 	                                        </div>
@@ -209,6 +207,7 @@
 	                                        	<span class="goodsCtgCdNm"></span>
 	                                        	<span class="goodsNm"></span>
 	                                             <input type="hidden" id="goodsCd" name="goodsCd" required>
+		                                    	<input type="hidden" th:value="${session.SID}" id="userId" name="userId" required>
 	                                        </div>
 	                                    </div>
 	                                </li>
