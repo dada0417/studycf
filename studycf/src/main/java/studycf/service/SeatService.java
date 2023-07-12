@@ -25,7 +25,7 @@ public class SeatService {
 	private static final Logger log = LoggerFactory.getLogger(SeatService.class);
 
 	
-	
+	//좌석 이용 
 	public int modifySeat(String seatCd) {
 		
 		return seatMapper.modifySeat(seatCd);

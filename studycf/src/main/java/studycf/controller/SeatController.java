@@ -30,7 +30,20 @@ public class SeatController {
 	
 	private static final Logger log = LoggerFactory.getLogger(SeatController.class);
 	
+	/*좌석 이용 */
+	@PostMapping("/modifySeat")
+	public String modifySeat(String seatCd) {
+		seatService.modifySeat(seatCd);
+		
+		return "redirect:/seat/seatList";
+	}
 	
+	/*좌석 이용 */
+	@GetMapping("/modifySeat")
+	public String modifySeat() {
+		
+		return"seat/seatList";
+	}
 
 
 	//이용권 목록 조회

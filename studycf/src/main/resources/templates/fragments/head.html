@@ -7,7 +7,6 @@
 	<link rel="icon" type="image/png" sizes="96x96" th:href="@{/assets/img/favicon.png}">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
-	<title>Paper Dashboard by Creative Tim</title>
 
 	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
     <meta name="viewport" content="width=device-width" />
@@ -33,7 +32,12 @@
 <!-- <link th:href='https://fonts.googleapis.com/css?family=Muli:400,300' rel='stylesheet' type='text/css'>
  -->    
  <link th:href="@{/assets/css/themify-icons.css}" rel="stylesheet">
-
+<!-- 사용자 정의 title -->
+	<th:block layout:fragment="customTitle"></th:block>
+	<!-- 사용자 정의 css 선언 -->
+	<th:block layout:fragment="customCss"></th:block>
+	<!-- 사용자 정의 js 선언 -->
+	<th:block layout:fragment="customJs"></th:block>
 </head>
 
 </html>

@@ -17,7 +17,7 @@
 		SET
 			seat_state = #{seatState}
 		WHERE
-			seat_cd = #{seatState}; 
+			seat_cd = #{seatCd}; 
 	</update>
 
 	

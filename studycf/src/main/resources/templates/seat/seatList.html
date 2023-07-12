@@ -6,242 +6,51 @@
 		<title th:text="${title}"></title>
 </th:block>	
 
-<th:block layout:fragment = "customContents">
-<style>
-.jlRuck {
-    top: 15px;
-    left: 21px;
-    width: 842px;
-    height: 20px;
-    position: absolute;
-    background-color: rgb(255, 255, 255);
-}
-.ksychc {
-    top: 17px;
-    left: 19px;
-    width: 20px;
-    height: 1390px;
-    position: absolute;
-    background-color: rgb(255, 255, 255);
-}
-.Bwxsa {
-    top: 16px;
-    left: 843px;
-    width: 20px;
-    height: 1390px;
-    position: absolute;
-    background-color: rgb(255, 255, 255);
-}
-.bNLIiu {
-    top: 1389px;
-    left: 20px;
-    width: 842px;
-    height: 20px;
-    position: absolute;
-    background-color: rgb(255, 255, 255);
-}
-.bJOzMD {
-    top: 932px;
-    left: 24px;
-    width: 300px;
-    height: 10px;
-    position: absolute;
-    background-color: rgb(255, 255, 255);
-}
-.gmQLsF {
-    top: 931px;
-    left: 425px;
-    width: 430px;
-    height: 10px;
-    position: absolute;
-    background-color: rgb(255, 255, 255);
-}
-.fQWnJa {
-    top: 1026px;
-    left: 504px;
-    width: 10px;
-    height: 220px;
-    position: absolute;
-    background-color: rgb(255, 255, 255);
-}
-.eQdaKu {
-    top: 1246px;
-    left: 394px;
-    width: 120px;
-    height: 10px;
-    position: absolute;
-    background-color: rgb(255, 255, 255);
-}
-.hcUDFU {
-    top: 1248px;
-    left: 504px;
-    width: 10px;
-    height: 158px;
-    position: absolute;
-    background-color: rgb(255, 255, 255);
-}
-.hAIrbc {
-    top: 1247px;
-    left: 310px;
-    width: 10px;
-    height: 158px;
-    position: absolute;
-    background-color: rgb(255, 255, 255);
-}
-.loCcfG {
-    top: 1244px;
-    left: 164px;
-    width: 10px;
-    height: 158px;
-    position: absolute;
-    background-color: rgb(255, 255, 255);
-}
-.gxoYnp {
-    top: 1244px;
-    left: 39px;
-    width: 130px;
-    height: 10px;
-    position: absolute;
-    background-color: rgb(255, 255, 255);
-}
-.kXBRzY {
-    top: 1358px;
-    left: 321px;
-    width: 30px;
-    height: 30px;
-    position: absolute;
-    background-color: rgb(255, 255, 255);
-}
-.djdZyx {
-    top: 379px;
-    left: 715px;
-    width: 130px;
-    height: 130px;
-    position: absolute;
-    background-color: rgb(255, 255, 255);
-}
-.iXoqgK {
-    top: 376px;
-    left: 34px;
-    width: 130px;
-    height: 130px;
-    position: absolute;
-    background-color: rgb(255, 255, 255);
-}
-.ettfRN {
-    top: 179px;
-    left: 315px;
-    width: 20px;
-    height: 550px;
-    position: absolute;
-    background-color: rgb(255, 255, 255);
-}
-.gWyRBW {
-    top: 175px;
-    left: 532px;
-    width: 20px;
-    height: 550px;
-    position: absolute;
-    background-color: rgb(255, 255, 255);
-}
-.dzwQHc {
-    top: 832px;
-    left: 36px;
-    width: 130px;
-    height: 100px;
-    position: absolute;
-    background-color: rgb(255, 255, 255);
-}
-.bsMwWH {
-    top: 832px;
-    left: 714px;
-    width: 130px;
-    height: 100px;
-    position: absolute;
-    background-color: rgb(255, 255, 255);
-}
-.bmbGke {
-    top: 1106px;
-    left: 637px;
-    width: 10px;
-    height: 110px;
-    position: absolute;
-    background-color: rgb(255, 255, 255);
-}
-.card-body {
-	display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 0px;
-    width: 96%;
-    margin: 1vw auto;
-}
-.itcIrt{
-    margin: 0px auto;
-    background-color: cadetblue;
-    border-radius: 4px;
-    position: relative;
-    width: 920px;
-    height: 1444px;
-    overflow-y: auto;
-}
-.jkFUsp {
-    position: absolute;
-    width: 920px;
-    height: 1444px;
-    display: flex;
-}
-.eTZKmi {
-    position: absolute;
-    top: 783px;
-    left: 335px;
-    color: rgb(255, 255, 255);
-    font-size: 45px;
-}
-.ljYyue {
-    position: absolute;
-    top: 997px;
-    left: 570px;
-    color: rgb(255, 255, 255);
-    font-size: 45px;
-}
-.cteXod {
-    position: absolute;
-    top: 1049px;
-    left: 204px;
-    color: rgb(255, 255, 255);
-    font-size: 45px;
-}
-.gOoZVl {
-    position: absolute;
-    top: 1290px;
-    left: 193px;
-    color: rgb(255, 255, 255);
-    font-size: 35px;
-}
-.guOgKg {
-    position: absolute;
-    top: 1288px;
-    left: 56px;
-    color: rgb(255, 255, 255);
-    font-size: 35px;
-}
-.cyXDHj {
-    position: absolute;
-    top: 1273px;
-    left: 369px;
-    color: rgb(255, 255, 255);
-    font-size: 35px;
-}
-.jpJwEx {
-    position: absolute;
-    top: 1361px;
-    left: 358px;
-    color: rgb(255, 255, 255);
-    font-size: 15px;
-}
-</style>
 
+<th:block layout:fragment="customJs">
+	<link rel="stylesheet" th:href="@{/resource/css/seat.css}" type="text/css">
+	<script>
+		 $(function(){
+			var $addForm = $('#addForm');
+			function validationCheck(data1, date2){
+				if((typeof data1 == 'undefined' || data1 == '' || data1 == null) 
+						&& (typeof data2 == 'undefined' || data2 == '' || data2 == null)){
+					return false;
+				}
+				return true;
+			}
+			
+			$addForm.on('click','.seat',function(){
+				
+				var seatCd = $('.sc-gugMUb').val();
+				console.log(seatCd);
+				
+				var vCheck = validationCheck(seatCd);
+				console.log(vCheck);
+				
+				if(vCheck){
+					$.ajax({
+						 url: '/facility/userCheck'
+						,type: 'POST'
+						,data: {'facilityCd' : facilityCd, 'userId' : userId}
+						,dataType: 'json'
+						,success: function(data){
+							console.log(data);
+							if(data){
+								alert("시설 승인 후 이용가능합니다.")
+								$addForm.attr('action','/facility/addFacilityUser').submit();
+							}else{
+								alert("이미 가입된 시설입니다.");
+							}
+						}
+					});
+				}
+			})
+		});
+	</script>
+</th:block>
+
+<th:block layout:fragment = "customContents">
 	<div class="container-fluid">
       <div class="row">
           <div class="col-md-12">
@@ -254,6 +63,165 @@
                   		<div class="seatContainer" style="display: flex;"> 
                   			<div class="sc-lfOptZ itcIrt">
                   				<div class="sc-groQRF jkFUsp">
+			                    	<div class="sc-gugMUb hYDYcT seat" th:value="1">
+			                    		<p>1</p>
+			                    	</div>
+			                    	<div class="sc-gugMUb ebgIeQ seat">
+			                    		<p>2</p>
+			                    	</div>
+			                    	<div class="sc-gugMUb XRHyN seat">
+			                    		<p>3</p>
+			                    	</div>
+			                    	<div class="sc-gugMUb fwWcZd seat">
+			                    		<p>4</p>
+			                    	</div>
+			                    	<div class="sc-gugMUb hlmtWd seat">
+			                    		<p>5</p>
+			                    	</div>
+			                    	<div class="sc-gugMUb daICCb seat">
+			                    		<p>6</p>
+			                    	</div>
+			                    	<div class="sc-gugMUb qhhDw seat">
+			                    		<p>7</p>
+			                    	</div>
+			                    	<div class="sc-gugMUb dyrbaX seat">
+			                    		<p>8</p>
+			                    	</div>
+			                    	<div class="sc-gugMUb kiRbHa seat">
+			                    		<p>9</p>
+			                    	</div>
+			                    	<div class="sc-gugMUb gNoCip seat">
+			                    		<p>10</p>
+			                    	</div>
+			                    	<div class="sc-gugMUb gtqBfz seat">
+			                    		<p>11</p>
+			                    	</div>
+			                    	<div class="sc-gugMUb gPYqkD seat">
+			                    		<p>12</p>
+			                    	</div>
+			                    	<div class="sc-gugMUb dBBUXp seat">
+			                    		<p>13</p>
+			                    	</div>
+			                    	<div class="sc-gugMUb iVKHiy seat">
+			                    		<p>14</p>
+			                    	</div>
+			                    	<div class="sc-gugMUb iBjmQy seat">
+			                    		<p>15</p>
+			                    	</div>
+			                    	<div class="sc-gugMUb jZNYfM seat">
+			                    		<p>16</p>
+			                    	</div>
+			                    	<div class="sc-gugMUb cIHfgN seat">
+			                    		<p>17</p>
+			                    	</div>
+			                    	<div class="sc-gugMUb gHsYUR seat">
+			                    		<p>18</p>
+			                    	</div>
+			                    	<div class="sc-gugMUb eyktMK seat">
+			                    		<p>19</p>
+			                    	</div>
+			                    	<div class="sc-gugMUb jkRdXH seat">
+			                    		<p>20</p>
+			                    	</div>
+			                    	<div class="sc-gugMUb lgZPHV seat">
+			                    		<p>21</p>
+			                    	</div>
+			                    	<div class="sc-gugMUb jGrFq seat">
+			                    		<p>22</p>
+			                    	</div>
+			                    	<div class="sc-gugMUb ktQEUD seat">
+			                    		<p>23</p>
+			                    	</div>
+			                    	<div class="sc-gugMUb fHagpM seat">
+			                    		<p>24</p>
+			                    	</div>
+			                    	<div class="sc-gugMUb hgoRxF seat">
+			                    		<p>25</p>
+			                    	</div>
+			                    	<div class="sc-gugMUb jueCvz seat">
+			                    		<p>26</p>
+			                    	</div>
+			                    	<div class="sc-gugMUb kvemav seat">
+			                    		<p>27</p>
+			                    	</div>
+			                    	<div class="sc-gugMUb huxvpd seat">
+			                    		<p>28</p>
+			                    	</div>
+			                    	<div class="sc-gugMUb blVoVe seat">
+			                    		<p>29</p>
+			                    	</div>
+			                    	<div class="sc-gugMUb kGdAeP seat">
+			                    		<p>30</p>
+			                    	</div>
+			                    	<div class="sc-gugMUb cntVGm seat">
+			                    		<p>31</p>
+			                    	</div>
+			                    	<div class="sc-gugMUb ePpXKz seat">
+			                    		<p>32</p>
+			                    	</div>
+			                    	<div class="sc-gugMUb bFlVCD seat">
+			                    		<p>33</p>
+			                    	</div>
+			                    	<div class="sc-gugMUb hBujkD seat">
+			                    		<p>34</p>
+			                    	</div>
+			                    	<div class="sc-gugMUb jJyPVu seat">
+			                    		<p>35</p>
+			                    	</div>
+			                    	<div class="sc-gugMUb dOgIPJ seat">
+			                    		<p>36</p>
+			                    	</div>
+			                    	<div class="sc-gugMUb kpaHdR seat">
+			                    		<p>37</p>
+			                    	</div>
+			                    	<div class="sc-gugMUb jIYsHe seat">
+			                    		<p>38</p>
+			                    	</div>
+			                    	<div class="sc-gugMUb dIBXPB seat">
+			                    		<p>39</p>
+			                    	</div>
+			                    	<div class="sc-gugMUb kdrCqS seat">
+			                    		<p>40</p>
+			                    	</div>
+			                    	<div class="sc-gugMUb dEbijy seat">
+			                    		<p>41</p>
+			                    	</div>
+			                    	<div class="sc-gugMUb jMSHML seat">
+			                    		<p>42</p>
+			                    	</div>
+			                    	<div class="sc-gugMUb fokAuv seat">
+			                    		<p>43</p>
+			                    	</div>
+			                    	<div class="sc-gugMUb frupph seat">
+			                    		<p>44</p>
+			                    	</div>
+			                    	<div class="sc-gugMUb iYpATK seat">
+			                    		<p>45</p>
+			                    	</div>
+			                    	<div class="sc-gugMUb cmHskK seat">
+			                    		<p>46</p>
+			                    	</div>
+			                    	<div class="sc-gugMUb fzWBpN seat">
+			                    		<p>47</p>
+			                    	</div>
+			                    	<div class="sc-gugMUb izeXr seat">
+			                    		<p>48</p>
+			                    	</div>
+			                    	<div class="sc-gugMUb bTrnzi seat">
+			                    		<p>49</p>
+			                    	</div>
+			                    	<div class="sc-gugMUb gTffuk seat">
+			                    		<p>50</p>
+			                    	</div>
+			                    	<div class="sc-gugMUb bfWekB seat">
+			                    		<p>51</p>
+			                    	</div>
+			                    	<div class="sc-gugMUb iSQMEP seat">
+			                    		<p>52</p>
+			                    	</div>
+			                    	
+
+			                    	
 			                    	<div style="width: 842; height: 20;" class="sc-cyRpGQ jlRuck" ></div>
 			                    	<div style="width: 20; height: 1390;" class="sc-cyRpGQ ksychc" ></div>
 			                    	<div style="width: 20; height: 1390;" class="sc-cyRpGQ Bwxsa" ></div>
@@ -289,6 +257,33 @@
               </div>
           </div>
 		</div>
+	</div>
+		<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<form id="addForm" method="post">
+			<div class="modal-dialog" role="document">
+		 		<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="seatCd"></h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="form-group row">
+							<div class="col-md-9 col-sm-9">
+								<label class="control-label" for="userLevel">해당좌석을 선택하시겠습니까?</label>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<div class="form-group">
+							<button type="button" class="btn btn-primary" data-dismiss="modal">취소</button>
+							<button type="button" class="btn btn-info" id="addBtn">확인</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
 	</div>
 </th:block>
 
