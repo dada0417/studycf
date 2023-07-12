@@ -37,7 +37,7 @@
 						,success: function(data){
 							console.log(data);
 							if(data){
-								alert("시설 승인 후 이용가능합니다.")
+								alert("")
 								$addForm.attr('action','/facility/addFacilityUser').submit();
 							}else{
 								alert("이미 가입된 시설입니다.");
