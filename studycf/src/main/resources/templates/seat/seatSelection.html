@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+ 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/default.html}">
+<th:block layout:fragment="customTitle">
+		<title th:text="${title}"></title>
+</th:block>	
+
+
+<th:block layout:fragment="customJs">
+	<link rel="stylesheet" th:href="@{/resource/css/seat.css}" type="text/css">	
+	<script type="text/javascript" th:src="@{/assets/js/jquery-3.6.0.min.js}"></script>
+	
+	<script>
+		var isloaded = false;
+		 $(function(){
+			 if(isloaded){
+				 return;
+			 } 
+			$(document).ready(function(){
+				
+				 $.ajax({
+					type : 'post',
+					url : '/seat/seatCheck',
+					dataType : 'json',
+					error : function(){
+						alert("통신실패");
+					},
+					success : function(Parse_data){
+						for(var i = 0; i <Parse_data.length; i++){
+							 for(var j = 0; j<53; j++){
+								 if(Parse_data[i].seatCd == $('.seatV').eq(j).val()){
+										$('.seatV').eq(j).parent().attr('id','reser');
+										
+										console.log($('.seatV').eq(j).val());		
+								 }
+							} 
+							
+						}
+					}
+				 });
+			 }); 
+			isloaded = true; 
+			 
+			var $addForm = $('#addForm');
+			function validationCheck(data){
+				if(typeof data == 'undefined' || data == '' || data == null){
+					return false;
+				}
+				return true;
+			}
+			
+			
+			const ch = document.querySelectorAll('.seat');
+			
+			function handleClick(event){
+				ch.forEach((e) => {
+					e.classList.remove('click');
+				});
+				event.target.classList.add('click');
+			}
+			ch.forEach((e) => {
+				e.addEventListener('click',handleClick);
+			});
+			
+			$addForm.on('click','#addBtn', function(){
+				var seatCd = $('.click').children().val();
+				
+			});
+			
+			
+		});
+	</script>
+</th:block>
+
+<th:block layout:fragment = "customContents">
+	<div class="container-fluid">
+      <div class="row">
+          <div class="col-md-12">
+              <div class="card">
+                  <div class="header">
+                      <h4 class="title">좌석선택</h4>
+                  </div>
+                  <div class="content">
+                  	<div class="card-body">
+                  		<div class="seatContainer" style="display: flex;"> 
+                  			<div class="sc-lfOptZ itcIrt">
+                  				<div class="sc-groQRF jkFUsp">
+			                    	<div class="sc-gugMUb hYDYcT seat" data-toggle="modal" data-target="#addModal" >
+			                    		<input type="hidden" class="seatV" th:value="seat_01" >1
+			                    	</div>
+			                    	<div class="sc-gugMUb ebgIeQ seat" data-toggle="modal" data-target="#addModal">
+			                    		<input type="hidden" class="seatV" th:value="seat_02" >2
+			                    	</div>
+			                    	<div class="sc-gugMUb XRHyN seat" data-toggle="modal" data-target="#addModal">
+			                    		<input type="hidden" class="seatV" th:value="seat_03">3
+			                    	</div>
+			                    	<div class="sc-gugMUb fwWcZd seat" data-toggle="modal" data-target="#addModal">
+			                    		<input type="hidden" class="seatV" th:value="seat_04">4
+			                    	</div>
+			                    	<div class="sc-gugMUb hlmtWd seat" data-toggle="modal" data-target="#addModal">
+			                    		<input type="hidden" class="seatV" th:value="seat_05">5
+			                    	</div>
+			                    	<div class="sc-gugMUb daICCb seat"  data-toggle="modal" data-target="#addModal">
+			                    		<input type="hidden" class="seatV" th:value="seat_06" >6
+			                    	</div>
+			                    	<div class="sc-gugMUb qhhDw seat" data-toggle="modal" data-target="#addModal">
+			                    		<input type="hidden" class="seatV" th:value="seat_07" >7
+			                    	</div>
+			                    	<div class="sc-gugMUb dyrbaX seat" data-toggle="modal" data-target="#addModal">
+			                    		<input type="hidden" class="seatV" th:value="seat_08" >8
+			                    	</div>
+			                    	<div class="sc-gugMUb kiRbHa seat" data-toggle="modal" data-target="#addModal">
+			                    		<input type="hidden" class="seatV" th:value="seat_09" >9
+			                    	</div>
+			                    	<div class="sc-gugMUb gNoCip seat" data-toggle="modal" data-target="#addModal">
+			                    		<input type="hidden" class="seatV" th:value="seat_10" >10
+			                    	</div>
+			                    	<div class="sc-gugMUb gtqBfz seat" data-toggle="modal" data-target="#addModal">
+			                    		<input type="hidden" class="seatV" th:value="seat_11" >11
+			                    	</div>
+			                    	<div class="sc-gugMUb gPYqkD seat"data-toggle="modal" data-target="#addModal">
+			                    		<input type="hidden" class="seatV" th:value="seat_12" >12
+			                    	</div>
+			                    	<div class="sc-gugMUb dBBUXp seat" data-toggle="modal" data-target="#addModal">
+			                    		<input type="hidden" class="seatV" th:value="seat_13" >13
+			                    	</div>
+			                    	<div class="sc-gugMUb iVKHiy seat" data-toggle="modal" data-target="#addModal"> 
+			                    		<input type="hidden" class="seatV" th:value="seat_14" >14
+			                    	</div>
+			                    	<div class="sc-gugMUb iBjmQy seat" data-toggle="modal" data-target="#addModal"> 
+			                    		<input type="hidden" class="seatV" th:value="seat_15" >15
+			                    	</div>
+			                    	<div class="sc-gugMUb jZNYfM seat" data-toggle="modal" data-target="#addModal">
+			                    		<input type="hidden" class="seatV" th:value="seat_16" >16
+			                    	</div>
+			                    	<div class="sc-gugMUb cIHfgN seat" data-toggle="modal" data-target="#addModal">
+			                    		<input type="hidden" class="seatV" th:value="seat_17" >17
+			                    	</div>
+			                    	<div class="sc-gugMUb gHsYUR seat" data-toggle="modal" data-target="#addModal">
+			                    		<input type="hidden" class="seatV" th:value="seat_18" >18
+			                    	</div>
+			                    	<div class="sc-gugMUb eyktMK seat" data-toggle="modal" data-target="#addModal">
+			                    		<input type="hidden" class="seatV" th:value="seat_19" >19
+			                    	</div>
+			                    	<div class="sc-gugMUb jkRdXH seat"  data-toggle="modal" data-target="#addModal">
+			                    		<input type="hidden" class="seatV" th:value="seat_20" >20
+			                    	</div>
+			                    	<div class="sc-gugMUb lgZPHV seat" data-toggle="modal" data-target="#addModal">
+			                    		<input type="hidden" class="seatV" th:value="seat_21" >21
+			                    	</div>
+			                    	<div class="sc-gugMUb jGrFq seat" data-toggle="modal" data-target="#addModal">
+			                    		<input type="hidden" class="seatV" th:value="seat_22" >22
+			                    	</div>
+			                    	<div class="sc-gugMUb ktQEUD seat" data-toggle="modal" data-target="#addModal">
+			                    		<input type="hidden" class="seatV" th:value="seat_23" >23
+			                    	</div>
+			                    	<div class="sc-gugMUb fHagpM seat" data-toggle="modal" data-target="#addModal">
+			                    		<input type="hidden" class="seatV" th:value="seat_24" >24
+			                    	</div>
+			                    	<div class="sc-gugMUb hgoRxF seat" data-toggle="modal" data-target="#addModal">
+			                    		<input type="hidden" class="seatV" th:value="seat_25" >25
+			                    	</div>
+			                    	<div class="sc-gugMUb jueCvz seat" data-toggle="modal" data-target="#addModal">
+			                    		<input type="hidden" class="seatV" th:value="seat_26" >26
+			                    	</div>
+			                    	<div class="sc-gugMUb kvemav seat" data-toggle="modal" data-target="#addModal">
+			                    		<input type="hidden" class="seatV" th:value="seat_27">27
+			                    	</div>
+			                    	<div class="sc-gugMUb huxvpd seat" data-toggle="modal" data-target="#addModal">
+			                    		<input type="hidden" class="seatV" th:value="seat_28">28
+			                    	</div>
+			                    	<div class="sc-gugMUb blVoVe seat" data-toggle="modal" data-target="#addModal">
+			                    		<input type="hidden" class="seatV" th:value="seat_29">29
+			                    	</div>
+			                    	<div class="sc-gugMUb kGdAeP seat" data-toggle="modal" data-target="#addModal">
+			                    		<input type="hidden" class="seatV" th:value="seat_30">30
+			                    	</div>
+			                    	<div class="sc-gugMUb cntVGm seat" data-toggle="modal" data-target="#addModal" >
+			                    		<input type="hidden" class="seatV" th:value="seat_31">31
+			                    	</div>
+			                    	<div class="sc-gugMUb ePpXKz seat" data-toggle="modal" data-target="#addModal" >
+			                    		<input type="hidden" class="seatV" th:value="seat_32">32
+			                    	</div>
+			                    	<div class="sc-gugMUb bFlVCD seat" data-toggle="modal" data-target="#addModal" >
+			                    		<input type="hidden" class="seatV" th:value="seat_33">33
+			                    	</div>
+			                    	<div class="sc-gugMUb hBujkD seat" data-toggle="modal" data-target="#addModal">
+			                    		<input type="hidden" class="seatV" th:value="seat_34">34
+			                    	</div>
+			                    	<div class="sc-gugMUb jJyPVu seat" data-toggle="modal" data-target="#addModal">
+			                    		<input type="hidden" class="seatV" th:value="seat_35">35
+			                    	</div>
+			                    	<div class="sc-gugMUb dOgIPJ seat" data-toggle="modal" data-target="#addModal">
+			                    		<input type="hidden" class="seatV" th:value="seat_36">36
+			                    	</div>
+			                    	<div class="sc-gugMUb kpaHdR seat" data-toggle="modal" data-target="#addModal">
+			                    		<input type="hidden" class="seatV" th:value="seat_37">37
+			                    	</div>
+			                    	<div class="sc-gugMUb jIYsHe seat" data-toggle="modal" data-target="#addModal">
+			                    		<input type="hidden" class="seatV" th:value="seat_38">38
+			                    	</div>
+			                    	<div class="sc-gugMUb dIBXPB seat" data-toggle="modal" data-target="#addModal">
+			                    		<input type="hidden" class="seatV" th:value="seat_39">39
+			                    	</div>
+			                    	<div class="sc-gugMUb kdrCqS seat" data-toggle="modal" data-target="#addModal">
+			                    		<input type="hidden" class="seatV" th:value="seat_40">40
+			                    	</div>
+			                    	<div class="sc-gugMUb dEbijy seat"  data-toggle="modal" data-target="#addModal">
+			                    		<input type="hidden" class="seatV" th:value="seat_41">41
+			                    	</div>
+			                    	<div class="sc-gugMUb jMSHML seat" data-toggle="modal" data-target="#addModal">
+			                    		<input type="hidden" class="seatV" th:value="seat_42">42
+			                    	</div>
+			                    	<div class="sc-gugMUb fokAuv seat" data-toggle="modal" data-target="#addModal">
+			                    		<input type="hidden" class="seatV" th:value="seat_43">43
+			                    	</div>
+			                    	<div class="sc-gugMUb frupph seat" data-toggle="modal" data-target="#addModal">
+			                    		<input type="hidden" class="seatV" th:value="seat_44">44
+			                    	</div>
+			                    	<div class="sc-gugMUb iYpATK seat" data-toggle="modal" data-target="#addModal">
+			                    		<input type="hidden" class="seatV" th:value="seat_45">45
+			                    	</div>
+			                    	<div class="sc-gugMUb cmHskK seat"  data-toggle="modal" data-target="#addModal">
+			                    		<input type="hidden" class="seatV" th:value="seat_46">46
+			                    	</div>
+			                    	<div class="sc-gugMUb fzWBpN seat" data-toggle="modal" data-target="#addModal">
+			                    		<input type="hidden" class="seatV" th:value="seat_47">47
+			                    	</div>
+			                    	<div class="sc-gugMUb izeXr seat" data-toggle="modal" data-target="#addModal">
+			                    		<input type="hidden" class="seatV" th:value="seat_48">48
+			                    	</div>
+			                    	<div class="sc-gugMUb bTrnzi seat" data-toggle="modal" data-target="#addModal">
+			                    		<input type="hidden" class="seatV" th:value="seat_49">49
+			                    	</div>
+			                    	<div class="sc-gugMUb gTffuk seat" data-toggle="modal" data-target="#addModal">
+			                    		<input type="hidden" class="seatV" th:value="seat_50">50
+			                    	</div>
+			                    	<div class="sc-gugMUb bfWekB seat" data-toggle="modal" data-target="#addModal">
+			                    		<input type="hidden" class="seatV" th:value="seat_51">51
+			                    	</div>
+			                    	<div class="sc-gugMUb iSQMEP seat" data-toggle="modal" data-target="#addModal">
+			                    		<input type="hidden" class="seatV" th:value="seat_52">52
+			                    	</div>
+			                    	
+
+			                    	
+			                    	<div style="width: 842; height: 20;" class="sc-cyRpGQ jlRuck" ></div>
+			                    	<div style="width: 20; height: 1390;" class="sc-cyRpGQ ksychc" ></div>
+			                    	<div style="width: 20; height: 1390;" class="sc-cyRpGQ Bwxsa" ></div>
+			                    	<div style="width: 842; height: 20;" class="sc-cyRpGQ bNLIiu" ></div>
+			                    	<div style="width: 300; height: 10;" class="sc-cyRpGQ bJOzMD" ></div>
+			                    	<div style="width: 430; height: 10;" class="sc-cyRpGQ gmQLsF" ></div>
+			                    	<div style="width: 10; height: 220;" class="sc-cyRpGQ fQWnJa" ></div>
+			                    	<div style="width: 120; height: 10;" class="sc-cyRpGQ eQdaKu" ></div>
+			                    	<div style="width: 10; height: 158;" class="sc-cyRpGQ hcUDFU" ></div>
+			                    	<div style="width: 10; height: 158;" class="sc-cyRpGQ hAIrbc" ></div>
+			                    	<div style="width: 10; height: 158;" class="sc-cyRpGQ loCcfG" ></div>
+			                    	<div style="width: 130; height: 10;" class="sc-cyRpGQ gxoYnp" ></div>
+			                    	<div style="width: 30; height: 30;" class="sc-cyRpGQ kXBRzY" ></div>
+			                    	<div style="width: 130; height: 130;" class="sc-cyRpGQ djdZyx" ></div>
+			                    	<div style="width: 130; height: 130;" class="sc-cyRpGQ iXoqgK" ></div>
+			                    	<div style="width: 20; height: 550;" class="sc-cyRpGQ ettfRN" ></div>
+			                    	<div style="width: 20; height: 550;" class="sc-cyRpGQ gWyRBW" ></div>
+			                    	<div style="width: 130; height: 100;" class="sc-cyRpGQ dzwQHc" ></div>
+			                    	<div style="width: 130; height: 100;" class="sc-cyRpGQ bsMwWH" ></div>
+			                    	<div style="width: 10; height: 110;" class="sc-cyRpGQ bmbGke" ></div>
+                  					<div style="font-size: 45;" class="sc-bmToVj eTZKmi">스터디존</div>
+                  					<div style="font-size: 45;" class="sc-bmToVj ljYyue">노트북존</div>
+                  					<div style="font-size: 45;" class="sc-bmToVj cteXod">휴게존</div>
+                  					<div style="font-size: 35;" class="sc-bmToVj gOoZVl">사물함</div>
+                  					<div style="font-size: 35;" class="sc-bmToVj guOgKg">사무실</div>
+                  					<div style="font-size: 35;" class="sc-bmToVj cyXDHj">출입문</div>
+                  					<div style="font-size: 15;" class="sc-bmToVj jpJwEx">키오스크</div>
+                  				</div>
+                  			</div>
+                  		</div>
+                  	</div>
+                  </div>
+              </div>
+          </div>
+		</div>
+	</div>
+		<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<form id="addForm" method="post">
+			<div class="modal-dialog" role="document">
+		 		<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="seatCd">해당 좌석을 선택하시겠습니까?</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="form-group row">
+							<div class="col-md-9 col-sm-9">
+								<button type="button" class="btn btn-primary" data-dismiss="modal">취소</button>
+							<button type="button" class="btn btn-info" id="addBtn">확인</button>
+							</div>
+						</div>
+					</div>
+					
+				</div>
+			</div>
+		</form>
+	</div>
+</th:block>
+
+</html>

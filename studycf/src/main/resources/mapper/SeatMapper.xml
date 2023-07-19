@@ -10,7 +10,21 @@
 		
 	</resultMap>
 	
-	<update id="modifySeat" parameterType="Seat">
+	<select id="seatCheck" resultType="Seat" resultMap="SeatResultMap">
+		/*예약된 좌석 확인*/
+		SELECT 
+			seat_cd
+			,seat_state	
+		FROM 
+			seat
+		WHERE
+			seat_state = 'N';
+	</select>
+	
+	
+	
+	
+	<update id="seatSelection" parameterType="Seat">
 		/*좌석 사용*/
 		UDATE 
 			seat

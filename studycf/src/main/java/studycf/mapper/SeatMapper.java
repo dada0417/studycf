@@ -10,8 +10,11 @@ import studycf.dto.Seat;
 @Mapper
 public interface SeatMapper {
 
+	//좌석 상태 확인
+	public List<Seat> seatCheck();
+	
 	//좌석 이용 
-	public int modifySeat(String seatCd); 
+	public int seatSelection(Seat seat); 
 	
 	//좌석 리스트
 	public List<Seat> getSeatList();
