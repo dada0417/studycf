@@ -63,15 +63,19 @@
 				e.addEventListener('click',handleClick);
 			});
 			
-			 $addForm.on('click','.click', function(){
+			$(document).on('click','.seat',function(){
 				var seatCd = $('.click').children().val();
-				var seatNm = $('.click').children().val().str.substring(1, str.indexOf('_'));
+				var seatNm = seatCd.substring(5);
 				var txt1 = seatNm + '번 좌석을 선택하시겠습니까?';
 				console.log(seatNm);
 				
 				$('#seatCd').append(txt1);
-				$('input[name="seatCd"]').val() = seatCd;
+				$('input[name="seatCd"]').val(seatCd);
 				
+			});
+			
+			
+			 $addForm.on('click','#addBtn', function(){
 				$addForm.attr('action', '/seat/seatSelection').submit();
 				
 			});
@@ -292,7 +296,6 @@
 	<!-- 좌석 선택 확인 모달 -->
 		<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-mod="true">
  		 <div class="modal-overlay">
-
 	      </div>
 		<form id="addForm" method="post">
 			<div class="modal-dialog" role="document">
@@ -300,6 +303,7 @@
 					<div class="modal-header">
 						<h5 class="modal-title" id="seatCd"></h5>
 						<input type="hidden" class="form-control" name="seatCd" readonly="readonly">
+						<input type="hidden" class="form-control" name="seatState" value="N" readonly="readonly">
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
@@ -308,7 +312,7 @@
 						<div class="form-group row">
 							<div class="col-md-9 col-sm-9">
 								<button type="button" class="btn btn-primary" data-dismiss="modal">취소</button>
-								<button type="button" class="btn btn-info" id="addBtn" name="seatState" value="N">확인</button>
+								<button type="button" class="btn btn-info" id="addBtn" name="seatState">확인</button>
 							</div>
 						</div>
 					</div>

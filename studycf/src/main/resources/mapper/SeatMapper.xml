@@ -26,7 +26,7 @@
 	
 	<update id="seatSelection" parameterType="Seat">
 		/*좌석 사용*/
-		UDATE 
+		UPDATE 
 			seat
 		SET
 			seat_state = #{seatState}
