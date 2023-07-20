@@ -28,7 +28,13 @@ public class GoodsManagementController {
 	private static final Logger log = LoggerFactory.getLogger(GoodsManagementController.class);
 	
 	
-	
+	//이용권 사용 정보 추가
+	@PostMapping("/modifyGM")
+	public String modifyGM(GoodsManagement goodsManagement) {
+		goodsManagementService.modifyGM(goodsManagement);
+		
+		return "redirect:/";
+	}
 	
 	//이용권 사용
 	@PostMapping("/addGoodsManagement")
@@ -37,7 +43,7 @@ public class GoodsManagementController {
 		
 	
 		goodsManagementService.addGoodsManagement(goodsManagement);
-		return "redirect:/goodsManagement/addGoodsManagement";
+		return "redirect:/seat/seatSelection";
 	}
 	
 	@GetMapping("/addGoodsManagement")

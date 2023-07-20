@@ -55,7 +55,7 @@ public class SeatController {
 		return"seat/seatSelection";
 	}
 	/*
-	 * //이용권 목록 조회
+	 * //좌석 목록 조회
 	 * 
 	 * @GetMapping ("/seatList") public String seatList(Model model) {
 	 * 

@@ -25,6 +25,13 @@ public class GoodsManagementService {
 
 	private static final Logger log = LoggerFactory.getLogger(GoodsManagementService.class);
 
+	//이용권 사용  정보 추가
+	public int modifyGM(GoodsManagement goodsManagement) {
+		int result = goodsManagementMapper.modifyGM(goodsManagement);
+		
+		return result;
+	}
+	
 	//이용권 사용
 	public int addGoodsManagement(GoodsManagement goodsManagement) {
 		

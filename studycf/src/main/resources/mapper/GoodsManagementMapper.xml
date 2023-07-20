@@ -18,12 +18,36 @@
 		
 	</resultMap>
 
-
+	
+	<update id="modifyGM" parameterType="GoodsManagement">
+		UPDATE goodsManagement
+		<trim prefix="SET" prefixOverrides=",">
+			<if test="seatCd != null and seatCd != ''">
+				seat_cd		= #{seatCd}
+			</if>
+			<if test="admissionTime != null and admissionTime != ''">
+				,admission_time			= #{admissionTime}
+			</if>
+			<if test="leaveTime != null and leaveTime != ''">
+				,leave_time			= #{leaveTime}
+			</if>
+			<if test="useTime != null and useTime != ''">
+				,use_time			= #{useTime}
+			</if>
+			<if test="remainingTime != null and remainingTime != ''">
+				,remaining_time			= #{remainingTime}
+			</if>
+		</trim>
+		WHERE
+			goods_management_cd = #{goodsManagementCd};
+	</update>
+	
+	
 	<insert id="addGoodsManagement" parameterType="GoodsManagement">
 		<selectKey resultType="String" keyProperty="goodsManagementCd" order="BEFORE">
 			SELECT sf_new_goods_management_cd()
 		</selectKey>
-		/*이용권 구매*/
+		/*이용권 사용*/
 		INSERT INTO goods_management
 			(goods_management_cd
 			,user_id
