@@ -9,6 +9,9 @@ import studycf.dto.Seat;
 
 @Mapper
 public interface SeatMapper {
+	
+	//이용중인 좌석 수
+	public int getSeatCount();
 
 	//좌석 상태 확인
 	public List<Seat> seatCheck();

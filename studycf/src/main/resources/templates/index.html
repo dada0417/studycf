@@ -23,13 +23,13 @@
                                 <div class="row">
                                     <div class="col-xs-5">
                                         <div class="icon-big icon-warning text-center">
-                                            <i class="ti-server"></i>
+                                            <i class="ti-book"></i>
                                         </div>
                                     </div>
                                     <div class="col-xs-7">
                                         <div class="numbers">
-                                            <p>Capacity</p>
-                                            105GB
+                                            <p>좌석</p>
+                                            <h7 th:text="${seatCount} + '/52'"></h7>
                                         </div>
                                     </div>
                                 </div>
@@ -48,13 +48,13 @@
                                 <div class="row">
                                     <div class="col-xs-5">
                                         <div class="icon-big icon-success text-center">
-                                            <i class="ti-wallet"></i>
+                                            <i class="ti-layout"></i>
                                         </div>
                                     </div>
                                     <div class="col-xs-7">
                                         <div class="numbers">
-                                            <p>Revenue</p>
-                                            $1,345
+                                            <p>사물함</p>
+                                            7/20
                                         </div>
                                     </div>
                                 </div>
@@ -117,6 +117,13 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="row" style="margin-bottom: 20px;">
+                	<div>                	
+		                <div class="text-center">
+			                 <button type="button" id="modifyUserBtn" class="btn btn-info btn-fill btn-wd">카페 이용하기</button>
+			            </div>
+                	</div>
                 </div>
                 <div class="row">
 

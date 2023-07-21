@@ -30,6 +30,7 @@ public class SeatController {
 	
 	private static final Logger log = LoggerFactory.getLogger(SeatController.class);
 	
+	
 	@PostMapping("/seatCheck")
 	@ResponseBody
 	public List<Seat> seatCheck(){
@@ -38,6 +39,7 @@ public class SeatController {
 		log.info("예약된 좌석 확인 컨트롤 목록 :{}", seatCk);
 		return seatCk;
 	}
+	
 	
 	
 	/*좌석 이용 */

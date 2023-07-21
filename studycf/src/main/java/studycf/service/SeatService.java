@@ -30,6 +30,12 @@ public class SeatService {
 		return seatCheck;
 	}
 	
+	//이용중인 좌석 갯수
+	public int getSeatCount() {
+		int seatCount = seatMapper.getSeatCount();
+		return seatCount;
+	}
+	
 	
 	//좌석 이용 
 	public int seatSelection(Seat seat) {

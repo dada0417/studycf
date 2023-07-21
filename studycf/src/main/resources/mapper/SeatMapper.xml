@@ -10,6 +10,19 @@
 		
 	</resultMap>
 	
+	
+	
+	<select id="getSeatCount" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			seat
+		WHERE
+			seat_state = 'N';
+	</select>
+	
+	
+	
 	<select id="seatCheck" resultType="Seat" resultMap="SeatResultMap">
 		/*예약된 좌석 확인*/
 		SELECT 
