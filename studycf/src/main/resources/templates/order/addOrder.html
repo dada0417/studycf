@@ -24,7 +24,7 @@
 				var isSubmit = true;
 					
 					// 사용자가 입력하지 않은 경우
-					if($("#goodsCd").val() == ""||$("#price").val() == ""|| $("#price").val() == "" || $("#orderInsertDate").val() == "" || $("#orderExpirationDate").val() == ""){
+					if($("#goodsCd").val() == ""||$("#price").val() == ""|| $("#orderInsertDate").val() == "" || $("#orderExpirationDate").val() == ""){
 						alert('구매할 이용권을 선택해주세요.');
 						isSubmit = false;
 						return false;
@@ -54,7 +54,6 @@
 			              	  txt1 +='<li><div class="row"><input type="radio" class="col-xs-3" id="goodsDetail'+i+'" name="goodsDetail">' +'<label for="goodsDetail'+i+'" class="col-xs-3">' + data[i].goodsNm+" ("+data[i].goodsExpirationDate+"일)" +'</label>' + '<label for="goodsDetail'+i+'" class="col-xs-3">' + data[i].price +" (원)" + '</label><input type="hidden" id="goodsCdSelect" value="'+ data[i].goodsCd + '"></div></li>';
 			                }
 			             
-			                console.log(txt1);
 			                $('#goodsD').empty();
 			                $('#goodsD').append(txt1);
 			               
@@ -77,35 +76,38 @@
 				console.log(goodsNmD);
 				
 				var year = date.getFullYear();
-				var month = ('0' + date.getMonth());
+				var month = date.getMonth()+1;
+				var month1 = ('0' + month).slice(-2);
 				var day = ('0' + date.getDate()).slice(-2);
 				var hours = ('0' + date.getHours()).slice(-2); 
 				var minutes = ('0' + date.getMinutes()).slice(-2);
 				var seconds = ('0' + date.getSeconds()).slice(-2); 
-				var orderDate = year + '-' + month  + '-' + day + " " + hours + ':' + minutes  + ':' + seconds;
+				var orderDate = year + '-' + month1  + '-' + day + " " + hours + ':' + minutes  + ':' + seconds;
 				
 				
 				 if(goodsCtgCd == "day"){
 					date.setHours(date.getHours() + parseInt(goodsNmV));
 					var year = date.getFullYear();
-					var month = ('0' + date.getMonth());
+					var month = date.getMonth()+1;
+					var month1 = ('0' + month).slice(-2);
 					var day = ('0' + date.getDate()).slice(-2);
 					var hours = ('0' + date.getHours()).slice(-2); 
 					var minutes = ('0' + date.getMinutes()).slice(-2);
 					var seconds = ('0' + date.getSeconds()).slice(-2); 
-					var expirationDate = year + '-' + month  + '-' + day + " " + hours + ':' + minutes  + ':' + seconds;
+					var expirationDate = year + '-' + month1  + '-' + day + " " + hours + ':' + minutes  + ':' + seconds;
 					$('.orderExpirationDate').text(expirationDate);
 					$('#orderExpirationDate').val(expirationDate);
 				 }else{
 					date.setDate(date.getDate() + parseInt(goodsNmD));
 					console.log(date);
 					var year = date.getFullYear();
-					var month = ('0' + date.getMonth());
+					var month = date.getMonth()+1;
+					var month1 = ('0' +month).slice(-2);
 					var day = ('0' + date.getDate()).slice(-2);
 					var hours = ('0' + date.getHours()).slice(-2); 
 					var minutes = ('0' + date.getMinutes()).slice(-2);
 					var seconds = ('0' + date.getSeconds()).slice(-2); 
-					var expirationDate = year + '-' + month  + '-' + day + " " + hours + ':' + minutes  + ':' + seconds;
+					var expirationDate = year + '-' + month1  + '-' + day + " " + hours + ':' + minutes  + ':' + seconds;
 					$('.orderExpirationDate').text(expirationDate);
 					$('#orderExpirationDate').val(expirationDate);
 				 }

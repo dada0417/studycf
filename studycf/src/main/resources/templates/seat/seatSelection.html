@@ -17,6 +17,7 @@
 			 if(isloaded){
 				 return;
 			 } 
+			//이용중인 좌석 선택 방지
 			$(document).ready(function(){
 				
 				 $.ajax({
@@ -68,6 +69,19 @@
 				var seatNm = seatCd.substring(5);
 				var txt1 = seatNm + '번 좌석을 선택하시겠습니까?';
 				console.log(seatNm);
+				var date1 = new Date();
+								
+				var year = date1.getFullYear();
+				var month = date1.getMonth()+1;
+				var month1 = ('0'+month).slice(-2);
+				var day = ('0' + date1.getDate()).slice(-2);
+				var hours = ('0' + date1.getHours()).slice(-2); 
+				var minutes = ('0' + date1.getMinutes()).slice(-2);
+				var seconds = ('0' + date1.getSeconds()).slice(-2); 
+				var adT = year + '-' + month1  + '-' + day + " " + hours + ':' + minutes  + ':' + seconds;
+
+				$('input[name="admissionTime"]').val(adT);
+				console.log($('input[name="admissionTime"]').val());
 				
 				$('#seatCd').append(txt1);
 				$('input[name="seatCd"]').val(seatCd);
@@ -75,7 +89,7 @@
 			});
 			
 			 $addForm.on('click','#addBtn', function(){
-				$addForm.attr('action', '/seat/seatSelection').submit();
+				$addForm.attr('action', '/seat/seatSelection').submit();			
 				
 			});
 			
@@ -254,8 +268,6 @@
 			                    		<input type="hidden" class="seatV" th:value="seat_52">52
 			                    	</div>
 			                    	
-
-			                    	
 			                    	<div style="width: 842; height: 20;" class="sc-cyRpGQ jlRuck" ></div>
 			                    	<div style="width: 20; height: 1390;" class="sc-cyRpGQ ksychc" ></div>
 			                    	<div style="width: 20; height: 1390;" class="sc-cyRpGQ Bwxsa" ></div>
@@ -301,6 +313,8 @@
 		 		<div class="modal-content">
 					<div class="modal-header">
 						<h5 class="modal-title" id="seatCd"></h5>
+						<input type="hidden" name="goodsManagementCd" th:value = "${goodsManagementCd}">
+						<input type="hidden" name="admissionTime">
 						<input type="hidden" class="form-control" name="seatCd" readonly="readonly">
 						<input type="hidden" class="form-control" name="seatState" value="N" readonly="readonly">
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">

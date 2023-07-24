@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import studycf.dto.Goods;
+import studycf.dto.GoodsManagement;
 import studycf.dto.Order;
+import studycf.service.GoodsManagementService;
 import studycf.service.GoodsService;
 import studycf.service.OrderService;
 
@@ -23,10 +25,13 @@ public class OrderController {
 	
 	public final OrderService orderService;
 	public final GoodsService goodsService;
+	public final GoodsManagementService goodsManagementService;
 	
-	public OrderController(OrderService orderService, GoodsService goodsService) {
+	public OrderController(OrderService orderService, GoodsService goodsService, GoodsManagementService goodsManagementService) {
 		this.orderService	=	orderService;
 		this.goodsService	=	goodsService;
+		this.goodsManagementService = goodsManagementService;
+		
 	}
 	
 	private static final Logger log = LoggerFactory.getLogger(OrderController.class);
@@ -36,12 +41,15 @@ public class OrderController {
 	
 	//이용권 구매
 	@PostMapping("/addOrder")
-	public String addOrder(Order order) {
+	public String addOrder(Order order, GoodsManagement goodsManagement) {
 		log.info("이용권 주문에 입력한 데이터 : ", order);
 		
 	
 		orderService.addOrder(order);
-		return "redirect:/goods/goodsList";
+		goodsManagement.setOrderCd(order.getOrderCd());
+		
+		goodsManagementService.addGoodsManagement(goodsManagement);
+		return "redirect:/seat/seatSelection?"+ "goodsManagementCd=" + goodsManagement.getGoodsManagementCd();
 	}
 	
 	@GetMapping("/addOrder")

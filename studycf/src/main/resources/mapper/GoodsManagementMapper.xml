@@ -7,20 +7,65 @@
 	<resultMap type="GoodsManagement" id="GoodsManagementResultMap">
 		<id		column="goods_management_cd"				property="goodsManagementCd"/>
 		<result column="user_id"							property="userId"/>
-		<result column="goods_order_cd"						property="goodsOrderCd"/>
+		<result column="order_cd"						property="orderCd"/>
 		<result column="goods_cd"							property="goodsCd"/>
 		<result column="seat_cd"							property="seatCd"/>
 		<result column="admission_time"						property="admissionTime"/>
 		<result column="leave_time"							property="leaveTime"/>
 		<result column="use_time"							property="useTime"/>
 		<result column="remaining_time"						property="remainingTime"/>
-		<result column="goods_expiration_date"				property="goodsExpirationDate"/>
-		
+		<result column="order_expiration_date"				property="orderExpirationDate"/>
+		<association property="order" javaType="Order">
+			<id		column="order_cd"				property="orderCd"/>
+			<result column="goods_cd"			property="goodsCd"/>
+			<result column="user_id"			property="userId"/>
+			<result column="price"					property="price"/>
+			<result column="order_insert_date"		property="orderInsertDate"/>
+			<result column="order_expiration_date"	property="orderExpirationDate"/>
+		</association>
+		<association property="goods" javaType="Goods">
+			<id		column="goods_cd"				property="goodsCd"/>
+			<result column="goods_ctg_cd"			property="goodsCtgCd"/>
+			<result column="goods_nm"				property="goodsNm"/>
+			<result column="goods_time_con"			property="goodsTimeCon"/>
+			<result column="price"					property="price"/>
+			<result column="goods_expiration_date"	property="goodsExpirationDate"/>
+			<result column="goods_insert_date"		property="goodsInsertDate"/>
+		</association>
+		<association property="goodsCtg"		javaType="GoodsCtg" >
+			<id		column="goods_ctg_cd"		property="goodsCtgCd"/>
+			<result	column="goods_ctg_nm"		property="goodsCtgNm"/>
+		</association>
 	</resultMap>
 
-	
+	<select id="orderListById" resultMap="GoodsManagementResultMap">
+		SELECT
+			go.order_cd
+			,go.order_expiration_date
+			,gm.remaining_time
+			,g.goods_nm
+			,gc.goods_ctg_nm
+		FROM
+			goods_order AS go
+			INNER join
+			goods_management AS gm
+			on
+			go.order_cd = gm.order_cd
+			INNER JOIN
+			goods AS g
+			on
+			g.goods_cd = gm.goods_cd
+			INNER join
+			goods_ctg AS gc
+			g.goods_ctg_cd = gc.goods_ctg_cd
+		WHERE
+			go.order_expiration_date > NOW() AND gm.remaining_time > 0  AND 
+			go.user_id = #{seesionId}
+		GROUP BY go.order_cd;
+	</select>
+			
 	<update id="modifyGM" parameterType="GoodsManagement">
-		UPDATE goodsManagement
+		UPDATE goods_management
 		<trim prefix="SET" prefixOverrides=",">
 			<if test="seatCd != null and seatCd != ''">
 				seat_cd		= #{seatCd}
@@ -51,69 +96,27 @@
 		INSERT INTO goods_management
 			(goods_management_cd
 			,user_id
-			,goods_order_cd
+			,order_cd
 			,goods_cd
 			,seat_cd
 			,admission_time
 			,leave_time
 			,use_time
 			,remaining_time
-			,goods_expiration_date)
+			,order_expiration_date)
 			VALUES (
 				sf_new_goods_management_cd()
 				,#{userId}
-				,#{goodsOrderCd}
+				,#{orderCd}
 				,#{goodsCd}
 				,#{seatCd}
 				,#{admissionTime}
 				,#{leaveTime}
 				,#{useTime}
 				,#{remainingTime}
-				,#{goodsExpirationDate});	
+				,#{orderExpirationDate});	
 	</insert>
 	
-	
-<!-- 	<select id="getOrderInfoById" parameterType="Order" resultMap="OrderResultMap">
-		SELECT 
-			g.goods_cd						
-			,g.goods_ctg_cd					
-			,c.goods_ctg_nm					
-			,g.goods_nm						
-			,g.goods_time_con				
-			,g.price						
-			,g.goods_expiration_date		
-			,g.goods_insert_date			
-		FROM 
-			goods AS g
-			INNER JOIN
-			goods_ctg AS c
-			ON
-			g.goods_ctg_cd = c.goods_ctg_cd
-		WHERE
-			g.goods_cd = #{goodsCd} or g.goods_ctg_cd = #{goodsCtgCd};
-	</select>
-	
-	<select id="getoOrderList" resultType="Order" resultMap="OrderResultMap">
-		/*이용권 목록 조회*/
-		SELECT 
-			g.goods_cd						
-			,g.goods_ctg_cd					
-			,c.goods_ctg_nm					
-			,g.goods_nm						
-			,g.goods_time_con				
-			,g.price						
-			,g.goods_expiration_date		
-			,g.goods_insert_date			
-		FROM 
-			goods AS g
-			INNER JOIN
-			goods_ctg AS c
-			ON
-			g.goods_ctg_cd = c.goods_ctg_cd;
-	</select>
-
- -->
-
 
 
 

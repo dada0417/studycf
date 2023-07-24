@@ -15,4 +15,6 @@ public class Order {
 	private String orderExpirationDate;
 	private String orderInsertDate;
 	
+	private GoodsManagement goodsManagement;
+	
 }

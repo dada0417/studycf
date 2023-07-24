@@ -10,12 +10,17 @@ import lombok.ToString;
 public class GoodsManagement {
 	private String goodsManagementCd; 
 	private String userId;
+	private String orderCd;
 	private String goodsCd;
-	private String deatCd;
-	private String sdmissionTime;
+	private String seatCd;
+	private String admissionTime;
 	private String leaveTime;
 	private String useTime;
 	private String remainingTime;
-	private String goodsEpirationDate;
+	private String orderExpirationDate;
+	
+	private Order order;
+	private Goods goods;
+	private GoodsCtg goodsCtg;
 	
 }

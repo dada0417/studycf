@@ -10,9 +10,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import studycf.dto.GoodsManagement;
 import studycf.dto.Seat;
+import studycf.service.GoodsManagementService;
 import studycf.service.SeatService;
 
 
@@ -21,16 +24,18 @@ import studycf.service.SeatService;
 public class SeatController {
 	
 	public final SeatService seatService;
+	public final GoodsManagementService goodsManagementService;
+
 	
-	
-	public SeatController(SeatService seatService) {
+	public SeatController(SeatService seatService, GoodsManagementService goodsManagementService) {
 		this.seatService	=	seatService;
+		this.goodsManagementService	=	goodsManagementService;
 
 	}
 	
 	private static final Logger log = LoggerFactory.getLogger(SeatController.class);
 	
-	
+	//예약된 좌석 확인
 	@PostMapping("/seatCheck")
 	@ResponseBody
 	public List<Seat> seatCheck(){
@@ -44,15 +49,20 @@ public class SeatController {
 	
 	/*좌석 이용 */
 	@PostMapping("/seatSelection")
-	public String seatSelection(Seat seat) {
-		seatService.seatSelection(seat);
+	public String seatSelection(Seat seat, GoodsManagement goodsManagement) {
 		
+		seatService.seatSelection(seat);
+				
+		goodsManagementService.modifyGM(goodsManagement);
 		return "redirect:/";
 	}
 	
 	/*좌석 이용 */
 	@GetMapping("/seatSelection")
-	public String seatSelection() {
+	public String seatSelection(Model model,
+								@RequestParam(name="goodsManagementCd", required=false) String goodsManagementCd) {
+		
+		model.addAttribute("goodsManagementCd", goodsManagementCd);
 		
 		return"seat/seatSelection";
 	}
