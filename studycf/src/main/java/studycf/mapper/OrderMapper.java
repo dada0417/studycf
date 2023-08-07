@@ -10,7 +10,6 @@ import studycf.dto.Order;
 @Mapper
 public interface OrderMapper {
 
-
 	//이용권 등록
 	public int addOrder(Order order);
 

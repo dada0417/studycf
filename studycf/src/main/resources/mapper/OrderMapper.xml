@@ -14,25 +14,6 @@
 	</resultMap>
 
 
-	<select id="getOrderInfoById" parameterType="Order" resultMap="OrderResultMap">
-		SELECT 
-			g.goods_cd						
-			,g.goods_ctg_cd					
-			,c.goods_ctg_nm					
-			,g.goods_nm						
-			,g.goods_time_con				
-			,g.price						
-			,g.goods_expiration_date		
-			,g.goods_insert_date			
-		FROM 
-			goods AS g
-			INNER JOIN
-			goods_ctg AS c
-			ON
-			g.goods_ctg_cd = c.goods_ctg_cd
-		WHERE
-			g.goods_cd = #{goodsCd} or g.goods_ctg_cd = #{goodsCtgCd};
-	</select>
 	
 	<insert id="addOrder" parameterType="Order">
 		<selectKey resultType="String" keyProperty="orderCd" order="BEFORE">

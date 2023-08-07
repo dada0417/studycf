@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+ 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/default.html}">
+<th:block layout:fragment="customTitle">
+		<title th:text="${title}"></title>
+</th:block>	
+
+
+<th:block layout:fragment="customCss">
+<style>
+.listSty {
+ 	font-size:large;
+ 	margin-bottom: 10px;
+}
+.selectGoods{
+	cursor: pointer;
+}
+</style>
+
+</th:block>
+
+<th:block layout:fragment="customContents">  
+	           <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-3 col-sm-3" style="width: 100%">
+                        <div class="card">
+                            <div class="content selectGoods" th:if="${not #lists.isEmpty(usingList)}" th:each="l : ${usingList}" th:onclick="|location.href='@{/seat/seatSelection}'|">
+                                <div class="row" >
+                                    <div class=" col-xs-5">
+                                        <div style="margin-left: 20px; font-size:xx-large; font-weight:bolder; margin-top: 5px;">
+                                            <h7 th:text="${l.goodsCtg.goodsCtgNm} + ${l.goods.goodsNm}"></h7>
+                                        </div>
+                                    </div>
+                                </div>
+                                 <div class="row listSty">
+                                 <hr />
+                                 	<div class="col-xs-6">
+                                   		 남은시간  
+                                      </div>
+                                      <div class="col-xs-6" th:text="${l.remainingTime}">
+                                           
+                                      </div>
+                                 </div>
+                                 <div class="row listSty">
+                                 
+                                 	<div class="col-xs-6">
+                                   		 만료일  
+                                      </div>
+                                      <div class="col-xs-6" th:text="${l.order.orderExpirationDate}">
+                                           
+                                      </div>
+                                 </div>
+                            </div>
+                            <div class="content" th:unless="${not #lists.isEmpty(usingList)}" style="font-size: large;">
+								사용할 수 있는 이용권이 없습니다.
+							</div>                        
+                        </div>
+                    </div>
+                </div>
+            </div>
+</th:block>
+</html>

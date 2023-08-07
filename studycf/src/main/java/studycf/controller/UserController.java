@@ -1,5 +1,7 @@
 package studycf.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -12,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import studycf.dto.GoodsManagement;
 import studycf.dto.User;
+import studycf.service.GoodsManagementService;
 import studycf.service.UserService;
 
 @Controller
@@ -20,9 +24,11 @@ import studycf.service.UserService;
 public class UserController {
 	
 	public final UserService userService;
+	public final GoodsManagementService goodsManagementService;
 	
-	public UserController(UserService userService) {
+	public UserController(UserService userService, GoodsManagementService goodsManagementService) {
 		this.userService	=	userService;
+		this.goodsManagementService	=	goodsManagementService;
 	}
 	
 	private static final Logger log = LoggerFactory.getLogger(UserController.class);
@@ -80,9 +86,11 @@ public class UserController {
 		
 		log.info("회원정보조회 아이디 : {}", sessionId);
 		User user = userService.getUserInfoById(sessionId);
+		List<GoodsManagement> usingList = goodsManagementService.usingListById(sessionId);
 		
 		model.addAttribute("title", "회원상세정보");
 		model.addAttribute("user", user);
+		model.addAttribute("usingList", usingList);
 		return "user/userDetail";
 	}
 	

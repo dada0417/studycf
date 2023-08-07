@@ -2,6 +2,8 @@ package studycf.service;
 
 
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -39,13 +41,14 @@ public class GoodsManagementService {
 		return result;
 	}
 	
-	/*
-	 * //이용권 목록 public List<Order> getOrderList(){
-	 * 
-	 * List<Order> orderList = orderMapper.getOrderList(); log.info("이용권 리스트 서비스");
-	 * 
-	 * return orderList; }
-	 */
+	 //아이디별 사용가능한 이용권 목록 
+	public List<GoodsManagement> usingListById(String userId){
+	
+	 List<GoodsManagement> usingListById = goodsManagementMapper.usingListById(userId);
+	
+	 return usingListById; 
+	 }
+	
 	
 	
 

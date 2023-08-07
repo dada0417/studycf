@@ -2,6 +2,10 @@ package studycf.controller;
 
 
 
+import java.util.List;
+
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -28,6 +32,17 @@ public class GoodsManagementController {
 	private static final Logger log = LoggerFactory.getLogger(GoodsManagementController.class);
 	
 	
+	@GetMapping("/usingList")
+	public String usingListById(HttpSession session, Model model) {
+		String sessionId = (String)session.getAttribute("SID");
+		
+		 List<GoodsManagement> usingList = goodsManagementService.usingListById(sessionId);
+		
+		model.addAttribute("usingList", usingList);
+		
+		return "/goodsManagement/usingList";
+	}
+	
 	//이용권 사용 정보 추가
 	@PostMapping("/modifyGM")
 	public String modifyGM(GoodsManagement goodsManagement) {
@@ -45,7 +60,7 @@ public class GoodsManagementController {
 		goodsManagementService.addGoodsManagement(goodsManagement);
 		return "redirect:/seat/seatSelection";
 	}
-	
+	//이용권 사용 화면 
 	@GetMapping("/addGoodsManagement")
 	public String addGoods(Model model) {
 				

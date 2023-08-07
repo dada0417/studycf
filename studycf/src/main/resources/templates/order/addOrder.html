@@ -51,7 +51,7 @@
 			            var txt1='';
 			                for(var i =0;i<data.length;i++)
 			                {
-			              	  txt1 +='<li><div class="row"><input type="radio" class="col-xs-3" id="goodsDetail'+i+'" name="goodsDetail">' +'<label for="goodsDetail'+i+'" class="col-xs-3">' + data[i].goodsNm+" ("+data[i].goodsExpirationDate+"일)" +'</label>' + '<label for="goodsDetail'+i+'" class="col-xs-3">' + data[i].price +" (원)" + '</label><input type="hidden" id="goodsCdSelect" value="'+ data[i].goodsCd + '"></div></li>';
+			              	  txt1 +='<li><div class="row"><input type="radio" class="col-xs-3" id="goodsDetail'+i+'" name="goodsDetail">' +'<label for="goodsDetail'+i+'" class="col-xs-3">' + data[i].goodsNm+" ("+data[i].goodsExpirationDate+"일)" +'</label>' + '<label for="goodsDetail'+i+'" class="col-xs-3">' + data[i].price +" (원)" + '</label><input type="hidden" id="goodsCdSelect" value="'+ data[i].goodsCd + '"><input type="hidden" id="goodsTimeCon" value="'+ data[i].goodsTimeCon + '"></div></li>';
 			                }
 			             
 			                $('#goodsD').empty();
@@ -69,7 +69,8 @@
 				 var price = $('input[name="goodsDetail"]:checked').next().next().text();
 				 var price2 = $('input[name="goodsDetail"]:checked').next().next().text().split(' ', 1);
 				 var goodsCd = $('input[name="goodsDetail"]:checked').next().next().next().val();
-		
+				 var goodsTimeCon = $('input[name=goodsTimeCongoodsDetail"]:checked').next().next().next().next().val();
+				
 				 
 				var date = new Date();
 				console.log(goodsCtgCd);
@@ -235,6 +236,7 @@
 	                                        	<span class="orderExpirationDate"></span>
 	                                      		<input type="hidden" id="orderInsertDate" name="orderInsertDate" required>
 	                                      		<input type="hidden" id="orderExpirationDate" name="orderExpirationDate" required>
+	                                      		<input type="hidden" id="remainingTime" name="remainingTime" required>
 	                                        </div>
 	                                    </div>
 	                                </li>

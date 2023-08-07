@@ -38,7 +38,7 @@
 		</association>
 	</resultMap>
 
-	<select id="orderListById" resultMap="GoodsManagementResultMap">
+	<select id="usingListById" resultType="GoodsManagement" resultMap="GoodsManagementResultMap">
 		SELECT
 			go.order_cd
 			,go.order_expiration_date
@@ -57,11 +57,11 @@
 			g.goods_cd = gm.goods_cd
 			INNER join
 			goods_ctg AS gc
+			on
 			g.goods_ctg_cd = gc.goods_ctg_cd
 		WHERE
-			go.order_expiration_date > NOW() AND gm.remaining_time > 0  AND 
-			go.user_id = #{seesionId}
-		GROUP BY go.order_cd;
+			gm.order_expiration_date > NOW() AND gm.remaining_time > 0  AND 
+			go.user_id =#{sessionId};
 	</select>
 			
 	<update id="modifyGM" parameterType="GoodsManagement">
