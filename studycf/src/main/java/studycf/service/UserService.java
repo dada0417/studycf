@@ -15,7 +15,7 @@ public class UserService {
 	
 	//생성자 주입 
 	private final UserMapper userMapper;
-	
+
 	public UserService(UserMapper userMapper) {
 		this.userMapper = userMapper;
 		}

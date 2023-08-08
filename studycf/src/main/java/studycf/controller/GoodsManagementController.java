@@ -33,12 +33,12 @@ public class GoodsManagementController {
 	
 	
 	@GetMapping("/usingList")
-	public String usingListById(HttpSession session, Model model) {
+	public String availableGoodsListById(HttpSession session, Model model) {
 		String sessionId = (String)session.getAttribute("SID");
 		
-		 List<GoodsManagement> usingList = goodsManagementService.usingListById(sessionId);
+		 List<GoodsManagement> availableGoodsList = goodsManagementService.availableGoodsListById(sessionId);
 		
-		model.addAttribute("usingList", usingList);
+		model.addAttribute("availableGoodsList", availableGoodsList);
 		
 		return "/goodsManagement/usingList";
 	}

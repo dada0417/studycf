@@ -1,6 +1,7 @@
 package studycf.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -81,16 +82,25 @@ public class UserController {
 	
 	//회원상세정보
 	@GetMapping("/userDetail")
-	public String getUserInfoById(HttpSession session, Model model) {
+	public String getUserInfoById(HttpSession session, Model model
+								,@RequestParam(name = "currentPage", required = false, defaultValue = "1") int currentPage) {
 		String sessionId = (String)session.getAttribute("SID");
 		
 		log.info("회원정보조회 아이디 : {}", sessionId);
 		User user = userService.getUserInfoById(sessionId);
-		List<GoodsManagement> usingList = goodsManagementService.usingListById(sessionId);
+		List<GoodsManagement> availableGoodsList = goodsManagementService.availableGoodsListById(sessionId);
+		Map<String, Object> resultMap = goodsManagementService.usageListById(currentPage);
 		
+		
+		model.addAttribute("resultMap", 			resultMap);
+		model.addAttribute("currentPage", 			currentPage);
+		model.addAttribute("usageList",		resultMap.get("usageList"));
+		model.addAttribute("lastPage", 				resultMap.get("lastPage"));
+		model.addAttribute("startPageNum", 			resultMap.get("startPageNum"));
+		model.addAttribute("endPageNum", 			resultMap.get("endPageNum"));
 		model.addAttribute("title", "회원상세정보");
 		model.addAttribute("user", user);
-		model.addAttribute("usingList", usingList);
+		model.addAttribute("availableGoodsList", availableGoodsList);
 		return "user/userDetail";
 	}
 	

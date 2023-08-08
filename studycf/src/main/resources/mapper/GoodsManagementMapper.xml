@@ -37,8 +37,38 @@
 			<result	column="goods_ctg_nm"		property="goodsCtgNm"/>
 		</association>
 	</resultMap>
+	
+	<select id="getUsageListCount" resultType="int">
+		/*이용 내역 총 튜플 수*/
+		SELECT
+			COUNT(*)
+		FROM
+			goods_management;
+	</select>
 
-	<select id="usingListById" resultType="GoodsManagement" resultMap="GoodsManagementResultMap">
+	<select id="usageListById" parameterType="Map" resultMap="GoodsManagementResultMap">
+		/*이용내역 목록*/
+		SELECT 
+			goods_management_cd
+			, user_id
+			, order_cd
+			, goods_cd
+			, seat_cd
+			, admission_time
+			, leave_time
+			, use_time
+			, remaining_time
+			, order_expiration_date
+		FROM 
+			goods_management
+		WHERE
+			user_id = #{sessionId} and seat_cd IS NOT NULL
+		LIMIT #{startRow}, #{rowPerPage}
+	</select>
+	
+	
+	<select id="availableGoodsListById" resultType="GoodsManagement" resultMap="GoodsManagementResultMap">
+		/*사용가능한 이용권 목록*/
 		SELECT
 			go.order_cd
 			,go.order_expiration_date

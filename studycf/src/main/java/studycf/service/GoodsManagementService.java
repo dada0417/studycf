@@ -2,7 +2,9 @@ package studycf.service;
 
 
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +29,51 @@ public class GoodsManagementService {
 
 	private static final Logger log = LoggerFactory.getLogger(GoodsManagementService.class);
 
+	//이용권 이용 내역
+	public Map<String, Object> usageListById(int currentPage){
+		
+		int rowPerPage = 5;
+		
+		double rowCount = goodsManagementMapper.getUsageListCount();
+		
+		int lastPage = (int)Math.ceil(rowCount/rowPerPage);
+		
+		int startRow = (currentPage -1)* rowPerPage;
+		
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+
+		paramMap.put("startRow", startRow);
+		paramMap.put("rowPerPage", rowPerPage);
+
+		int startPageNum = 1;
+		int endPageNum = 10;
+		
+		if (lastPage > 10) {
+			if (currentPage >= 6) {
+				startPageNum = currentPage - 4;
+				endPageNum = currentPage + 5;
+
+				if (endPageNum >= lastPage) {
+					startPageNum = lastPage - 9;
+					endPageNum = lastPage;
+				}
+			}
+		} else {
+			endPageNum = lastPage;
+		}
+				
+		List<Map<String, Object>> usageList = goodsManagementMapper.usageListById(paramMap);
+		 
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("lastPage", lastPage);
+		resultMap.put("usageList", usageList);
+		resultMap.put("startPageNum", startPageNum);
+		resultMap.put("endPageNum", endPageNum);
+		return resultMap;
+
+
+	}
+	
 	//이용권 사용  정보 추가
 	public int modifyGM(GoodsManagement goodsManagement) {
 		int result = goodsManagementMapper.modifyGM(goodsManagement);
@@ -42,9 +89,9 @@ public class GoodsManagementService {
 	}
 	
 	 //아이디별 사용가능한 이용권 목록 
-	public List<GoodsManagement> usingListById(String userId){
+	public List<GoodsManagement> availableGoodsListById(String userId){
 	
-	 List<GoodsManagement> usingListById = goodsManagementMapper.usingListById(userId);
+	 List<GoodsManagement> usingListById = goodsManagementMapper.availableGoodsListById(userId);
 	
 	 return usingListById; 
 	 }

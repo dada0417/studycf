@@ -69,8 +69,16 @@
 				 var price = $('input[name="goodsDetail"]:checked').next().next().text();
 				 var price2 = $('input[name="goodsDetail"]:checked').next().next().text().split(' ', 1);
 				 var goodsCd = $('input[name="goodsDetail"]:checked').next().next().next().val();
-				 var goodsTimeCon = $('input[name=goodsTimeCongoodsDetail"]:checked').next().next().next().next().val();
+				 var goodsTimeCon = $('input[name="goodsDetail"]:checked').next().next().next().next().val();
+				 var h = parseInt(goodsTimeCon / 60);
+			  
+
+			    if (h.toString().length==1) h = "0" + h;
 				
+				
+				var t = h + ":00:00";
+				console.log(t);
+				 
 				 
 				var date = new Date();
 				console.log(goodsCtgCd);
@@ -123,7 +131,7 @@
 				 $('#addO').text(goodsCd);
 				 $('.orderInsertDate').text(orderDate);
 				 $('#orderInsertDate').val(orderDate);
-				 
+				 $('#remainingTime').val(t);
 			 })
 			 
 			 

@@ -54,7 +54,7 @@
 <th:block layout:fragment = "customContents">
 	<div class="container-fluid" th:if="${#strings.isEmpty(session.SID)}">
 			<h4>로그인이 필요한 서비스입니다.</h4>
-		</div>
+	</div>
 	<div class="container-fluid" th:unless="${#strings.isEmpty(session.SID)}">
 	    <div class="row">
 	        <div class="col-lg-8 col-md-7">
@@ -126,7 +126,7 @@
 	                </div>
 	                <div class="content">
 	                    <ul class="list-unstyled team-members">
-	                                <li th:if="${not #lists.isEmpty(usingList)}" th:each="l : ${usingList}">
+	                                <li th:if="${not #lists.isEmpty(availableGoodsList)}" th:each="l : ${availableGoodsList}">
 	                                    <div class="row" >
 	                                        <div class="col-xs-6" th:text="${l.goodsCtg.goodsCtgNm}">
 	                                     		       
@@ -153,6 +153,54 @@
 	                </div>
 	            </div>
 	        </div>
+	        <div class="container-fluid">
+      <div class="row">
+          <div class="col-md-12">
+              <div class="card">
+                  <div class="header">
+                      <h4 class="title">이용권</h4>
+                      <p class="category">Here is a subtitle for this table</p>
+                  </div>
+                  <div class="content table-responsive table-full-width">
+                      <table class="table table-striped">
+                          <thead style="font: bold;">
+                          	<tr>
+	                            <th>이용권 유형</th>
+	                          	<th>이용권 조건</th>
+	                          	<th>이용권 가격(원)</th>
+	                          	<th>이용권 만료기간(일)</th>
+	                          	<th>수정</th>
+                          	</tr>
+                          </thead>
+                          <tbody>
+                              <tr th:if="${not #lists.isEmpty(usageList)}" th:each="l : ${usageList}">
+                              	<td th:text="${l.goodsCd}"></td>
+                              	<td th:text="${l.seatCd}"></td>
+                              	<td th:text="${l.admissionTime}"></td>
+                              	<td th:text="${l.leaveTime}"></td>
+                              	<td th:text="${l.useTime}"></td>
+                            
+                              </tr>
+                              <tr th:unless="${not #lists.isEmpty(usageList)}">
+								<td colspan="5">이용내역 없습니다.</td>
+							</tr>	
+                          </tbody>
+                      </table>
+                      <div class="col-lg-12 text-center">
+                        <div class="pagination__option">
+                        	<a th:if="${currentPage > 1}" th:href="@{/user/userDetail(currentPage=${currentPage - 1}"><i class="fa fa-angle-left"></i></a>
+                            <th:block th:each="num : ${#numbers.sequence(startPageNum,endPageNum)}">
+								<label th:if="${currentPage eq num}" th:text="${(num<10) ? '0' + num  :  num }"></label>
+								<a th:unless="${currentPage eq num}" th:href="@{/user/userDetail(currentPage=${num}))}" th:text="${(num<10) ? '0' + num  :  num }"></a>
+							</th:block>
+                            <a th:if="${currentPage < lastPage}" th:href="@{/user/userDetail(currentPage=${currentPage + 1}))}"><i class="fa fa-angle-right"></i></a>
+                        </div>
+                    </div>
+                  </div>
+              </div>
+          </div>
+		</div>
+	</div>
 	    </div>
 	</div>
 
