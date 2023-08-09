@@ -17,7 +17,7 @@ public interface GoodsManagementMapper {
 	public int getUsageListCount();
 	
 	//회원의 카페 이용 내역 목록
-	public List<Map<String, Object>> usageListById(Map<String, Object> paramMap);
+	public List<GoodsManagement> usageListById(Map<String, Object> goodsManagementMap);
 
 	//회원의 사용가능한 이용권 목록
 	public List<GoodsManagement> availableGoodsListById(String userId);

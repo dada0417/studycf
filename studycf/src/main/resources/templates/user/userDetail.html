@@ -42,7 +42,6 @@
 			$('#modifyPwBtn').removeAttr( "style" );
 			$(this).hide();
 		});
-	
 	});
 			
 	</script>
@@ -158,8 +157,7 @@
           <div class="col-md-12">
               <div class="card">
                   <div class="header">
-                      <h4 class="title">이용권</h4>
-                      <p class="category">Here is a subtitle for this table</p>
+                      <h4 class="title">이용권 사용 내역</h4>
                   </div>
                   <div class="content table-responsive table-full-width">
                       <table class="table table-striped">
@@ -167,21 +165,22 @@
                           	<tr>
 	                            <th>이용권 유형</th>
 	                          	<th>이용권 조건</th>
-	                          	<th>이용권 가격(원)</th>
-	                          	<th>이용권 만료기간(일)</th>
-	                          	<th>수정</th>
+	                          	<th>입장시간</th>
+	                          	<th>퇴장시간</th>
+	                          	<th>이용시간</th>
+	                          	<th>이용권 만료일</th>
                           	</tr>
                           </thead>
                           <tbody>
-                              <tr th:if="${not #lists.isEmpty(usageList)}" th:each="l : ${usageList}">
-                              	<td th:text="${l.goodsCd}"></td>
-                              	<td th:text="${l.seatCd}"></td>
+                              <tr th:if="${not #lists.isEmpty(usageListById)}" th:each="l : ${usageListById}">
+                              	<td th:text="${l.goodsCtg.goodsCtgNm}"></td>
+                              	<td th:text="${l.goods.goodsNm}"></td>
                               	<td th:text="${l.admissionTime}"></td>
                               	<td th:text="${l.leaveTime}"></td>
                               	<td th:text="${l.useTime}"></td>
-                            
+                              	<td th:text="${l.orderExpirationDate}"></td>                            
                               </tr>
-                              <tr th:unless="${not #lists.isEmpty(usageList)}">
+                              <tr th:unless="${not #lists.isEmpty(usageListById)}">
 								<td colspan="5">이용내역 없습니다.</td>
 							</tr>	
                           </tbody>

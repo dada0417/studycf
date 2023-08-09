@@ -1,5 +1,6 @@
 package studycf.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -89,18 +90,25 @@ public class UserController {
 		log.info("회원정보조회 아이디 : {}", sessionId);
 		User user = userService.getUserInfoById(sessionId);
 		List<GoodsManagement> availableGoodsList = goodsManagementService.availableGoodsListById(sessionId);
-		Map<String, Object> resultMap = goodsManagementService.usageListById(currentPage);
 		
+		Map<String, Object> goodsManagementMap = new HashMap<>();
+
+		goodsManagementMap.put("sessionId", sessionId);
+		
+		Map<String, Object> resultMap = goodsManagementService.usageListById(currentPage, goodsManagementMap);
 		
 		model.addAttribute("resultMap", 			resultMap);
 		model.addAttribute("currentPage", 			currentPage);
-		model.addAttribute("usageList",		resultMap.get("usageList"));
+		model.addAttribute("usageListById",		resultMap.get("usageListById"));
 		model.addAttribute("lastPage", 				resultMap.get("lastPage"));
 		model.addAttribute("startPageNum", 			resultMap.get("startPageNum"));
 		model.addAttribute("endPageNum", 			resultMap.get("endPageNum"));
 		model.addAttribute("title", "회원상세정보");
 		model.addAttribute("user", user);
 		model.addAttribute("availableGoodsList", availableGoodsList);
+		
+		log.info("map확인 : {}", goodsManagementMap);
+		
 		return "user/userDetail";
 	}
 	

@@ -30,7 +30,7 @@ public class GoodsManagementService {
 	private static final Logger log = LoggerFactory.getLogger(GoodsManagementService.class);
 
 	//이용권 이용 내역
-	public Map<String, Object> usageListById(int currentPage){
+	public Map<String, Object> usageListById(int currentPage, Map<String, Object> goodsManagementMap){
 		
 		int rowPerPage = 5;
 		
@@ -40,10 +40,6 @@ public class GoodsManagementService {
 		
 		int startRow = (currentPage -1)* rowPerPage;
 		
-		Map<String, Object> paramMap = new HashMap<String, Object>();
-
-		paramMap.put("startRow", startRow);
-		paramMap.put("rowPerPage", rowPerPage);
 
 		int startPageNum = 1;
 		int endPageNum = 10;
@@ -62,11 +58,15 @@ public class GoodsManagementService {
 			endPageNum = lastPage;
 		}
 				
-		List<Map<String, Object>> usageList = goodsManagementMapper.usageListById(paramMap);
+		goodsManagementMap.put("startRow", startRow);
+		goodsManagementMap.put("rowPerPage", rowPerPage);
+		
+
+		List<GoodsManagement> usageListById = goodsManagementMapper.usageListById(goodsManagementMap);
 		 
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap.put("lastPage", lastPage);
-		resultMap.put("usageList", usageList);
+		resultMap.put("usageListById", usageListById);
 		resultMap.put("startPageNum", startPageNum);
 		resultMap.put("endPageNum", endPageNum);
 		return resultMap;

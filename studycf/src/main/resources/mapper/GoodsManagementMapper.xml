@@ -49,18 +49,28 @@
 	<select id="usageListById" parameterType="Map" resultMap="GoodsManagementResultMap">
 		/*이용내역 목록*/
 		SELECT 
-			goods_management_cd
-			, user_id
-			, order_cd
-			, goods_cd
-			, seat_cd
-			, admission_time
-			, leave_time
-			, use_time
-			, remaining_time
-			, order_expiration_date
+			gm.goods_management_cd
+			, gm.user_id
+			, gm.order_cd
+			, gm.goods_cd
+			, gm.seat_cd
+			, gm.admission_time
+			, gm.leave_time
+			, gm.use_time
+			, gm.remaining_time
+			, gm.order_expiration_date
+			,g.goods_nm
+			,gc.goods_ctg_nm
 		FROM 
-			goods_management
+			goods_management AS gm
+			INNER join
+			goods AS g
+			on
+			gm.goods_cd = g.goods_cd
+			INNER join
+			goods_ctg AS gc
+			ON 
+			g.goods_ctg_cd = gc.goods_ctg_cd
 		WHERE
 			user_id = #{sessionId} and seat_cd IS NOT NULL
 		LIMIT #{startRow}, #{rowPerPage}
