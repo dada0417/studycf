@@ -28,6 +28,16 @@ public class GoodsManagementService {
 	}
 
 	private static final Logger log = LoggerFactory.getLogger(GoodsManagementService.class);
+	
+	//총 이용시간
+	public String getTotalTime(String userId) {
+	
+		String totalTime = goodsManagementMapper.getTotalTime(userId);
+		
+		log.info("값확인 : {}", totalTime);
+		
+		return totalTime;
+	}
 
 	//이용권 이용 내역
 	public Map<String, Object> usageListById(int currentPage, Map<String, Object> goodsManagementMap){

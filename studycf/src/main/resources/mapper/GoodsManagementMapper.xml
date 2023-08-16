@@ -38,6 +38,16 @@
 		</association>
 	</resultMap>
 	
+	<select id="getTotalTime" resultType="String" >
+		/*카페 이용 시간 합계*/
+		SELECT 
+			SEC_TO_TIME(sum(TIME_TO_SEC(use_time))) as time
+		FROM 
+			goods_management 
+		WHERE
+			user_id = #{sessionId};
+	</select>
+	
 	<select id="getUsageListCount" resultType="int">
 		/*이용 내역 총 튜플 수*/
 		SELECT
@@ -45,6 +55,8 @@
 		FROM
 			goods_management;
 	</select>
+
+
 
 	<select id="usageListById" parameterType="Map" resultMap="GoodsManagementResultMap">
 		/*이용내역 목록*/

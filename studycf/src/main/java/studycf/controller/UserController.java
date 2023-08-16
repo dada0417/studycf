@@ -91,6 +91,9 @@ public class UserController {
 		User user = userService.getUserInfoById(sessionId);
 		List<GoodsManagement> availableGoodsList = goodsManagementService.availableGoodsListById(sessionId);
 		
+		//카페 총 이용시간
+		String totalTime = goodsManagementService.getTotalTime(sessionId);
+		
 		Map<String, Object> goodsManagementMap = new HashMap<>();
 
 		goodsManagementMap.put("sessionId", sessionId);
@@ -105,9 +108,12 @@ public class UserController {
 		model.addAttribute("endPageNum", 			resultMap.get("endPageNum"));
 		model.addAttribute("title", "회원상세정보");
 		model.addAttribute("user", user);
+		model.addAttribute("totalTime", totalTime);
 		model.addAttribute("availableGoodsList", availableGoodsList);
 		
 		log.info("map확인 : {}", goodsManagementMap);
+		log.info("totalTime확인 : {}", totalTime);
+		
 		
 		return "user/userDetail";
 	}

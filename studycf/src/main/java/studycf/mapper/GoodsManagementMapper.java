@@ -13,6 +13,9 @@ import studycf.dto.GoodsManagement;
 @Mapper
 public interface GoodsManagementMapper {
 	
+	//카페 총 이용시간 구하기
+	public String getTotalTime(String userId); 
+	
 	//이용권 이용 내역 총 튜플 수 
 	public int getUsageListCount();
 	
