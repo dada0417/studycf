@@ -29,6 +29,12 @@ public class GoodsManagementService {
 
 	private static final Logger log = LoggerFactory.getLogger(GoodsManagementService.class);
 	
+	//이용자의 좌석확인
+	public GoodsManagement getSeatCdById(String userId) {
+		GoodsManagement userSeat = goodsManagementMapper.getSeatCdById(userId);
+		return userSeat;
+	}
+	
 	//총 이용시간
 	public String getTotalTime(String userId) {
 	

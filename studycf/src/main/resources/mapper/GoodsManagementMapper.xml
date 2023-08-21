@@ -38,6 +38,17 @@
 		</association>
 	</resultMap>
 	
+	
+	<select id="getSeatCdById" resultType="GoodsManagement" resultMap="GoodsManagementResultMap">
+		/*이용자의 좌석*/
+		SELECT
+			seat_cd
+		FROM
+			goods_management
+		WHERE	
+			user_id = #{sessionId} and leave_time is null AND seat_cd IS NOT null;
+	</select>
+	
 	<select id="getTotalTime" resultType="String" >
 		/*카페 이용 시간 합계*/
 		SELECT 

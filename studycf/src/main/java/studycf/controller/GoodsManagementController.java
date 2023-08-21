@@ -13,6 +13,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import studycf.dto.GoodsManagement;
 import studycf.service.GoodsManagementService;
@@ -30,6 +32,17 @@ public class GoodsManagementController {
 	}
 	
 	private static final Logger log = LoggerFactory.getLogger(GoodsManagementController.class);
+	
+	//예약된 좌석 확인
+	@PostMapping("/seatCheckById")
+	@ResponseBody
+	public GoodsManagement getSeatCdById(@RequestParam(name = "userId" , required = false) String userId){
+
+		GoodsManagement seatCheckById = goodsManagementService.getSeatCdById(userId);
+		
+		log.info("본인 좌석 확인 컨트롤 목록 :{}", seatCheckById);
+		return seatCheckById;
+	}
 	
 	
 	@GetMapping("/usingList")

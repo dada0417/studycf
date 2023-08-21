@@ -13,6 +13,9 @@ import studycf.dto.GoodsManagement;
 @Mapper
 public interface GoodsManagementMapper {
 	
+	//본인 이용 좌석 확인
+	public GoodsManagement getSeatCdById(String userId);
+	
 	//카페 총 이용시간 구하기
 	public String getTotalTime(String userId); 
 	
