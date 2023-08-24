@@ -33,6 +33,16 @@ public class GoodsManagementController {
 	
 	private static final Logger log = LoggerFactory.getLogger(GoodsManagementController.class);
 	
+	//좌석 선택시 입장시간 여부 확인
+	@PostMapping("/admissionTimeCheck")
+	@ResponseBody
+	public GoodsManagement admissionTimeCheck(@RequestParam(name = "userId" , required = false) String userId){
+		GoodsManagement admissionTimeCheck = goodsManagementService.getUseById(userId);
+		log.info("입장시간 확인 컨트롤 목록 :{}", admissionTimeCheck);
+		return admissionTimeCheck;
+	}
+	
+	
 	//예약된 좌석 확인
 	@PostMapping("/seatCheckById")
 	@ResponseBody
@@ -59,6 +69,7 @@ public class GoodsManagementController {
 	//이용권 사용 정보 추가
 	@PostMapping("/modifyGM")
 	public String modifyGM(GoodsManagement goodsManagement) {
+				
 		goodsManagementService.modifyGM(goodsManagement);
 		
 		return "redirect:/";

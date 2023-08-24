@@ -29,6 +29,13 @@ public class GoodsManagementService {
 
 	private static final Logger log = LoggerFactory.getLogger(GoodsManagementService.class);
 	
+	//회원이 이용권을 사용해 카페 이용하는 이용권 사용 내역
+	public GoodsManagement getUseById(String userId) {
+		GoodsManagement  result = goodsManagementMapper.getUseById(userId);
+		
+		return result;
+	}
+	
 	//이용자의 좌석확인
 	public GoodsManagement getSeatCdById(String userId) {
 		GoodsManagement userSeat = goodsManagementMapper.getSeatCdById(userId);

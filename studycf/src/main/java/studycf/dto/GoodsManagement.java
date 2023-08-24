@@ -22,5 +22,6 @@ public class GoodsManagement {
 	private Order order;
 	private Goods goods;
 	private GoodsCtg goodsCtg;
+	private Seat seat;
 	
 }

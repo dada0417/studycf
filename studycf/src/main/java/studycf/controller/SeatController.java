@@ -2,6 +2,7 @@ package studycf.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,22 +48,35 @@ public class SeatController {
 	
 	
 	
+	/*좌석 변경시 */
+	@PostMapping("/seatSelection2")
+	public String seatSelection2(Seat seat, GoodsManagement goodsManagement) {
+		
+		seatService.seatSelection(seat);
+				
+		return "redirect:/seat/seatSelection?goodsManagementCd="+goodsManagement.getGoodsManagementCd();
+	}
 	/*좌석 이용 */
 	@PostMapping("/seatSelection")
 	public String seatSelection(Seat seat, GoodsManagement goodsManagement) {
 		
-		seatService.seatSelection(seat);
-				
 		goodsManagementService.modifyGM(goodsManagement);
+		seatService.seatSelection(seat);
+		
 		return "redirect:/";
 	}
 	
 	/*좌석 이용 */
 	@GetMapping("/seatSelection")
 	public String seatSelection(Model model,
-								@RequestParam(name="goodsManagementCd", required=false) String goodsManagementCd) {
+								@RequestParam(name="goodsManagementCd", required=false) String goodsManagementCd
+								,HttpSession session, GoodsManagement goodsManagement) {
+		String sessionId = (String)session.getAttribute("SID");
+		GoodsManagement useById = goodsManagementService.getUseById(sessionId);
+		
 		
 		model.addAttribute("goodsManagementCd", goodsManagementCd);
+		model.addAttribute("useById", useById);
 		
 		return"seat/seatSelection";
 	}
