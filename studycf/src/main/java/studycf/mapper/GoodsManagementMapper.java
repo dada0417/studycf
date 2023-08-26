@@ -13,6 +13,9 @@ import studycf.dto.GoodsManagement;
 @Mapper
 public interface GoodsManagementMapper {
 	
+	//남은 시간 확인을 위한 사용자의 최근 이용권 사용 내역
+	
+	
 	//회원이 이용권을 사용해 카페 이용하는 이용권 사용 내역 
 	public GoodsManagement getUseById(String userId);
 	

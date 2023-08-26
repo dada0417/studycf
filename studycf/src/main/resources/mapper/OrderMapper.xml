@@ -8,6 +8,7 @@
 		<id		column="order_cd"				property="orderCd"/>
 		<result column="goods_cd"			property="goodsCd"/>
 		<result column="user_id"			property="userId"/>
+		<result column="remaining_time"			property="remainingTime"/>
 		<result column="price"					property="price"/>
 		<result column="order_insert_date"		property="orderInsertDate"/>
 		<result column="order_expiration_date"	property="orderExpirationDate"/>
@@ -24,6 +25,7 @@
 			(order_cd
 			,user_id
 			,goods_cd
+			,remaining_time
 			,price
 			,order_insert_date
 			,order_expiration_date)
@@ -31,6 +33,7 @@
 				sf_new_order_cd()
 				,#{userId}
 				,#{goodsCd}
+				,#{remainingTime}
 				,#{price}
 				,#{orderInsertDate}
 				,#{orderExpirationDate});	

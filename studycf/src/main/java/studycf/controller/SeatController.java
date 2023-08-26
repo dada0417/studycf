@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import studycf.dto.GoodsManagement;
+import studycf.dto.Order;
 import studycf.dto.Seat;
 import studycf.service.GoodsManagementService;
+import studycf.service.OrderService;
 import studycf.service.SeatService;
 
 
@@ -26,11 +28,13 @@ public class SeatController {
 	
 	public final SeatService seatService;
 	public final GoodsManagementService goodsManagementService;
+	public final OrderService orderService;
 
 	
-	public SeatController(SeatService seatService, GoodsManagementService goodsManagementService) {
+	public SeatController(SeatService seatService, GoodsManagementService goodsManagementService, OrderService orderService) {
 		this.seatService	=	seatService;
 		this.goodsManagementService	=	goodsManagementService;
+		this.orderService	=	orderService;
 
 	}
 	
@@ -47,7 +51,6 @@ public class SeatController {
 	}
 	
 	
-	
 	/*좌석 변경시 */
 	@PostMapping("/seatSelection2")
 	public String seatSelection2(Seat seat, GoodsManagement goodsManagement) {
@@ -59,9 +62,13 @@ public class SeatController {
 	/*좌석 이용 */
 	@PostMapping("/seatSelection")
 	public String seatSelection(Seat seat, GoodsManagement goodsManagement) {
-		
-		goodsManagementService.modifyGM(goodsManagement);
-		seatService.seatSelection(seat);
+		if(goodsManagement.getGoodsManagementCd() == null) {			
+			goodsManagementService.addGoodsManagement(goodsManagement);
+			seatService.seatSelection(seat);
+		}else {
+			goodsManagementService.modifyGM(goodsManagement);
+			seatService.seatSelection(seat);
+		}
 		
 		return "redirect:/";
 	}
@@ -69,13 +76,19 @@ public class SeatController {
 	/*좌석 이용 */
 	@GetMapping("/seatSelection")
 	public String seatSelection(Model model,
-								@RequestParam(name="goodsManagementCd", required=false) String goodsManagementCd
-								,HttpSession session, GoodsManagement goodsManagement) {
+								@RequestParam(name="goodsManagementCd", required=false) String goodsManagementCd,
+								@RequestParam(name="orderCd", required=false) String orderCd,
+								@RequestParam(name="goodsCd", required=false) String goodsCd,
+								@RequestParam(name="orderExpirationDate", required=false) String orderExpirationDate
+								,HttpSession session, GoodsManagement goodsManagement, Order order) {
 		String sessionId = (String)session.getAttribute("SID");
 		GoodsManagement useById = goodsManagementService.getUseById(sessionId);
 		
 		
 		model.addAttribute("goodsManagementCd", goodsManagementCd);
+		model.addAttribute("orderCd", orderCd);
+		model.addAttribute("goodsCd", goodsCd);
+		model.addAttribute("orderExpirationDate", orderExpirationDate);
 		model.addAttribute("useById", useById);
 		
 		return"seat/seatSelection";

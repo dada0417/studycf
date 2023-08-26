@@ -19,6 +19,7 @@
 			<id		column="order_cd"				property="orderCd"/>
 			<result column="goods_cd"			property="goodsCd"/>
 			<result column="user_id"			property="userId"/>
+			<result column="remaining_time"			property="remainingTime"/>
 			<result column="price"					property="price"/>
 			<result column="order_insert_date"		property="orderInsertDate"/>
 			<result column="order_expiration_date"	property="orderExpirationDate"/>
@@ -58,7 +59,7 @@
 		FROM 
 			goods_management
 		WHERE
-			user_id = #{sessionId};
+			user_id = #{sessionId} AND leave_time IS NULL;
 	</select>
 	
 	<select id="getSeatCdById" resultType="GoodsManagement" resultMap="GoodsManagementResultMap">
@@ -130,10 +131,12 @@
 		/*사용가능한 이용권 목록*/
 		SELECT
 			go.order_cd
+			,go.goods_cd
 			,go.order_expiration_date
 			,gm.remaining_time
 			,g.goods_nm
 			,gc.goods_ctg_nm
+			,MAX(gm.leave_time)
 		FROM
 			goods_order AS go
 			INNER join
@@ -150,16 +153,14 @@
 			g.goods_ctg_cd = gc.goods_ctg_cd
 		WHERE
 			gm.order_expiration_date > NOW() AND gm.remaining_time > 0  AND 
-			go.user_id =#{sessionId};
+			go.user_id = #{sessionId}
+		GROUP BY gm.order_cd;
 	</select>
 			
 	<update id="modifyGM" parameterType="GoodsManagement">
 		UPDATE goods_management
 		<trim prefix="SET" prefixOverrides=",">
 				seat_cd		= #{seatCd, jdbcType=VARCHAR}
-			<if test="admissionTime != null and admissionTime != ''">
-				,admission_time			= #{admissionTime}
-			</if>
 			<if test="leaveTime != null and leaveTime != ''">
 				,leave_time			= #{leaveTime}
 			</if>

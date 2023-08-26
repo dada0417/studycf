@@ -104,23 +104,6 @@
 			
 		
 			$(document).on('click','.seat',function(){
-				var userId = $('input[name="userId"]').val();
-				console.log(userId);
-				$.ajax({
-					type : 'post',
-					url : '/goodsManagement/admissionTimeCheck',
-					dataType : 'json',
-					data : {
-						'userId' : userId
-					},
-					
-					success : function(data){
-						if(data.admissionTime == ''){
-							$('input[name="admissionTime"]').val(adT);
-							console.log($('input[name="admissionTime"]').val());
-						}
-					}
-				 });
 				var seatCd = $('.click').children().val();
 				var seatNm = seatCd.substring(5);
 				var txt1 = seatNm + '번 좌석을 선택하시겠습니까?';
@@ -136,11 +119,16 @@
 				var seconds = ('0' + date1.getSeconds()).slice(-2); 
 				var adT = year + '-' + month1  + '-' + day + " " + hours + ':' + minutes  + ':' + seconds;
 				
+				if($('input[name="admissionTime"]').val() == ''){
+					$('input[name="admissionTime"]').val(adT);
+				}else{
+					$('input[name="admissionTime"]').remove();
+				}
 				$('#seatCd').append(txt1);
 				$('input[name="seatCd"]').val(seatCd);
-				
-				
-				
+				if($('input[name="goodsManagementCd"]').val()==''){
+					$('input[name="orderCd"]').remove();
+				};
 				
 			});
 			
@@ -155,7 +143,23 @@
 			 });
 			 $(document).on('click', '.exit', function(){
 				 $('input[name="seatState"]').val('Y');
+				 var date1 = new Date();
+					
+				var year = date1.getFullYear();
+				var month = date1.getMonth()+1;
+				var month1 = ('0'+month).slice(-2);
+				var day = ('0' + date1.getDate()).slice(-2);
+				var hours = ('0' + date1.getHours()).slice(-2); 
+				var minutes = ('0' + date1.getMinutes()).slice(-2);
+				var seconds = ('0' + date1.getSeconds()).slice(-2); 
+				var leaveT = year + '-' + month1  + '-' + day + " " + hours + ':' + minutes  + ':' + seconds;
+				
+				$('input[name="leaveTime"]').val(leaveT);
+				
+				var adT = $('input[name="admissionTime"]').val();
 			 });
+			 
+			 
 			 
 			 $modifyForm.on('click','#modifyBtn', function(){
 				if($('input[name="leaveTime"]').val() == ''){
@@ -389,6 +393,9 @@
 						<th:block th:if="${not #lists.isEmpty(useById)}" th:each="l : ${useById}">
 							<input type="hidden" name="goodsManagementCd" th:value = "${l.goodsManagementCd}">
 						</th:block>
+						<input type="hidden" name="orderCd" th:value = "${orderCd}">
+						<input type="hidden" name="goodsCd" th:value = "${goodsCd}">
+						<input type="hidden" name="orderExpirationDate" th:value = "${orderExpirationDate}">
 						<input type="hidden" name="admissionTime">
 						<input type="hidden" class="form-control" name="seatCd" readonly="readonly">
 						<input type="hidden" class="form-control" name="seatState" value="N" readonly="readonly">
@@ -425,6 +432,8 @@
 						</th:block>
 						<input type="hidden" class="form-control" name="seatState" readonly="readonly">
 						<input type="hidden" class="form-control" name="leaveTime" readonly="readonly">
+						<input type="hidden" class="form-control" name="useTime" readonly="readonly">
+						<input type="hidden" class="form-control" name="remainingTime" readonly="readonly">
 						<input type="hidden" class="form-control" name="seatCd" readonly="readonly">
 						<input type="button" class="change" name="changeSeat" value="변경">
 						<input type="button" class="exit" name="exit" value="퇴장">
