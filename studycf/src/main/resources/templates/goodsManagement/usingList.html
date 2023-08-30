@@ -22,10 +22,10 @@
 
 <th:block layout:fragment="customContents">  
 	           <div class="container-fluid">
-                <div class="row">
+                <div class="row" th:if="${not #lists.isEmpty(availableGoodsList)}" th:each="l : ${availableGoodsList}" th:onclick="|location.href='@{/seat/seatSelection(orderCd=${l.orderCd}, goodsCd=${l.goodsCd}, orderExpirationDate=${l.orderExpirationDate}, giveTime=${l.order.giveTime})}'|">
                     <div class="col-lg-3 col-sm-3" style="width: 100%">
                         <div class="card">
-                            <div class="content selectGoods" th:if="${not #lists.isEmpty(availableGoodsList)}" th:each="l : ${availableGoodsList}" th:onclick="|location.href='@{/seat/seatSelection(orderCd=${l.orderCd}, goodsCd=${l.goodsCd}, orderExpirationDate=${l.orderExpirationDate})}'|">
+                            <div class="content selectGoods">
                                 <div class="row" >
                                     <div class=" col-xs-5">
                                         <div style="margin-left: 20px; font-size:xx-large; font-weight:bolder; margin-top: 5px;">
@@ -38,7 +38,7 @@
                                  	<div class="col-xs-6">
                                    		 남은시간  
                                       </div>
-                                      <div class="col-xs-6" th:text="${l.remainingTime}">
+                                      <div class="col-xs-6" th:text="${l.order.giveTime}">
                                            
                                       </div>
                                  </div>

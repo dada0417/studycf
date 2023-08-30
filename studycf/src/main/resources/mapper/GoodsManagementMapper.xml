@@ -19,7 +19,7 @@
 			<id		column="order_cd"				property="orderCd"/>
 			<result column="goods_cd"			property="goodsCd"/>
 			<result column="user_id"			property="userId"/>
-			<result column="remaining_time"			property="remainingTime"/>
+			<result column="give_time"			property="giveTime"/>
 			<result column="price"					property="price"/>
 			<result column="order_insert_date"		property="orderInsertDate"/>
 			<result column="order_expiration_date"	property="orderExpirationDate"/>
@@ -46,20 +46,25 @@
 	<select id="getUseById" resultType="GoodsManagement" resultMap="GoodsManagementResultMap">
 		/*회원이 이용권을 사용해 카페 이용하는 이용권 사용 내역 */
 		SELECT 
-			goods_management_cd
-			, user_id
-			, order_cd
-			, goods_cd
-			, seat_cd
-			, admission_time
-			, leave_time
-			, use_time
-			, remaining_time
-			, order_expiration_date
+			gm.goods_management_cd
+			, gm.user_id
+			, gm.order_cd
+			, gm.goods_cd
+			, gm.seat_cd
+			, gm.admission_time
+			, gm.leave_time
+			, gm.use_time
+			, gm.remaining_time
+			, gm.order_expiration_date
+			, go.give_time
 		FROM 
-			goods_management
+			goods_management AS gm
+			INNER JOIN
+			goods_order AS go
+			on
+			gm.order_cd = go.order_cd
 		WHERE
-			user_id = #{sessionId} AND leave_time IS NULL;
+			gm.user_id = #{sessionId} AND gm.leave_time IS NULL;
 	</select>
 	
 	<select id="getSeatCdById" resultType="GoodsManagement" resultMap="GoodsManagementResultMap">
@@ -133,28 +138,23 @@
 			go.order_cd
 			,go.goods_cd
 			,go.order_expiration_date
-			,gm.remaining_time
+			,go.give_time
 			,g.goods_nm
 			,gc.goods_ctg_nm
-			,MAX(gm.leave_time)
 		FROM
 			goods_order AS go
-			INNER join
-			goods_management AS gm
-			on
-			go.order_cd = gm.order_cd
 			INNER JOIN
 			goods AS g
 			on
-			g.goods_cd = gm.goods_cd
+			g.goods_cd = go.goods_cd
 			INNER join
 			goods_ctg AS gc
 			on
 			g.goods_ctg_cd = gc.goods_ctg_cd
 		WHERE
-			gm.order_expiration_date > NOW() AND gm.remaining_time > 0  AND 
+			go.order_expiration_date > NOW() AND go.give_time> 0  AND 
 			go.user_id = #{sessionId}
-		GROUP BY gm.order_cd;
+		GROUP BY go.order_cd;
 	</select>
 			
 	<update id="modifyGM" parameterType="GoodsManagement">

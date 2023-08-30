@@ -49,6 +49,7 @@
 				 });
 			 });
 			
+			//내 좌석 확인하기
 			function validationCheck(data) {
 				if (typeof data == 'undefined' || data == '' || data == null) {
 					return false;
@@ -84,7 +85,8 @@
 				}
 			 }); 
 			isloaded = true; 
-			 
+			
+
 			var $addForm = $('#addForm');
 			var $modifyForm = $('#modifyForm');
 
@@ -108,32 +110,53 @@
 				var seatNm = seatCd.substring(5);
 				var txt1 = seatNm + '번 좌석을 선택하시겠습니까?';
 				console.log(seatNm);
-				var date1 = new Date();
-								
-				var year = date1.getFullYear();
-				var month = date1.getMonth()+1;
-				var month1 = ('0'+month).slice(-2);
-				var day = ('0' + date1.getDate()).slice(-2);
-				var hours = ('0' + date1.getHours()).slice(-2); 
-				var minutes = ('0' + date1.getMinutes()).slice(-2);
-				var seconds = ('0' + date1.getSeconds()).slice(-2); 
-				var adT = year + '-' + month1  + '-' + day + " " + hours + ':' + minutes  + ':' + seconds;
 				
-				if($('input[name="admissionTime"]').val() == ''){
-					$('input[name="admissionTime"]').val(adT);
-				}else{
-					$('input[name="admissionTime"]').remove();
-				}
 				$('#seatCd').append(txt1);
 				$('input[name="seatCd"]').val(seatCd);
-				if($('input[name="goodsManagementCd"]').val()==''){
-					$('input[name="orderCd"]').remove();
-				};
+				
+				console.log($('input[name="orderCd"]').val());
+				console.log($('input[name="orderCd2"]').val());
 				
 			});
+			$(document).on('click','#resetAdd',function(){
+				$('#seatCd').append(' ');
+			
+			});
+			
+			
 			
 			 $addForm.on('click','#addBtn', function(){
-				$addForm.attr('action', '/seat/seatSelection').submit();			
+				var sid = $('input[name="sId"]').val();
+				var or = $('input[name="orderCd"]').val();
+				var or2 = $('input[name="orderCd2"]').val();
+				
+				
+				if(userId == ''){
+					alert("로그인이 필요합니다.");
+					return false;
+				}else if(or == '' && (or2 == 'undefined' || or2 == '' || or2 == null)){
+					alert("이용권이 필요합니다.");
+					return false;
+				}else{
+						
+					var date1 = new Date();
+					
+					var year = date1.getFullYear();
+					var month = date1.getMonth()+1;
+					var month1 = ('0'+month).slice(-2);
+					var day = ('0' + date1.getDate()).slice(-2);
+					var hours = ('0' + date1.getHours()).slice(-2); 
+					var minutes = ('0' + date1.getMinutes()).slice(-2);
+					var seconds = ('0' + date1.getSeconds()).slice(-2); 
+					var adT = year + '-' + month1  + '-' + day + " " + hours + ':' + minutes  + ':' + seconds;
+					//좌석 변경시 입장시간 변경되지 않도록
+					if($('input[name="admissionTime"]').val() == ''){
+						$('input[name="admissionTime"]').val(adT);
+					}else{
+						$('input[name="admissionTime"]').remove();
+					}
+				 $addForm.attr('action', '/seat/seatSelection').submit();			
+				}
 				
 			});
 			
@@ -142,21 +165,11 @@
 		
 			 });
 			 $(document).on('click', '.exit', function(){
-				 $('input[name="seatState"]').val('Y');
-				 var date1 = new Date();
-					
-				var year = date1.getFullYear();
-				var month = date1.getMonth()+1;
-				var month1 = ('0'+month).slice(-2);
-				var day = ('0' + date1.getDate()).slice(-2);
-				var hours = ('0' + date1.getHours()).slice(-2); 
-				var minutes = ('0' + date1.getMinutes()).slice(-2);
-				var seconds = ('0' + date1.getSeconds()).slice(-2); 
-				var leaveT = year + '-' + month1  + '-' + day + " " + hours + ':' + minutes  + ':' + seconds;
+				$('input[name="seatState"]').val('Y');
+				$('input[name="leaveTime"]').val('Y');
 				
-				$('input[name="leaveTime"]').val(leaveT);
+
 				
-				var adT = $('input[name="admissionTime"]').val();
 			 });
 			 
 			 
@@ -164,8 +177,87 @@
 			 $modifyForm.on('click','#modifyBtn', function(){
 				if($('input[name="leaveTime"]').val() == ''){
 					$modifyForm.attr('action', '/seat/seatSelection2').submit();
-				}else{				
-					$modifyForm.attr('action', '/goodsManagement/modifyGM').submit();			
+				}else{
+					var date1 = new Date();
+					
+					var year = date1.getFullYear();
+					var month = date1.getMonth()+1;
+					var month1 = ('0'+month).slice(-2);
+					var day = ('0' + date1.getDate()).slice(-2);
+					var hours = ('0' + date1.getHours()).slice(-2); 
+					var minutes = ('0' + date1.getMinutes()).slice(-2);
+					var seconds = ('0' + date1.getSeconds()).slice(-2); 
+					var leaveT = year + '-' + month1  + '-' + day + " " + hours + ':' + minutes  + ':' + seconds;
+					
+					$('input[name="leaveTime"]').val(leaveT);
+					
+					var adT = $('input[name="admissionTime2"]').val();
+					console.log(adT);
+					console.log(leaveT);
+
+					var dateA = new Date(adT);
+					var dateB = new Date(leaveT);
+					var diffMSec = dateB.getTime() - dateA.getTime();
+					console.log(dateA.getTime());
+					
+					var h = Math.floor((diffMSec / (1000 * 60 *60 )));
+					var m = Math.floor((diffMSec / (1000 * 60 )) % 60);
+					var s = Math.floor(diffMSec / 1000 ) % 60;
+					
+					 if (h < 10){
+		                    h = "0" + h;
+		                }
+					 if (s < 10){
+		                    s = "0" + s;
+		                }
+	                if (m < 10) {
+	                    m = "0" + m;
+	                }
+
+					var useTime = h+":"+m+":"+s			
+					console.log(h+":"+m+":"+s);
+					
+					$('input[name="useTime"]').val(useTime);
+					
+					var h2 = useTime.substring(0,useTime.indexOf(":"));
+					var m2 = useTime.substring(useTime.indexOf(":")+1,useTime.indexOf(":")+3);
+					var s2 = useTime.substr(useTime.length-2,2);
+					
+					var useTimeS = h2*60*60*1000 + m2*60*1000 +s2*1000;
+					
+					var give = $('input[name="giveTime2"]').val();
+					console.log(give);
+					
+					var h3 = give.substring(0,give.indexOf(":"));
+					var m3 = give.substring(give.indexOf(":")+1,give.indexOf(":")+3);
+					var s3 = give.substr(give.length-2,2);
+					
+					var giveS = h3*60*60*1000 + m3*60*1000 +s3*1000;
+					
+					var re = giveS - useTimeS;
+		
+					
+					var h4 = Math.floor((re / (1000 * 60 *60 )));
+					var m4 = Math.floor((re / (1000 * 60 )) % 60);
+					var s4 = Math.floor(re / 1000 ) % 60;
+					
+					 if (h4 < 10){
+		                    h4 = "0" + h4;
+		                }
+					 if (s4 < 10){
+		                    s4 = "0" + s4;
+		                }
+	                if (m4 < 10) {
+	                    m4 = "0" + m4;
+	                }
+					
+	                var remainingT = h4+":"+m4+":"+s4;
+	                console.log(remainingT);
+					$('input[name="remainingTime"]').val(remainingT);
+					$('input[name="giveTime"]').val(remainingT);
+	                
+					
+					$modifyForm.attr('action', '/seat/seatSelection').submit();			
 				}
 				
 			});
@@ -392,6 +484,8 @@
 						<h5 class="modal-title" id="seatCd"></h5>
 						<th:block th:if="${not #lists.isEmpty(useById)}" th:each="l : ${useById}">
 							<input type="hidden" name="goodsManagementCd" th:value = "${l.goodsManagementCd}">
+							<input type="hidden" name="giveTime3" th:value = "${l.order.giveTime}">
+							<input type="hidden" name="orderCd2" th:value = "${l.orderCd}">
 						</th:block>
 						<input type="hidden" name="orderCd" th:value = "${orderCd}">
 						<input type="hidden" name="goodsCd" th:value = "${goodsCd}">
@@ -407,7 +501,7 @@
 					<div class="modal-body">
 						<div class="form-group row">
 							<div class="col-md-9 col-sm-9">
-								<button type="reset" class="btn btn-primary" data-dismiss="modal">취소</button>
+								<button type="reset" class="btn btn-primary" id="resetAdd" data-dismiss="modal">취소</button>
 								<button type="button" class="btn btn-info" id="addBtn">확인</button>
 							</div>
 						</div>
@@ -429,10 +523,14 @@
 						<h5 class="modal-title" id="seatCd"></h5>
 						<th:block th:if="${not #lists.isEmpty(useById)}" th:each="l : ${useById}">
 							<input type="hidden" name="goodsManagementCd" th:value = "${l.goodsManagementCd}">
+							<input type="hidden" name="giveTime2" th:value = "${l.order.giveTime}">
+							<input type="hidden" name="admissionTime2" th:value = "${l.admissionTime}">
+							<input type="hidden" name="orderCd3" th:value = "${l.orderCd}">
 						</th:block>
 						<input type="hidden" class="form-control" name="seatState" readonly="readonly">
 						<input type="hidden" class="form-control" name="leaveTime" readonly="readonly">
 						<input type="hidden" class="form-control" name="useTime" readonly="readonly">
+						<input type="hidden" class="form-control" name="giveTime" readonly="readonly">
 						<input type="hidden" class="form-control" name="remainingTime" readonly="readonly">
 						<input type="hidden" class="form-control" name="seatCd" readonly="readonly">
 						<input type="button" class="change" name="changeSeat" value="변경">

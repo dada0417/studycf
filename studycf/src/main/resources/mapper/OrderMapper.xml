@@ -8,13 +8,19 @@
 		<id		column="order_cd"				property="orderCd"/>
 		<result column="goods_cd"			property="goodsCd"/>
 		<result column="user_id"			property="userId"/>
-		<result column="remaining_time"			property="remainingTime"/>
+		<result column="give_time"			property="giveTime"/>
 		<result column="price"					property="price"/>
 		<result column="order_insert_date"		property="orderInsertDate"/>
 		<result column="order_expiration_date"	property="orderExpirationDate"/>
 	</resultMap>
 
-
+	<update id="modifyOrder" parameterType="Order">
+		UPDATE goods_order
+		set give_time = #{giveTime}
+		WHERE
+			order_cd = #{orderCd};
+	
+	</update>
 	
 	<insert id="addOrder" parameterType="Order">
 		<selectKey resultType="String" keyProperty="orderCd" order="BEFORE">

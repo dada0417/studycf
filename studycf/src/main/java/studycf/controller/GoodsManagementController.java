@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import studycf.dto.GoodsManagement;
+import studycf.dto.Order;
 import studycf.service.GoodsManagementService;
 
 
@@ -26,6 +27,7 @@ public class GoodsManagementController {
 	
 	public final GoodsManagementService goodsManagementService;
 
+	
 	
 	public GoodsManagementController(GoodsManagementService goodsManagementServicee) {
 		this.goodsManagementService	=	goodsManagementServicee;
@@ -56,11 +58,10 @@ public class GoodsManagementController {
 	
 	
 	@GetMapping("/usingList")
-	public String availableGoodsListById(HttpSession session, Model model) {
+	public String availableGoodsListById(HttpSession session, Model model, Order order) {
 		String sessionId = (String)session.getAttribute("SID");
 		
 		 List<GoodsManagement> availableGoodsList = goodsManagementService.availableGoodsListById(sessionId);
-		
 		model.addAttribute("availableGoodsList", availableGoodsList);
 		
 		return "/goodsManagement/usingList";

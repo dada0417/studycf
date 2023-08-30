@@ -61,12 +61,16 @@ public class SeatController {
 	}
 	/*좌석 이용 */
 	@PostMapping("/seatSelection")
-	public String seatSelection(Seat seat, GoodsManagement goodsManagement) {
+	public String seatSelection(Seat seat, GoodsManagement goodsManagement, Order order) {
 		if(goodsManagement.getGoodsManagementCd() == null) {			
 			goodsManagementService.addGoodsManagement(goodsManagement);
 			seatService.seatSelection(seat);
+		}else if(goodsManagement.getLeaveTime() == null){
+			goodsManagementService.modifyGM(goodsManagement);
+			seatService.seatSelection(seat);
 		}else {
 			goodsManagementService.modifyGM(goodsManagement);
+			orderService.modifyOrder(order);
 			seatService.seatSelection(seat);
 		}
 		
@@ -79,15 +83,17 @@ public class SeatController {
 								@RequestParam(name="goodsManagementCd", required=false) String goodsManagementCd,
 								@RequestParam(name="orderCd", required=false) String orderCd,
 								@RequestParam(name="goodsCd", required=false) String goodsCd,
-								@RequestParam(name="orderExpirationDate", required=false) String orderExpirationDate
+								@RequestParam(name="orderExpirationDate", required=false) String orderExpirationDate,
+								@RequestParam(name="giveTime", required=false) String giveTime
 								,HttpSession session, GoodsManagement goodsManagement, Order order) {
 		String sessionId = (String)session.getAttribute("SID");
 		GoodsManagement useById = goodsManagementService.getUseById(sessionId);
-		
+		log.info("좌석이용 확인 : {}", useById);
 		
 		model.addAttribute("goodsManagementCd", goodsManagementCd);
 		model.addAttribute("orderCd", orderCd);
 		model.addAttribute("goodsCd", goodsCd);
+		model.addAttribute("giveTime", giveTime);
 		model.addAttribute("orderExpirationDate", orderExpirationDate);
 		model.addAttribute("useById", useById);
 		
