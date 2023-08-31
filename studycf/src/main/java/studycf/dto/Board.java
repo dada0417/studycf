@@ -1,5 +1,8 @@
 package studycf.dto;
 
+import java.util.List;
+import java.util.Map;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -18,4 +21,8 @@ public class Board {
 	private String boardView;
 	private String boardCommentView;
 	private String boardPw;
+	
+	private BoardCtg boardCtg;
+	private List<Map<String, String>> 	relFileWithBoard;
+	private List<TFile> 				tFile;
 }

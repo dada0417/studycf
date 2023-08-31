@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="studycf.mapper.BoardMapper">
+	<resultMap type="Board" 						id="boardResultMap">
+		<id column="board_cd"					property="boardCd"/>
+		<result column="board_ctg_cd"				property="boardCtgCd"/>
+		<result column="user_id"					property="userId"/>
+		<result column="board_title"			property="boardTitle"/>
+		<result column="board_content"			property="boardContent"/>
+		<result column="board_date"			property="boardDate"/>
+		<result column="board_views"			property="boardViews"/>
+		<result column="board_comment_view"	property="boardCommentView"/>
+		<result column="board_pw"			property="boardPw"/>
+		<collection property="tFile" ofType="TFile">
+			<id		column="file_cd"				property="fileCd"/>
+			<result	column="original_file_nm"		property="originalFileName"/>
+			<result	column="stored_file_path"		property="storedFilePath"/>
+			<result	column="file_size"				property="fileSize"/>
+			<result column="re_file_name"			property="reFileName"/>
+			<result	column="uploader_id"			property="uploaderId"/>
+			<result	column="upload_date"			property="uploadDate"/>
+			<result	column="updator_id"				property="updatorId"/>
+			<result	column="updated_date"			property="updatedDate"/>
+			<result	column="represent_img"		property="representImg"/>
+		</collection>
+	</resultMap>
+	<resultMap type="BoardCtg" 					id="BoardCtgResultMap">
+		<id column="board_ctg_cd"				property="boardCtgCd"/>
+		<result column="board_ctg_nm"				property="boardCtgNm"/>
+	</resultMap>
+
+	
+	<!-- 게시글 작성 -->
+	<insert id="addBoard" parameterType="Board">
+		INSERT INTO board
+			(board_cd
+			, board_ctg_cd
+			, user_id
+			, board_title
+			, board_content
+			, board_date
+			, board_views
+			, board_comment_view
+			, board_pw)
+		VALUES(
+			#{boardCd}	
+			, #{boardCtgCd}
+			, #{userId}
+			, #{boardTitle}
+			, #{boardContent}
+			, NOW()
+			, #{boardViews}
+			, 0
+			, #{boardPw})
+		<selectKey keyProperty="boardCd" resultType="String" order="BEFORE">
+			SELECT
+				CONCAT('board_', LPAD(MAX(CAST(SUBSTRING_INDEX(p.board_cd,'_',-1) AS UNSIGNED))+1,2,0))
+			FROM
+				board AS p
+		</selectKey>
+	</insert>
+	
+	
+	<!-- 게시글 카테고리 조회 -->
+	<select id="getBoardCtg" parameterType="String" resultMap="BoardCtgResultMap">
+		SELECT 
+			bc.board_ctg_cd
+			, bc.board_ctg_nm
+		FROM 
+			board_ctg AS bc;
+	</select>
+	
+	
+
+
+	
+
+	
+	
+
+	
+</mapper>

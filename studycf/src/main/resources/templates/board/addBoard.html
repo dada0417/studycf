@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/default}">
+<!-- 사용자 정의 title -->
+<th:block layout:fragment="customTitle">
+	<title th:text="${title}"></title>
+</th:block>
+<th:block layout:fragment="customJs">
+	<script type="text/javascript">
+	/* 아이디 중복 여부 검사 */
+	$(function(){
+		
+		function validationCheck(data){
+			if(typeof data == 'undefined' || data == '' || data == null){
+				return false;
+			}
+			return true;
+		}
+		
+		$(document).on('keyup', '#userId', function(){
+			$('#addUserForm input').not('#userId').prop('disabled', true);
+			$('#addUserForm button').not('#idCheck').prop('disabled', true);
+		});
+		
+		/*게시판 유효성 검사 */
+		$('#addOrderBtn').click(function(){
+			var inputObj = $('#addOrderForm').find('input');
+			
+			$.each(inputObj, function(){
+				var inputData = $(this).val();
+				var result = validationCheck(inputData);
+				
+				// 사용자가 입력하지 않은 경우
+				if(!result){
+					alert('필수 항목입니다. 입력해주세요');
+					$(this).focus();
+					return false;
+				}
+			});
+			
+		});
+	});
+	</script>
+</th:block>
+
+
+<th:block layout:fragment="customContents">  
+	<div class="col-md-12">
+		<div class="card">
+			<div class="header">
+				<h4 class="title">회원가입</h4>
+			</div>
+            <div class="content">
+				<form id="addOrderForm" th:action="@{/order/addOrder}" method="post">
+					<div class="row">
+                         <div class="col-md-12">
+                             <div class="form-group">
+                                 <input type="text" class="form-control border-input" placeholder="제목을 입력해주세요" id="boardTitle" name="boardTitle" required>
+                             </div>
+                         </div>
+                    </div>   
+                    <div class="row" >     
+                         <div class="col-md-12">
+                             <div class="form-group">
+                                 <input type="text" class="form-control border-input" placeholder="내용을 입력해주세요" name="boardContent" required>
+                             </div>
+                         </div>
+                     </div>
+                    
+                    
+                    
+                     <div class="text-center">
+                         <button type="submit" id="addOrderBtn" class="btn btn-info btn-fill btn-wd">등록</button>
+                     </div>
+                     <div class="clearfix"></div>
+                 </form>
+			</div>
+		</div>
+	</div>
+
+
+
+
+
+</html>
