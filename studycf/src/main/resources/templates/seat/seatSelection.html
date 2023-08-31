@@ -111,22 +111,18 @@
 				var txt1 = seatNm + '번 좌석을 선택하시겠습니까?';
 				console.log(seatNm);
 				
-				$('#seatCd').append(txt1);
+				$('#seatCd').text(txt1);
 				$('input[name="seatCd"]').val(seatCd);
 				
 				console.log($('input[name="orderCd"]').val());
 				console.log($('input[name="orderCd2"]').val());
 				
 			});
-			$(document).on('click','#resetAdd',function(){
-				$('#seatCd').append(' ');
-			
-			});
-			
+			 
 			
 			
 			 $addForm.on('click','#addBtn', function(){
-				var sid = $('input[name="sId"]').val();
+				var userId = $('input[name="userId"]').val();
 				var or = $('input[name="orderCd"]').val();
 				var or2 = $('input[name="orderCd2"]').val();
 				
@@ -501,7 +497,7 @@
 					<div class="modal-body">
 						<div class="form-group row">
 							<div class="col-md-9 col-sm-9">
-								<button type="reset" class="btn btn-primary" id="resetAdd" data-dismiss="modal">취소</button>
+								<button type="reset" class="btn btn-primary resetAdd" data-dismiss="modal">취소</button>
 								<button type="button" class="btn btn-info" id="addBtn">확인</button>
 							</div>
 						</div>
@@ -520,7 +516,6 @@
 			<div class="modal-dialog" role="document">
 		 		<div class="modal-content">
 					<div class="modal-header">
-						<h5 class="modal-title" id="seatCd"></h5>
 						<th:block th:if="${not #lists.isEmpty(useById)}" th:each="l : ${useById}">
 							<input type="hidden" name="goodsManagementCd" th:value = "${l.goodsManagementCd}">
 							<input type="hidden" name="giveTime2" th:value = "${l.order.giveTime}">

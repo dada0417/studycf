@@ -2,6 +2,7 @@ package studycf.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -65,7 +66,6 @@ public class OrderController {
 	//이용권 목록 조회
 	@GetMapping ("/orderList")
 	public String getOrderList(Model model) {
-		
 		List<Order> orderList = orderService.getOrderList();
 		
 		model.addAttribute("title", "이용권 목록");

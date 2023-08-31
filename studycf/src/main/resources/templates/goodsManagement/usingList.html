@@ -19,6 +19,32 @@
 </style>
 
 </th:block>
+<th:block layout:fragment="customJs">
+	<script type="text/javascript" th:src="@{/assets/js/jquery-3.6.0.min.js}"></script>
+	<script>
+	var isloaded = false;
+	$(function(){
+		 if(isloaded){
+			 return;
+		 } 
+		 //로그인 확인
+		$(document).ready(function(){
+			var isSubmit = true;
+			var userId = $('input[name="userId"]').val();
+			console.log(userId);
+			
+			if(userId == ''){
+				alert("로그인이 필요합니다.");
+				return false;
+			}
+		});
+		isloaded = true;
+ });
+	
+	</script>
+
+ 
+</th:block>
 
 <th:block layout:fragment="customContents">  
 	           <div class="container-fluid">
@@ -30,6 +56,7 @@
                                     <div class=" col-xs-5">
                                         <div style="margin-left: 20px; font-size:xx-large; font-weight:bolder; margin-top: 5px;">
                                             <h7 th:text="${l.goodsCtg.goodsCtgNm} + ${l.goods.goodsNm}"></h7>
+                                            <input type="hidden" name="userId" th:value="${session.SID}">
                                         </div>
                                     </div>
                                 </div>
