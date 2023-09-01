@@ -18,9 +18,8 @@ public class Board {
 	private String boardTitle;
 	private String boardContent;
 	private String boardDate;
-	private String boardView;
-	private String boardCommentView;
-	private String boardPw;
+	private String boardViews;
+	private String boardCommentNum;
 	
 	private BoardCtg boardCtg;
 	private List<Map<String, String>> 	relFileWithBoard;

@@ -8,39 +8,44 @@
 </th:block>
 <th:block layout:fragment="customJs">
 	<script type="text/javascript">
-	/* 아이디 중복 여부 검사 */
+	/* 게시글 등록 유효성검사 */
 	$(function(){
-		
-		function validationCheck(data){
-			if(typeof data == 'undefined' || data == '' || data == null){
-				return false;
-			}
-			return true;
-		}
-		
-		$(document).on('keyup', '#userId', function(){
-			$('#addUserForm input').not('#userId').prop('disabled', true);
-			$('#addUserForm button').not('#idCheck').prop('disabled', true);
-		});
-		
-		/*게시판 유효성 검사 */
-		$('#addOrderBtn').click(function(){
-			var inputObj = $('#addOrderForm').find('input');
-			
-			$.each(inputObj, function(){
-				var inputData = $(this).val();
-				var result = validationCheck(inputData);
-				
-				// 사용자가 입력하지 않은 경우
-				if(!result){
-					alert('필수 항목입니다. 입력해주세요');
-					$(this).focus();
-					return false;
-				}
-			});
-			
-		});
-	});
+					function validationCheck(data){
+						if(typeof data == 'undefined' || data == '' || data == null){
+							return false;
+						}
+						return true;
+					}
+					
+					$('#addBoardBtn').click(function(){
+						var isSubmit = true;
+						if($('#userId').val() == ''){
+							alert("로그인이 필요합니다.");
+							return false;
+						}
+						if($("select[name=boardCtgCd]").val() == ''){
+						    alert("카테고리를 선택해주세요.");
+						    isSubmit = false;
+						    return false;
+						}
+						if($("#boardTitle").val() == ""){
+						    alert("제목을 입력해주세요.");
+						    $("#boardTitle").focus();
+						    isSubmit = false;
+						    return false;
+						}
+						if($("#boardContent").val() == ""){
+						    alert("내용을 입력해주세요.");
+						    $("#boardContent").focus();
+						    isSubmit = false;
+						    return false;
+						}
+					
+						console.log('유효여부 폼전송할건지?' + isSubmit )
+						
+						if(isSubmit) $('#addBoardForm').submit();
+					});
+				});
 	</script>
 </th:block>
 
@@ -49,12 +54,22 @@
 	<div class="col-md-12">
 		<div class="card">
 			<div class="header">
-				<h4 class="title">회원가입</h4>
+				<h4 class="title">게시글 작성</h4>
 			</div>
             <div class="content">
-				<form id="addOrderForm" th:action="@{/order/addOrder}" method="post">
+				<form id="addBoardForm" th:action="@{/board/addBoard}" method="post" enctype="multipart/form-data" name="multiPart">
 					<div class="row">
-                         <div class="col-md-12">
+                         <div class="col-md-2">
+                         	<div class="form-group">
+                        	 	<select name="boardCtgCd" class="form-control border-input" id="ctg-select" style="margin-bottom: 25px;">
+									<option value="" id="chooseCtg"> :: 카테고리  :: </option>
+									<th:block th:if="${not #lists.isEmpty(boardCtgList)}" th:each="nm : ${boardCtgList}" name="boardCtg">
+									    <option id="boardCtgCd" th:value="${nm.boardCtgCd}">[[${nm.boardCtgNm}]]</option>
+									</th:block>
+								</select>
+                        	</div>
+                         </div>
+                         <div class="col-md-10">
                              <div class="form-group">
                                  <input type="text" class="form-control border-input" placeholder="제목을 입력해주세요" id="boardTitle" name="boardTitle" required>
                              </div>
@@ -63,15 +78,24 @@
                     <div class="row" >     
                          <div class="col-md-12">
                              <div class="form-group">
-                                 <input type="text" class="form-control border-input" placeholder="내용을 입력해주세요" name="boardContent" required>
+                            	 <textarea class="form-control border-input" style="min-height: 150px;"  name="boardContent" id="boardContent" placeholder="내용을 입력해주세요"></textarea>
+								 <input type="hidden" id="userId" name="userId" th:value="${session.SID}">
+								 <input type="hidden" >                             	
                              </div>
                          </div>
                      </div>
-                    
-                    
-                    
+                    <div class="row" >     
+                    	<div class="col-md-12">
+                             <div class="form-group">
+                                 <label for="file">첨부파일
+                                 </label>
+								<input type="file" name="boardImgFile" class="form-control Board-img border-input" accept="image/*"multiple>
+                             </div>
+                         </div>
+                     </div>
+                  
                      <div class="text-center">
-                         <button type="submit" id="addOrderBtn" class="btn btn-info btn-fill btn-wd">등록</button>
+                         <button type="button" id="addBoardBtn" class="btn btn-info btn-fill btn-wd">등록</button>
                      </div>
                      <div class="clearfix"></div>
                  </form>

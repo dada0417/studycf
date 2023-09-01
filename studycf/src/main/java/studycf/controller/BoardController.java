@@ -1,6 +1,7 @@
 package studycf.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -32,6 +33,27 @@ public class BoardController {
 	
 	private static final Logger log = LoggerFactory.getLogger(BoardController.class);
 	
+	/* 게시글 전체 목록 조회 */
+	@GetMapping("/boardList")
+	public String getBoardList(Model model
+							,@RequestParam(name = "currentPage", required = false, defaultValue = "1") int currentPage) {
+		
+		Map<String, Object> resultMap =  boardService.getBoardList(currentPage);
+		
+		log.info("resultMap 받기 : {}", resultMap);
+		log.info("resultMap.get(\"boardList\") : {}",resultMap.get("boardList"));
+		
+		model.addAttribute("title", 				"게시판");
+		model.addAttribute("resultMap", 			resultMap);
+		model.addAttribute("currentPage", 			currentPage);
+		model.addAttribute("boardList",				resultMap.get("boardList"));
+		model.addAttribute("lastPage", 				resultMap.get("lastPage"));
+		model.addAttribute("startPageNum", 			resultMap.get("startPageNum"));
+		model.addAttribute("endPageNum", 			resultMap.get("endPageNum"));
+		
+		
+		return "board/boardList";
+	}
 	
 	/* 게시글 등록 처리 */
 	@PostMapping("/addBoard")
@@ -71,9 +93,9 @@ public class BoardController {
 		List<BoardCtg> boardCtgList = boardService.getBoardCtg(boardCtg);
 		
 		model.addAttribute("title", "게시글 등록");
-		model.addAttribute("boardCtgCdList", boardCtgList);
+		model.addAttribute("boardCtgList", boardCtgList);
 		
-		log.info("boardCtgCdList : {}", boardCtgList);
+		log.info("boardCtgList : {}", boardCtgList);
 		
 		return "board/addBoard";
 	}

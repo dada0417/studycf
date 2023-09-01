@@ -37,16 +37,14 @@
 			,represent_img
 		) VALUES
 		<foreach collection="list" item="item" separator=",">
-			(
-				#{item.fileCd}
-				,#{item.originalFileName}
-				,#{item.storedFilePath}
-				,#{item.fileSize}
-				,#{item.reFileName}
-				,#{item.userId}
-				,NOW()
-				,#{item.representImg}
-			)
+			(#{item.fileCd}
+			,#{item.originalFileName}
+			,#{item.storedFilePath}
+			,#{item.fileSize}
+			,#{item.reFileName}
+			,#{item.userId}
+			,NOW()
+			,#{item.representImg});
 		</foreach>
 	</insert>
 	
@@ -55,12 +53,12 @@
 		/* 게시판, 파일 릴레이션 테이블 삽입*/
 		INSERT INTO rel_file_with_board
 		(
-			board_post_cd
+			board_cd
 			,file_cd
 		) VALUES
 		<foreach collection="list" item="item" separator=",">
 			(
-				#{item.boardPostCd}
+				#{item.boardCd}
 				,#{item.fileCd}
 			)
 		</foreach>
