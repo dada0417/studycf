@@ -32,6 +32,18 @@ public class BoardService {
 	
 	private static final Logger log = LoggerFactory.getLogger(BoardService.class);
 	
+	/* 게시글 코드로 상세 조회   */
+	public Board getBoardDetail(String boardCd) { 
+		Board board = boardMapper.getBoardDetail(boardCd); 
+		return board; 
+	}
+	
+	/* 게시글 조회수 증가 */
+	public int boardViewUpdate(String boardCd) { 
+		int result = boardMapper.boardViewUpdate(boardCd);
+		return result; 
+	}
+	
 
 	/* 게시글 전체 목록 조회 */
 	public Map<String, Object> getBoardList(int currentPage) {

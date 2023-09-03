@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+ 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/default.html}">
+<th:block layout:fragment="customTitle">
+		<title th:text="${title}"></title>
+</th:block>	
+
+<th:block layout:fragment="customJs">
+	<script type="text/javascript">
+	
+	</script>
+</th:block>
+
+<th:block layout:fragment = "customCss">
+	<style>
+	#list li{
+		float : right;
+		list-style : none;
+		padding : 10px;
+	}
+	.bIcon {
+		padding : 7px;
+	}
+	</style>
+
+
+</th:block>
+<th:block layout:fragment = "customContents">
+		<div class="content">
+            <div class="container-fluid">
+                  <div class="col-md-12" th:if="${not #lists.isEmpty(board)}" th:each="l : ${board}">
+                        <div class="card">
+                            <div class="header">
+                                <h4 class="title" th:text="${l.boardTitle}"></h4>
+                                <ul id="list">
+                                	<li ><p><i class="ti-eye bIcon"></i>[[${l.boardViews}]]</p></li>
+                                	<li ><p><i class="ti-time bIcon"></i>[[${l.boardDate}]]</p></li>
+                                	<li ><p><i class="ti-pencil bIcon"></i>[[${l.userId}]]</p></li>
+                                	
+                                </ul>
+                            </div>
+                            <hr>
+                            <div class="content">
+                               <div class="boardContent">
+                               		<h6>[[${l.boardContent}]]</h6>
+                               </div>
+                               <div>
+				                    <div class="product__details__pic">
+				                        <div class="product__details__pic__left product__thumb nice-scroll">
+				                        	<th:block th:if="${not #lists.isEmpty(l.tFile)}" th:each="t, i : ${l.tFile}">
+					                            <a class="pt active" th:data-img="${t.representImg}" th:href="@{#product-} + ${i.index+1}">
+					                                <img th:src="@{'/' + ${#strings.replace(t.storedFilePath,'\','/')}}" alt="">
+					                            </a>
+				                            </th:block>
+				                        </div>
+				                        <div class="product__details__slider__content">
+				                            <div class="product__details__pic__slider owl-carousel">
+				                            	<th:block th:if="${not #lists.isEmpty(l.tFile)}" th:each="t, i : ${l.tFile}">
+						                                <img th:data-hash="@{product-} + ${i.index+1}" class="product__big__img" th:src="@{'/' + ${#strings.replace(t.storedFilePath,'\','/')}}" alt="">
+						                        </th:block>
+				                            </div>
+				                        </div>
+				                    </div>
+            				 </div> 
+                             </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+</th:block>
+</html>

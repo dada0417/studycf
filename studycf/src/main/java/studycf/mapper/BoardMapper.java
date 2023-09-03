@@ -11,6 +11,12 @@ import studycf.dto.BoardCtg;
 @Mapper
 public interface BoardMapper {
 	
+	//게시글 코드로 상세 조회 
+	public Board getBoardDetail(String boardCd);
+	
+	//게시글 조회수 업데이트
+	public int boardViewUpdate(String boardCd);
+	
 	//게시글 전체 목록 조회 
 	public List<Map<String, Object>> getBoardList(Map<String, Object> paramMap);
 	

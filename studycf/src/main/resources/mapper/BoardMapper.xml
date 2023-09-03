@@ -29,9 +29,72 @@
 			<result	column="represent_img"		property="representImg"/>
 		</collection>
 	</resultMap>
-
+	<!-- 게시글 상세보기 -->
+	<select id="getBoardDetail" parameterType="String" resultMap="boardResultMap">
+		SELECT 
+			b.board_cd
+			, b.board_ctg_cd
+			, b.user_id
+			, b.board_title
+			, b.board_content
+			, b.board_date
+			, b.board_views
+			, b.board_comment_num
+			, sub.file_cd
+			, sub.original_file_nm
+			, sub.file_size
+			, sub.uploader_id
+			, sub.upload_date
+			, sub.updator_id
+			, sub.updated_date
+			, sub.represent_img
+			, sub.deleted_yn
+			, sub.re_file_name
+			, sub.board_cd
+		FROM 
+			board AS b
+		left JOIN
+			(select
+				st.file_cd
+				, st.original_file_nm
+				, st.file_size
+				, st.uploader_id
+				, st.upload_date
+				, st.updator_id
+				, st.updated_date
+				, st.represent_img
+				, st.deleted_yn
+				, st.re_file_name
+				, sr.board_cd
+			from
+				t_file AS st
+			INNER join
+				rel_file_with_board AS sr
+			ON
+				st.file_cd = sr.file_cd) AS sub
+		on
+			sub.board_cd = b.board_cd
+		<trim prefix="WHERE">
+			<if test="boardCd != null and boardCd != ''">
+				b.board_cd = #{boardCd}
+			</if>
+		</trim>
+	</select>
 	
+	<!-- 게시글 조회수 -->
+	<update id="boardViewUpdate" parameterType="String">
+		UPDATE 
+			board
+		SET
+			board_views = board_views+1
+		<trim prefix="WHERE">
+			<if test="boardCd != null and boardCd != ''">
+				board_cd = #{boardCd}
+			</if>
+		</trim>
+	</update>
 	
+	<!-- 게시글 목록 -->
 	<select id="getBoardList" parameterType="map" resultType="map" resultMap="boardResultMap">
 		SELECT
 			b.board_cd					

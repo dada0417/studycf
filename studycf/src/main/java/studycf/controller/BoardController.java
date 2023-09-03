@@ -33,6 +33,32 @@ public class BoardController {
 	
 	private static final Logger log = LoggerFactory.getLogger(BoardController.class);
 	
+	/* 게시글 코드로 상세 조회 */
+	/* 게시물 답글 조회  */
+	@GetMapping("/boardDetail")
+	public String getBoardDetail(Model model 
+								,@RequestParam(value = "boardCd", required = false) String boardCd
+								,@RequestParam(name = "currentPage", required = false, defaultValue = "1") int currentPage) {
+		Board board = boardService.getBoardDetail(boardCd);
+		
+		boardService.boardViewUpdate(boardCd);
+		
+		model.addAttribute("title", 			"게시글 상세보기");
+		model.addAttribute("board", 			board);
+		
+		log.info("boardcd : {}", boardCd);
+		log.info("board : {}", board);
+		
+		Map<String, Object> resultMap =  boardService.getBoardList(currentPage);
+		model.addAttribute("resultMap", 			resultMap);
+		model.addAttribute("currentPage", 			currentPage);
+		model.addAttribute("lastPage", 				resultMap.get("lastPage"));
+		model.addAttribute("startPageNum", 			resultMap.get("startPageNum"));
+		model.addAttribute("endPageNum", 			resultMap.get("endPageNum"));
+		
+		return "board/boardDetail";
+	}
+	
 	/* 게시글 전체 목록 조회 */
 	@GetMapping("/boardList")
 	public String getBoardList(Model model
