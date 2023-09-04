@@ -29,6 +29,35 @@
 			<result	column="represent_img"		property="representImg"/>
 		</collection>
 	</resultMap>
+	<!-- 다음글 보기 -->
+	<select id="getBoardNext" parameterType="String" resultMap="boardResultMap">
+		<![CDATA[
+		SELECT
+		    board_cd,
+		    board_title
+		 FROM
+		    board
+		 WHERE
+		  board_cd =
+		    (SELECT board_cd FROM board WHERE board_cd > #{boardCd}  ORDER BY board_cd LIMIT 1);
+		]]>
+	</select>
+	
+	<!-- 이전글 보기 -->
+	<select id="getBoardPre" parameterType="String" resultMap="boardResultMap">
+		<![CDATA[
+		SELECT
+		    board_cd,
+		    board_title
+		 FROM
+		    board
+		 WHERE
+		  board_cd =
+		    (SELECT board_cd FROM board WHERE board_cd < #{boardCd}  ORDER BY board_cd DESC LIMIT 1);
+		]]>
+	</select>
+		
+	
 	<!-- 게시글 상세보기 -->
 	<select id="getBoardDetail" parameterType="String" resultMap="boardResultMap">
 		SELECT 
@@ -51,6 +80,7 @@
 			, sub.deleted_yn
 			, sub.re_file_name
 			, sub.board_cd
+			, sub.stored_file_path
 		FROM 
 			board AS b
 		left JOIN
@@ -66,6 +96,7 @@
 				, st.deleted_yn
 				, st.re_file_name
 				, sr.board_cd
+				,st.stored_file_path
 			from
 				t_file AS st
 			INNER join

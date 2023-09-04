@@ -125,29 +125,29 @@
 	                </div>
 	                <div class="content">
 	                    <ul class="list-unstyled team-members">
-	                                <li th:if="${not #lists.isEmpty(availableGoodsList)}" th:each="l : ${availableGoodsList}">
-	                                    <div class="row" >
-	                                        <div class="col-xs-6" th:text="${l.goodsCtg.goodsCtgNm}">
-	                                     		       
-	                                        </div>
-	                                        <div class="col-xs-6" th:text="${l.goods.goodsNm}">
-	                                        </div>
-	                                    </div>
-	                                </li>
-	                                <li>
-	                                    <div class="row">
-	                                        <div class="col-xs-6">
-	                                      		누적 이용시간
-	                                        </div>
-	                                        <div class="col-xs-6" th:text="${totalTime}">
-	                                            <br />
-	                                            <span class="text-danger"><small>상세보기</small></span>
-	                                        </div>
-	
-	                                       
-	                                    </div>
-	                                </li>
-	                            </ul>
+                          <li th:if="${not #lists.isEmpty(availableGoodsList)}" th:each="l : ${availableGoodsList}">
+                              <div class="row" >
+                                  <div class="col-xs-6" th:text="${l.goodsCtg.goodsCtgNm}">
+                               		       
+                                  </div>
+                                  <div class="col-xs-6" th:text="${l.goods.goodsNm}">
+                                  </div>
+                              </div>
+                          </li>
+                          <li>
+                              <div class="row">
+                                  <div class="col-xs-6">
+                                		누적 이용시간
+                                  </div>
+                                  <div class="col-xs-6" th:text="${totalTime}">
+                                      <br />
+                                      <span class="text-danger"><small>상세보기</small></span>
+                                  </div>
+
+                                 
+                              </div>
+                          </li>
+                      </ul>
 	                </div>
 	            </div>
 	        </div>

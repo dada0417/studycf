@@ -11,6 +11,12 @@ import studycf.dto.BoardCtg;
 @Mapper
 public interface BoardMapper {
 	
+	//게시글 상세보기 페이지에서 다음글  보기
+	public Board getBoardNext(String boardCd);
+
+	//게시글 상세보기 페이지에서 이전글  보기
+	public Board getBoardPre(String boardCd);
+	
 	//게시글 코드로 상세 조회 
 	public Board getBoardDetail(String boardCd);
 	

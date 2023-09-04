@@ -37,24 +37,22 @@ public class BoardController {
 	/* 게시물 답글 조회  */
 	@GetMapping("/boardDetail")
 	public String getBoardDetail(Model model 
-								,@RequestParam(value = "boardCd", required = false) String boardCd
-								,@RequestParam(name = "currentPage", required = false, defaultValue = "1") int currentPage) {
+								,@RequestParam(value = "boardCd", required = false) String boardCd) {
 		Board board = boardService.getBoardDetail(boardCd);
+		Board boardPre = boardService.getBoardPre(boardCd);
+		Board boardNext = boardService.getBoardNext(boardCd);
 		
 		boardService.boardViewUpdate(boardCd);
 		
 		model.addAttribute("title", 			"게시글 상세보기");
 		model.addAttribute("board", 			board);
+		model.addAttribute("boardPre", 			boardPre);
+		model.addAttribute("boardNext", 		boardNext);
 		
 		log.info("boardcd : {}", boardCd);
 		log.info("board : {}", board);
-		
-		Map<String, Object> resultMap =  boardService.getBoardList(currentPage);
-		model.addAttribute("resultMap", 			resultMap);
-		model.addAttribute("currentPage", 			currentPage);
-		model.addAttribute("lastPage", 				resultMap.get("lastPage"));
-		model.addAttribute("startPageNum", 			resultMap.get("startPageNum"));
-		model.addAttribute("endPageNum", 			resultMap.get("endPageNum"));
+		log.info("boardPre : {}", boardPre);
+		log.info("boardNext : {}", boardNext);
 		
 		return "board/boardDetail";
 	}
