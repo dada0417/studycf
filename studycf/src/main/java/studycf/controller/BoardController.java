@@ -33,6 +33,36 @@ public class BoardController {
 	
 	private static final Logger log = LoggerFactory.getLogger(BoardController.class);
 	
+	/* 게시글수정 처리 */
+	@PostMapping("/modifyBoard")
+	public String modifyBoard(Board board, Model model) {
+		
+		int result = boardService.modifyBoard(board);
+		
+		log.info("result : {}", result);
+		
+		return "redirect:/board/boardList";
+	}
+	
+	/* 게시글수정 페이지 */
+	@GetMapping("/modifyBoard")
+	public String modifyBoard(Model model, BoardCtg boardCtg,
+							@RequestParam(name = "boardCd", required = false) String boardCd) {
+		
+		log.info("받아온 boardCd : {}", boardCd);
+		
+		Board board = boardService.getBoardDetail(boardCd);
+		
+		List<BoardCtg> boardCtgList = boardService.getBoardCtg(boardCtg);
+		
+		model.addAttribute("title", "게시글 수정");
+		model.addAttribute("board", board);
+		model.addAttribute("boardCtgCdList", boardCtgList);
+
+
+		return "board/modifyBoard";
+	}
+	
 	/* 게시글 코드로 상세 조회 */
 	/* 게시물 답글 조회  */
 	@GetMapping("/boardDetail")

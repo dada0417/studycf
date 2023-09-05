@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/default}">
+<!-- 사용자 정의 title -->
+<th:block layout:fragment="customTitle">
+	<title th:text="${title}"></title>
+</th:block>
+<th:block layout:fragment="customJs">
+
+	<script type="text/javascript">
+	/* 게시글 등록 유효성검사 */
+	$(function(){
+		function validationCheck(data){
+			if(typeof data == 'undefined' || data == '' || data == null){
+				return false;
+			}
+			return true;
+		}
+		
+		$('#addBoardBtn').click(function(){
+			var isSubmit = true;
+			if($('#userId').val() == ''){
+				alert("로그인이 필요합니다.");
+				return false;
+			}
+			if($("select[name=boardCtgCd]").val() == ''){
+			    alert("카테고리를 선택해주세요.");
+			    isSubmit = false;
+			    return false;
+			}
+			if($("#boardTitle").val() == ""){
+			    alert("제목을 입력해주세요.");
+			    $("#boardTitle").focus();
+			    isSubmit = false;
+			    return false;
+			}
+			if($("#boardContent").val() == ""){
+			    alert("내용을 입력해주세요.");
+			    $("#boardContent").focus();
+			    isSubmit = false;
+			    return false;
+			}
+		
+			console.log('유효여부 폼전송할건지?' + isSubmit )
+			
+			if(isSubmit) $('#addBoardForm').submit();
+		});
+		var fileInput = 1;
+		var maxFileNum = 4;
+		var minFileNum = 0;
+		//추가
+		$('#plus-button').on('click', function() {
+			if(fileInput < maxFileNum) {
+				var newLi = $(this).parent().clone(true);
+				newLi.children('.board-img').val('');
+				$(this).parent().parent().append(newLi);
+				
+				fileInput++;
+			} else {
+				alert("최대 올릴 수 있는 이미지의 개수는 4개입니다.");
+			}
+		});
+		//제거
+		$('#minus-button').on('click', function() {
+			if(fileInput > 1) {
+				$(this).parent().remove()
+				
+				fileInput--;
+			} else {
+				alert("더이상 지울 수 없습니다.");
+			}
+		});
+		
+		
+	});
+	</script>
+</th:block>
+
+
+<th:block layout:fragment="customContents">  
+	<div class="col-md-12">
+		<div class="card">
+			<div class="header">
+				<h4 class="title">게시글 작성</h4>
+			</div>
+            <div class="content">
+				<form id="modifyBoardForm" th:action="@{/board/modifyBoard}" method="post" enctype="multipart/form-data" name="multiPart">
+					<div class="row">
+                         <div class="col-md-2">
+                         	<div class="form-group">
+                        	 	<select name="boardCtgCd" class="form-control border-input" id="ctg-select" style="margin-bottom: 25px;">
+									<option value="" id="chooseCtg"> :: 카테고리  :: </option>
+									<th:block th:if="${not #lists.isEmpty(boardCtgList)}" th:each="nm : ${boardCtgList}" name="boardCtg">
+									    <option id="boardCtgCd" th:value="${nm.boardCtgCd}" th:selected="${board.boardCtgCd eq nm.boardCtgCd}">[[${nm.boardCtg.boardCtgNm}]]</option>
+									</th:block>
+								</select>
+                        	</div>
+                         </div>
+                         <div class="col-md-10">
+                             <div class="form-group">
+                                 <input type="text" class="form-control border-input" placeholder="제목을 입력해주세요" th:value="${board.boardTitle}" id="boardTitle" name="boardTitle" required>
+                             </div>
+                         </div>
+                    </div>   
+                    <div class="row" >     
+                         <div class="col-md-12">
+                             <div class="form-group">
+                            	 <textarea class="form-control border-input" style="min-height: 150px;" name="boardContent" id="boardContent" placeholder="내용을 입력해주세요">[[${board.boardContent}]]</textarea>
+								 <input type="hidden" id="userId" name="userId" th:value="${session.SID}">
+								 <input type="hidden" >                             	
+                             </div>
+                         </div>
+                     </div>
+                    <div class="row" >     
+                    	<div class="col-md-12">
+                             <div class="form-group">
+                                 <label for="file">첨부파일
+                                 </label>
+                                 <ul class="board-file-line" style="list-style: none;">
+									<li>
+										<input type="file" id="boardImgFile"  class=" board-img form-control border-input" name="boardImgFile" accept="image/*"multiple>
+										<button  type="button" id="plus-button">추가</button>
+										<button type="button" id="minus-button">삭제</button>
+									</li>
+								</ul>
+                             </div>
+                         </div>
+                     </div>
+                  
+                     <div class="text-center">
+                         <button type="button" id="addBoardBtn" class="btn btn-info btn-fill btn-wd">등록</button>
+                     </div>
+                     <div class="clearfix"></div>
+                 </form>
+			</div>
+		</div>
+	</div>
+
+
+
+
+
+</html>

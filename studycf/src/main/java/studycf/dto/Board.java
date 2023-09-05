@@ -22,6 +22,7 @@ public class Board {
 	private String boardCommentNum;
 	
 	private BoardCtg boardCtg;
+	private BoardComment 				boardComment;
 	private List<Map<String, String>> 	relFileWithBoard;
 	private List<TFile> 				tFile;
 }

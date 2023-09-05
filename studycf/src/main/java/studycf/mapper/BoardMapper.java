@@ -11,6 +11,10 @@ import studycf.dto.BoardCtg;
 @Mapper
 public interface BoardMapper {
 	
+	// 게시글 수정 
+	public int modifyBoard(Board board);
+		
+	
 	//게시글 상세보기 페이지에서 다음글  보기
 	public Board getBoardNext(String boardCd);
 

@@ -24,6 +24,18 @@
 		});
 	</script>
 </th:block>
+<th:block layout:fragment="customCss">
+	<style>
+		.addBtn {
+		color: #fff;
+		background: #26B99A;
+		border: 1px solid #169F85;
+		float:  right; 
+	}
+	
+	</style>
+
+</th:block>
 <th:block layout:fragment = "customContents">
 	<div class="container-fluid">
       <div class="row">
@@ -31,7 +43,7 @@
               <div class="card">
                   <div class="header">
                       <h4 class="title">게시판</h4>
-                      <p class="category">Here is a subtitle for this table</p>
+	                  <button type="button" class="btn addBtn" th:onclick = "|location.href='@{/board/addBoard}'|">게시물 작성하기</button>
                   </div>
                   <div class="content table-responsive table-full-width">
                       <table class="table table-striped">

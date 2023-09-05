@@ -29,6 +29,27 @@
 			<result	column="represent_img"		property="representImg"/>
 		</collection>
 	</resultMap>
+	<resultMap type="BoardComment" 					id="boardCommentResultMap">
+		<id column="board_comment_cd"			property="boardCommentCd"/>
+		<result column="board_cd"				property="boardCd"/>
+		<result column="board_ctg_cd"				property="boardCtgCd"/>
+		<result column="user_id"					property="userId"/>
+		<result column="board_comment_detail"	property="boardContentDetail"/>
+		<result column="board_comment_date"	property="boardCommentDate"/>
+		<result column="board_comment_state"	property="boardCommentState"/>
+	</resultMap>
+	
+	<update id="modifyBoard" parameterType="Board">
+		UPDATE 
+			board
+		SET
+			board_ctg_cd = #{boardCtgCd},
+			board_title = #{boardTitle},
+			board_content = #{boardContent}
+		WHERE
+			board_cd = #{boardCd};
+	</update>
+	
 	<!-- 다음글 보기 -->
 	<select id="getBoardNext" parameterType="String" resultMap="boardResultMap">
 		<![CDATA[

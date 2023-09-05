@@ -32,6 +32,13 @@ public class BoardService {
 	
 	private static final Logger log = LoggerFactory.getLogger(BoardService.class);
 	
+	/* 게시글 수정 */
+	public int modifyBoard(Board board) { 
+		int result = boardMapper.modifyBoard(board); 
+		log.info("board : {}", board);
+		return result;
+	}
+	
 	/*게시글 상세보기  다음글*/
 	public Board getBoardNext(String boardCd){
 		Board result = boardMapper.getBoardNext(boardCd);
