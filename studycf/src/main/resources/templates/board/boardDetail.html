@@ -10,17 +10,21 @@
 <script type="text/javascript" th:src="@{/assets/js/jquery-3.6.0.min.js}"></script>
 	<script>
 	$(function(){
-		
-		$(document).ready(function(){
-			var pre = $('.pre').val();
-			var next = $('.next').val();
-			console.log(pre);
-			console.log(next);
 			
+			var p = $('input[name="boPre"]').val();
+			console.log(p);
+		
+			if(p == 'undefined' || p == '' || p == null){
+				$('.preTitle').text('이전글이 없습니다.');
+			}
 			
-		});
-		
-		
+			var n = $('input[name="boNext"]').val();
+			console.log(n);
+			
+			if(n == 'undefined' || n == '' || n == null){
+				$('.nextTitle').text('다음글이 없습니다.');
+			}
+			
 	});
 	
 	
@@ -34,10 +38,17 @@
 	#list li{
 		float : right;
 		list-style : none;
-		padding : 10px;
+		padding-right : 10px;
 	}
 	.bIcon {
-		padding : 7px;
+		padding-right : 7px;
+	}
+	.listBtn {
+		color: #fff;
+		background: #26B99A;
+		border: 1px solid #169F85;
+		float:  right; 
+		margin: 20px;
 	}
 	</style>
 
@@ -49,23 +60,22 @@
             	<div class="row">
                   <div class="col-md-12" th:if="${not #lists.isEmpty(board)}" th:each="l : ${board}">
                         <div class="card">
-                            <div class="header">
-                                <h4 class="title" th:text="${l.boardTitle}"></h4>
+                            <div class="header row">
+                                <h4 class="title"> [ [[${l.boardCtg.boardCtgNm}]] ]   [[${l.boardTitle}]]</h4>
                                 <ul id="list">
                                 	<li ><p><i class="ti-eye bIcon"></i>[[${l.boardViews}]]</p></li>
                                 	<li ><p><i class="ti-time bIcon"></i>[[${l.boardDate}]]</p></li>
                                 	<li ><p><i class="ti-pencil bIcon"></i>[[${l.userId}]]</p></li>
-                                	
                                 </ul>
                             </div>
                             <hr>
                             <div class="content">
-                            	 <div class="row">
+                            	 <div class="row" style="padding-left: 20px; padding-right: 20px;">
 	                               <div class="boardContent">
-	                               		<h6>[[${l.boardContent}]]</h6>
+	                               		<h5>[[${l.boardContent}]]</h5>
 	                               </div>
                             	 </div>
-                               	<div class="row">
+                               	<div class="row" style="padding-left: 20px; padding-right: 20px;">
 				                    <div class="product__details__pic">
 				                        <div class="product__details__pic__left product__thumb nice-scroll">
 				                        	<th:block th:if="${not #lists.isEmpty(l.tFile)}" th:each="t, i : ${l.tFile}">
@@ -83,6 +93,11 @@
 				                        </div>
 				                    </div>
             					 </div> 
+            					 <div class="row" style="padding-left: 10px; padding-right: 10px;">
+	                               <div class="boardList">
+	                               		<button type="button" class="btn listBtn" th:onclick = "|location.href='@{/board/boardList}'|">목 록</button>
+	                               </div>
+                            	 </div>
             				 </div>
             			 </div>
             		</div>
@@ -92,24 +107,28 @@
             					 <div class="container-fluid">
 		            				 <div class="row">
 		            				 	<div>
-											<div th:if="${not #lists.isEmpty(boardPre)}" th:each="p : ${boardPre}">
-												<div class="pre" th:value="${p.boardCd}">
-													<span>[ 이전글 ]</span>
-													<span class="preTilte"><a th:href="@{/board/boardDetail(boardCd=${p.boardCd})}" th:text="${p.boardTitle}">
-		                                      		</a></span>
-												</div>	
+											<div>
+												<span>[ 이전글 ]</span>
+												<span class="preTitle">
+													<span th:if="${not #lists.isEmpty(boardPre)}" th:each="p : ${boardPre}">
+														<a th:href="@{/board/boardDetail(boardCd=${p.boardCd})}" th:text="${p.boardTitle}"></a>
+														<input type="hidden" name="boPre" th:value="${p.boardCd}">
+													</span>
+	                                      		</span>
 											</div>
 										</div>
 		            				 </div>
 		            				 <hr>
 		            				 <div class="row">
 		            				 	<div>
-											<div th:if="${not #lists.isEmpty(boardNext)}" th:each="n : ${boardNext}">
-												<div class="next" th:value="${n.boardCd}">
-													<span>[ 다음글 ]</span>
-													<span class="nextTitle"><a th:href="@{/board/boardDetail(boardCd=${n.boardCd})}" th:text="${n.boardTitle}">
-		                                      		</a></span>
-												</div>	
+											<div>
+												<span>[ 다음글 ]</span>
+												<span class="nextTitle">
+													<span  th:if="${not #lists.isEmpty(boardNext)}" th:each="n : ${boardNext}">
+														<a th:href="@{/board/boardDetail(boardCd=${n.boardCd})}" th:text="${n.boardTitle}"></a>
+		                                      			<input type="hidden" name="boNext" th:value="${n.boardCd}">
+	                                      			</span>
+	                                      		</span>
 											</div>
 										</div>
 		            				 </div>

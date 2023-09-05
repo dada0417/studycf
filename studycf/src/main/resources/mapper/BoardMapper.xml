@@ -69,6 +69,7 @@
 			, b.board_date
 			, b.board_views
 			, b.board_comment_num
+			, bc.board_ctg_nm
 			, sub.file_cd
 			, sub.original_file_nm
 			, sub.file_size
@@ -105,6 +106,10 @@
 				st.file_cd = sr.file_cd) AS sub
 		on
 			sub.board_cd = b.board_cd
+		inner join
+		board_ctg as bc
+		on
+		b.board_ctg_cd = bc.board_ctg_cd	
 		<trim prefix="WHERE">
 			<if test="boardCd != null and boardCd != ''">
 				b.board_cd = #{boardCd}
@@ -143,6 +148,7 @@
 			board_ctg as bc
 			on
 			b.board_ctg_cd = bc.board_ctg_cd
+		ORDER BY board_cd DESC
 		LIMIT #{startRow}, #{rowPerPage};
 	</select>
 	
