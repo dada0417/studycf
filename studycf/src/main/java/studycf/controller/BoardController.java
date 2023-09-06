@@ -1,9 +1,11 @@
 package studycf.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,27 +39,27 @@ public class BoardController {
 	@PostMapping("/modifyBoard")
 	public String modifyBoard(Board board, Model model) {
 		
-		int result = boardService.modifyBoard(board);
-		
-		log.info("result : {}", result);
+		boardService.modifyBoard(board);
 		
 		return "redirect:/board/boardList";
 	}
 	
 	/* 게시글수정 페이지 */
 	@GetMapping("/modifyBoard")
-	public String modifyBoard(Model model, BoardCtg boardCtg,
+	public String modifyBoard(Model model, BoardCtg boardCtg ,HttpSession session,
 							@RequestParam(name = "boardCd", required = false) String boardCd) {
 		
 		log.info("받아온 boardCd : {}", boardCd);
 		
 		Board board = boardService.getBoardDetail(boardCd);
-		
+		String userId = (String)session.getAttribute("SID");
+
 		List<BoardCtg> boardCtgList = boardService.getBoardCtg(boardCtg);
 		
 		model.addAttribute("title", "게시글 수정");
 		model.addAttribute("board", board);
-		model.addAttribute("boardCtgCdList", boardCtgList);
+		model.addAttribute("userId", userId);
+		model.addAttribute("boardCtgList", boardCtgList);
 
 
 		return "board/modifyBoard";

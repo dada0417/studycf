@@ -7,8 +7,8 @@
 	<title th:text="${title}"></title>
 </th:block>
 <th:block layout:fragment="customJs">
-
-	<script type="text/javascript">
+	<script type="text/javascript" th:src="@{/assets/js/jquery-3.6.0.min.js}"></script>
+	<script>
 	/* 게시글 등록 유효성검사 */
 	$(function(){
 		function validationCheck(data){
@@ -18,7 +18,7 @@
 			return true;
 		}
 		
-		$('#addBoardBtn').click(function(){
+		$('#modifyBoardBtn').click(function(){
 			var isSubmit = true;
 			if($('#userId').val() == ''){
 				alert("로그인이 필요합니다.");
@@ -44,7 +44,7 @@
 		
 			console.log('유효여부 폼전송할건지?' + isSubmit )
 			
-			if(isSubmit) $('#addBoardForm').submit();
+			if(isSubmit) $('#modifyBoardForm').submit();
 		});
 		var fileInput = 1;
 		var maxFileNum = 4;
@@ -89,10 +89,12 @@
 					<div class="row">
                          <div class="col-md-2">
                          	<div class="form-group">
+                         		<input type="hidden" name="boardCd" th:value = "${board.boardCd}">
+                         		<input type="hidden" name="userId" th:value = "${userId}">
                         	 	<select name="boardCtgCd" class="form-control border-input" id="ctg-select" style="margin-bottom: 25px;">
-									<option value="" id="chooseCtg"> :: 카테고리  :: </option>
-									<th:block th:if="${not #lists.isEmpty(boardCtgList)}" th:each="nm : ${boardCtgList}" name="boardCtg">
-									    <option id="boardCtgCd" th:value="${nm.boardCtgCd}" th:selected="${board.boardCtgCd eq nm.boardCtgCd}">[[${nm.boardCtg.boardCtgNm}]]</option>
+									<option value=""> :: 카테고리  :: </option>
+									<th:block th:if="${not #lists.isEmpty(boardCtgList)}" th:each="b : ${boardCtgList}">
+									    <option th:value="${b.boardCtgCd}" th:selected="${board.boardCtgCd eq b.boardCtgCd}">[[${b.boardCtg.boardCtgNm}]]</option>
 									</th:block>
 								</select>
                         	</div>
@@ -107,8 +109,6 @@
                          <div class="col-md-12">
                              <div class="form-group">
                             	 <textarea class="form-control border-input" style="min-height: 150px;" name="boardContent" id="boardContent" placeholder="내용을 입력해주세요">[[${board.boardContent}]]</textarea>
-								 <input type="hidden" id="userId" name="userId" th:value="${session.SID}">
-								 <input type="hidden" >                             	
                              </div>
                          </div>
                      </div>
@@ -118,7 +118,14 @@
                                  <label for="file">첨부파일
                                  </label>
                                  <ul class="board-file-line" style="list-style: none;">
-									<li>
+                                 	<li th:if="${not #lists.isEmpty(board.tFile)}" th:each="t ,status : ${board.tFile}">
+										<img id="prev" th:src="@{'/' + ${#strings.replace(t.storedFilePath,'\','/')}}" alt="..." style="width: 10vw; min-width: 50px;"/>
+										<input type="button" 	  class="representImgCheck" value="변경">
+										<input type="button" class="deleteImg" value="삭제">
+										<input type="hidden" th:value="N" class="representImg" name="representImg">
+										<input type="hidden" th:value="${t.fileCd}" name="fileCd">
+									</li>
+									<li th:unless="${not #lists.isEmpty(board.tFile)}">
 										<input type="file" id="boardImgFile"  class=" board-img form-control border-input" name="boardImgFile" accept="image/*"multiple>
 										<button  type="button" id="plus-button">추가</button>
 										<button type="button" id="minus-button">삭제</button>
@@ -129,7 +136,7 @@
                      </div>
                   
                      <div class="text-center">
-                         <button type="button" id="addBoardBtn" class="btn btn-info btn-fill btn-wd">등록</button>
+                         <button type="button" id="modifyBoardBtn" class="btn btn-info btn-fill btn-wd">등록</button>
                      </div>
                      <div class="clearfix"></div>
                  </form>

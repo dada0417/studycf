@@ -22,13 +22,15 @@
 <th:block layout:fragment="customJs">
 	<script type="text/javascript" th:src="@{/assets/js/jquery-3.6.0.min.js}"></script>
 	<script>
-	var isloaded = false;
+	
 	$(function(){
-		 if(isloaded){
-			 return;
-		 } 
+		function validationCheck(data){
+			if(typeof data == 'undefined' || data == '' || data == null){
+				return false;
+			}
+			return true;
+		}
 		 //로그인 확인
-		$(document).ready(function(){
 			var isSubmit = true;
 			var userId = $('input[name="userId"]').val();
 			console.log(userId);
@@ -37,9 +39,8 @@
 				alert("로그인이 필요합니다.");
 				return false;
 			}
-		});
-		isloaded = true;
- });
+		
+  	});
 	
 	</script>
 
@@ -48,6 +49,7 @@
 
 <th:block layout:fragment="customContents">  
 	           <div class="container-fluid">
+               <input type="hidden" name="userId" th:value="${session.SID}">
                 <div class="row" th:if="${not #lists.isEmpty(availableGoodsList)}" th:each="l : ${availableGoodsList}" th:onclick="|location.href='@{/seat/seatSelection(orderCd=${l.orderCd}, goodsCd=${l.goodsCd}, orderExpirationDate=${l.orderExpirationDate}, giveTime=${l.order.giveTime})}'|">
                     <div class="col-lg-3 col-sm-3" style="width: 100%">
                         <div class="card">
@@ -56,7 +58,6 @@
                                     <div class=" col-xs-5">
                                         <div style="margin-left: 20px; font-size:xx-large; font-weight:bolder; margin-top: 5px;">
                                             <h7 th:text="${l.goodsCtg.goodsCtgNm} + ${l.goods.goodsNm}"></h7>
-                                            <input type="hidden" name="userId" th:value="${session.SID}">
                                         </div>
                                     </div>
                                 </div>
@@ -79,12 +80,12 @@
                                       </div>
                                  </div>
                             </div>
-                            <div class="content" th:unless="${not #lists.isEmpty(availableGoodsList)}" style="font-size: large;">
-								사용할 수 있는 이용권이 없습니다.
-							</div>                        
                         </div>
                     </div>
                 </div>
+             	 <div class="content" th:unless="${not #lists.isEmpty(availableGoodsList)}" style="font-size: large;">
+					사용할 수 있는 이용권이 없습니다.
+				</div>                        
             </div>
 </th:block>
 </html>

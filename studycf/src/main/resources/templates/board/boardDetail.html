@@ -88,8 +88,8 @@
 													<i class="ti-more"></i>
 				                              </a>
 				                              <ul class="dropdown-menu">
-				                                <li  th:if="${session.SID =='id001'}"><a th:href="@{/board/modifyBoard(boardCd=${l.boardCd})}">수정</a></li>
-				                                <li  th:if="${session.SID =='${l.userId}'}"><a>삭제</a></li>
+				                                <li  th:if="${session.SID eq l.userId}"><a th:href="@{/board/modifyBoard(boardCd=${l.boardCd})}">수정</a></li>
+				                                <li  th:if="${session.SID eq l.userId}"><a>삭제</a></li>
 				                                <li th:if="${session.SID =='id001'}"><a>답글</a></li>
 				                              </ul>
 				                        </li>

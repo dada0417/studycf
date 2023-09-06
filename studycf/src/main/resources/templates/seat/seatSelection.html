@@ -19,11 +19,8 @@
 	</style>
 	
 	<script>
-		var isloaded = false;
 		 $(function(){
-			 if(isloaded){
-				 return;
-			 } 
+			
 			//이용중인 좌석 선택 방지
 			$(document).ready(function(){
 				
@@ -83,9 +80,7 @@
 						 }
 			 		}); 
 				}
-			 }); 
-			isloaded = true; 
-			
+			 }); 			
 
 			var $addForm = $('#addForm');
 			var $modifyForm = $('#modifyForm');

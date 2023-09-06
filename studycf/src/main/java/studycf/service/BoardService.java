@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import studycf.common.FileUtils;
@@ -34,10 +35,12 @@ public class BoardService {
 	
 	/* 게시글 수정 */
 	public int modifyBoard(Board board) { 
-		int result = boardMapper.modifyBoard(board); 
-		log.info("board : {}", board);
-		return result;
-	}
+
+		int	result = boardMapper.modifyBoard(board);
+			return result;
+		
+		}
+
 	
 	/*게시글 상세보기  다음글*/
 	public Board getBoardNext(String boardCd){

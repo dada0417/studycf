@@ -4,11 +4,11 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="studycf.mapper.FileMapper">
-	<delete id="deleteRelFileWithGoods" parameterType="String">
+	<delete id="deleteRelFileWithBoard" parameterType="String">
 		DELETE
 			rfwg
 		FROM
-			rel_file_with_goods AS rfwg
+			rel_file_with_board AS rfwg
 		WHERE
 			rfwg.flie_cd = #{deleteImg}
 	</delete>

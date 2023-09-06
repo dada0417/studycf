@@ -28,6 +28,10 @@
 			<result	column="updated_date"			property="updatedDate"/>
 			<result	column="represent_img"		property="representImg"/>
 		</collection>
+		<collection property="relFileWithBoard" ofType="Map">
+			<result	column="board_cd"	property="boardCd"/>
+			<result	column="file_cd"			property="fileCd"/>
+		</collection>
 	</resultMap>
 	<resultMap type="BoardComment" 					id="boardCommentResultMap">
 		<id column="board_comment_cd"			property="boardCommentCd"/>
@@ -81,56 +85,37 @@
 	
 	<!-- 게시글 상세보기 -->
 	<select id="getBoardDetail" parameterType="String" resultMap="boardResultMap">
-		SELECT 
-			b.board_cd
-			, b.board_ctg_cd
-			, b.user_id
-			, b.board_title
-			, b.board_content
-			, b.board_date
-			, b.board_views
-			, b.board_comment_num
-			, bc.board_ctg_nm
-			, sub.file_cd
-			, sub.original_file_nm
-			, sub.file_size
-			, sub.uploader_id
-			, sub.upload_date
-			, sub.updator_id
-			, sub.updated_date
-			, sub.represent_img
-			, sub.deleted_yn
-			, sub.re_file_name
-			, sub.board_cd
-			, sub.stored_file_path
-		FROM 
+		SELECT
+				b.board_cd
+				,b.board_ctg_cd
+				,b.user_id
+				,b.board_title
+				,b.board_content
+				,b.board_date
+				,b.board_views
+				,b.board_comment_num
+				,bc.board_ctg_nm
+				,rb.file_cd
+				,t.original_file_nm
+				,t.stored_file_path
+				,t.file_size
+				,t.represent_img
+				,t.deleted_yn
+				,t.re_file_name
+		FROM
 			board AS b
-		left JOIN
-			(select
-				st.file_cd
-				, st.original_file_nm
-				, st.file_size
-				, st.uploader_id
-				, st.upload_date
-				, st.updator_id
-				, st.updated_date
-				, st.represent_img
-				, st.deleted_yn
-				, st.re_file_name
-				, sr.board_cd
-				,st.stored_file_path
-			from
-				t_file AS st
 			INNER join
-				rel_file_with_board AS sr
-			ON
-				st.file_cd = sr.file_cd) AS sub
-		on
-			sub.board_cd = b.board_cd
-		inner join
-		board_ctg as bc
-		on
-		b.board_ctg_cd = bc.board_ctg_cd	
+			board_ctg AS bc
+			on
+			b.board_ctg_cd = bc.board_ctg_cd
+			left JOIN
+			rel_file_with_board AS rb
+			on
+			b.board_cd = rb.board_cd
+			left JOIN 
+			t_file AS t
+			on
+			t.file_cd = rb.file_cd	
 		<trim prefix="WHERE">
 			<if test="boardCd != null and boardCd != ''">
 				b.board_cd = #{boardCd}
