@@ -19,7 +19,6 @@ public class Board {
 	private String boardContent;
 	private String boardDate;
 	private String boardViews;
-	private String boardCommentNum;
 	
 	private BoardCtg boardCtg;
 	private BoardComment 				boardComment;

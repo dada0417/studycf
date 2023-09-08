@@ -9,11 +9,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import studycf.common.FileUtils;
 import studycf.dto.Board;
+import studycf.dto.BoardComment;
 import studycf.dto.BoardCtg;
 import studycf.mapper.BoardMapper;
 import studycf.mapper.FileMapper;
@@ -33,15 +33,30 @@ public class BoardService {
 	
 	private static final Logger log = LoggerFactory.getLogger(BoardService.class);
 	
+	/*게시글 댓글 수*/
+	public int commentCount(String boardCd) {
+		return boardMapper.commentCount(boardCd);
+	}
+	
+	/* 게시글 코드로 답글 조회 */
+	public List<BoardComment> getBoardCommentList(String boardCd){
+		List<BoardComment> boardCommentList = boardMapper.getBoardCommentList(boardCd); 
+		return boardCommentList; 
+	}
+	
+	/* 게시글 답글등록 */
+	public int addBoardComment(BoardComment boardComment) {
+		int result =  boardMapper.addBoardComment(boardComment); 
+		return result;
+	}
+	
 	/* 게시글 수정 */
 	public int modifyBoard(Board board) { 
-
 		int	result = boardMapper.modifyBoard(board);
 			return result;
 		
 		}
 
-	
 	/*게시글 상세보기  다음글*/
 	public Board getBoardNext(String boardCd){
 		Board result = boardMapper.getBoardNext(boardCd);

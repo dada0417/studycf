@@ -11,7 +11,6 @@
 		<result column="board_content"			property="boardContent"/>
 		<result column="board_date"			property="boardDate"/>
 		<result column="board_views"			property="boardViews"/>
-		<result column="board_comment_num"	property="boardCommentNum"/>
 		<association property="boardCtg" 	javaType="BoardCtg">
 			<id 	 column="board_ctg_cd" 	property="boardCtgCd"/>
 			<result  column="board_ctg_nm" 	property="boardCtgNm"/>
@@ -36,13 +35,64 @@
 	<resultMap type="BoardComment" 					id="boardCommentResultMap">
 		<id column="board_comment_cd"			property="boardCommentCd"/>
 		<result column="board_cd"				property="boardCd"/>
-		<result column="board_ctg_cd"				property="boardCtgCd"/>
 		<result column="user_id"					property="userId"/>
-		<result column="board_comment_detail"	property="boardContentDetail"/>
+		<result column="board_comment_detail"	property="boardCommentDetail"/>
 		<result column="board_comment_date"	property="boardCommentDate"/>
 		<result column="board_comment_state"	property="boardCommentState"/>
 	</resultMap>
+	<!-- 게시글 댓글 수 -->
+	<select id="commentCount" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			board_comment
+		Where
+			board_cd = #{boardCd};
+	</select>
 	
+	<!-- 게시글 댓글 리스트 조회 -->
+	<select id="getBoardCommentList" parameterType="String" resultMap="boardCommentResultMap">
+		SELECT 
+			c.board_comment_cd
+			, c.board_cd
+			, c.user_id
+			, c.board_comment_detail
+			, c.board_comment_date
+			, c.board_comment_state
+		FROM 
+			board_comment AS c
+		<trim prefix="WHERE">
+			<if test="boardCd != null and boardCd != ''">
+				board_cd = #{boardCd}
+			</if>
+		</trim>
+	</select>
+	
+	
+	<!-- 게시글 댓글 등록 -->
+	<insert id="addBoardComment" parameterType="boardComment">
+		INSERT INTO board_comment
+		(		 board_comment_cd
+				,board_cd
+				,user_id
+				,board_comment_detail
+				,board_comment_state
+				,board_comment_date
+		)VALUES	(
+					(SELECT
+						CONCAT('board_comment_', LPAD(MAX(CAST(SUBSTRING_INDEX(p.board_comment_cd,'_',-1) AS UNSIGNED))+1,2,0))
+					FROM
+						board_comment AS p)	
+						
+				,#{boardCd}
+				,#{userId}
+				,#{boardCommentDetail}
+				,'N'
+				,NOW()
+		);
+	</insert>
+	
+	<!-- 게시글 수정 -->
 	<update id="modifyBoard" parameterType="Board">
 		UPDATE 
 			board
@@ -93,7 +143,6 @@
 				,b.board_content
 				,b.board_date
 				,b.board_views
-				,b.board_comment_num
 				,bc.board_ctg_nm
 				,rb.file_cd
 				,t.original_file_nm
@@ -147,7 +196,6 @@
 			,b.board_content			
 			,b.board_date				
 			,b.board_views				
-			,b.board_comment_num	
 		FROM
 			board AS b
 			inner join
@@ -179,8 +227,7 @@
 			, board_title
 			, board_content
 			, board_date
-			, board_views
-			, board_comment_num)
+			, board_views)
 		VALUES(
 			sf_new_board_cd()
 			, #{boardCtgCd}

@@ -6,14 +6,23 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import studycf.dto.Board;
+import studycf.dto.BoardComment;
 import studycf.dto.BoardCtg;
 
 @Mapper
 public interface BoardMapper {
 	
+	//게시글 댓글 수 
+	public int commentCount(String boardCd);
+	
+	// 게시글 댓글 조회 
+	public List<BoardComment> getBoardCommentList(String boardCd);
+	
+	//게시글 댓글 등록
+	public int addBoardComment(BoardComment boardComment);
+	
 	// 게시글 수정 
 	public int modifyBoard(Board board);
-		
 	
 	//게시글 상세보기 페이지에서 다음글  보기
 	public Board getBoardNext(String boardCd);

@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import studycf.dto.Board;
+import studycf.dto.BoardComment;
 import studycf.dto.BoardCtg;
 import studycf.service.BoardService;
 
@@ -34,6 +35,19 @@ public class BoardController {
 	}
 	
 	private static final Logger log = LoggerFactory.getLogger(BoardController.class);
+	
+	/* 게시물 답글 등록 */
+	@PostMapping("/addBoardComment")
+	public String addBoardComment(BoardComment boardComment
+								,@RequestParam(name = "boardCd", required = false) String boardCd) {
+		
+		boardService.addBoardComment(boardComment);
+		
+		Board board = boardService.getBoardDetail(boardCd);
+		
+		return "redirect:/board/boardDetail?"+"boardCd=" + board.getBoardCd();
+	}
+	
 	
 	/* 게시글수정 처리 */
 	@PostMapping("/modifyBoard")
@@ -66,13 +80,15 @@ public class BoardController {
 	}
 	
 	/* 게시글 코드로 상세 조회 */
-	/* 게시물 답글 조회  */
+	/* 게시물 댓글 조회  */
 	@GetMapping("/boardDetail")
 	public String getBoardDetail(Model model 
 								,@RequestParam(value = "boardCd", required = false) String boardCd) {
 		Board board = boardService.getBoardDetail(boardCd);
 		Board boardPre = boardService.getBoardPre(boardCd);
 		Board boardNext = boardService.getBoardNext(boardCd);
+		List<BoardComment> commentList = boardService.getBoardCommentList(boardCd);
+		int commentCount = boardService.commentCount(boardCd);
 		
 		boardService.boardViewUpdate(boardCd);
 		
@@ -80,6 +96,8 @@ public class BoardController {
 		model.addAttribute("board", 			board);
 		model.addAttribute("boardPre", 			boardPre);
 		model.addAttribute("boardNext", 		boardNext);
+		model.addAttribute("commentList", 		commentList);
+		model.addAttribute("commentCount", 		commentCount);
 		
 		log.info("boardcd : {}", boardCd);
 		log.info("board : {}", board);
