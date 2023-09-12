@@ -4,13 +4,13 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="studycf.mapper.BoardMapper">
 	<resultMap type="Board" 						id="boardResultMap">
-		<id column="board_cd"					property="boardCd"/>
+		<id 	column="board_cd"					property="boardCd"/>
 		<result column="board_ctg_cd"				property="boardCtgCd"/>
 		<result column="user_id"					property="userId"/>
-		<result column="board_title"			property="boardTitle"/>
-		<result column="board_content"			property="boardContent"/>
-		<result column="board_date"			property="boardDate"/>
-		<result column="board_views"			property="boardViews"/>
+		<result column="board_title"				property="boardTitle"/>
+		<result column="board_content"				property="boardContent"/>
+		<result column="board_date"					property="boardDate"/>
+		<result column="board_views"				property="boardViews"/>
 		<association property="boardCtg" 	javaType="BoardCtg">
 			<id 	 column="board_ctg_cd" 	property="boardCtgCd"/>
 			<result  column="board_ctg_nm" 	property="boardCtgNm"/>
@@ -25,7 +25,7 @@
 			<result	column="upload_date"			property="uploadDate"/>
 			<result	column="updator_id"				property="updatorId"/>
 			<result	column="updated_date"			property="updatedDate"/>
-			<result	column="represent_img"		property="representImg"/>
+			<result	column="represent_img"			property="representImg"/>
 		</collection>
 		<collection property="relFileWithBoard" ofType="Map">
 			<result	column="board_cd"	property="boardCd"/>
@@ -33,13 +33,18 @@
 		</collection>
 	</resultMap>
 	<resultMap type="BoardComment" 					id="boardCommentResultMap">
-		<id column="board_comment_cd"			property="boardCommentCd"/>
-		<result column="board_cd"				property="boardCd"/>
+		<id		column="board_comment_cd"			property="boardCommentCd"/>
+		<result column="board_cd"					property="boardCd"/>
 		<result column="user_id"					property="userId"/>
-		<result column="board_comment_detail"	property="boardCommentDetail"/>
-		<result column="board_comment_date"	property="boardCommentDate"/>
-		<result column="board_comment_state"	property="boardCommentState"/>
+		<result column="board_comment_detail"		property="boardCommentDetail"/>
+		<result column="board_comment_date"			property="boardCommentDate"/>
+		<result column="board_comment_state"		property="boardCommentState"/>
+		<result column="parent_cd"					property="parentCd"/>
+		<result column="pa_order"					property="paOrder"/>
 	</resultMap>
+	
+
+
 	<!-- 게시글 댓글 수 -->
 	<select id="commentCount" resultType="int">
 		SELECT
@@ -49,7 +54,7 @@
 		Where
 			board_cd = #{boardCd};
 	</select>
-	
+
 	<!-- 게시글 댓글 리스트 조회 -->
 	<select id="getBoardCommentList" parameterType="String" resultMap="boardCommentResultMap">
 		SELECT 
@@ -59,13 +64,22 @@
 			, c.board_comment_detail
 			, c.board_comment_date
 			, c.board_comment_state
+			, c.parent_cd
+			, c.pa_order
 		FROM 
 			board_comment AS c
-		<trim prefix="WHERE">
+		<trim prefix="WHERE" prefixOverrides="and">
 			<if test="boardCd != null and boardCd != ''">
-				board_cd = #{boardCd}
+				c.board_cd = #{boardCd}
+			</if>
+			<if test="parentCd != null and parentCd != ''">
+				c.parent_cd = #{parentCd}
+			</if>
+			<if test="boardCommentCd != null and boardCommentCd != ''">
+				c.board_comment_cd = #{boardCommentCd}
 			</if>
 		</trim>
+		order by c.parent_cd, c.pa_order;
 	</select>
 	
 	
@@ -78,6 +92,8 @@
 				,board_comment_detail
 				,board_comment_state
 				,board_comment_date
+				,parent_cd
+				,pa_order
 		)VALUES	(
 					(SELECT
 						CONCAT('board_comment_', LPAD(MAX(CAST(SUBSTRING_INDEX(p.board_comment_cd,'_',-1) AS UNSIGNED))+1,2,0))
@@ -89,6 +105,8 @@
 				,#{boardCommentDetail}
 				,'N'
 				,NOW()
+				,#{parentCd}
+				,#{paOrder}
 		);
 	</insert>
 	

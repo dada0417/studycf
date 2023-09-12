@@ -27,10 +27,15 @@
 			
 			var $addCommentForm = $('#addCommentForm');
 			
+	
 			$addCommentForm.on('click','#addCommentBtn', function(){
 				var userId2 = $('#userIdC').val();
+				var commentCd = $('.reply').data('notifyid');
+				var parent = $('.reply').data('id');
 				var commentDetail = $('input[name="boardCommentDetail"]').val();
-				console.log(userId2);
+				$('input[name="boardCommentCd"]').val(commentCd);
+				$('input[name="parentCd"]').val(parent);
+
 				
 				if(userId2 == ''){
 					alert("로그인 후 등록 가능합니다.");
@@ -169,6 +174,18 @@
 				                    </div>
 				                </div>
 				                <div class="row" th:if="${not #lists.isEmpty(commentList)}" th:each="c:${commentList}" style="margin-left: 10px">    
+				                	<ul class="nav navbar-nav navbar-right">
+				                        <li class="dropdown">
+				                              <a href="#" class="dropdown-toggle modifyB" data-toggle="dropdown">
+													<i class="ti-more"></i>
+				                              </a>
+				                              <ul class="dropdown-menu">
+				                                <li  th:if="${session.SID eq c.userId}"><a>수정</a></li>
+				                                <li  th:if="${session.SID eq c.userId}"><a>삭제</a></li>
+				                                <li><a class="reply" data-toggle="modal" data-target="#addCommentModal" data-notifyid ="${commentList.boardCommentCd}" data-id ="${commentList.parentCd}">답글</a></li>
+				                              </ul>
+				                        </li>
+				                    </ul>
 				                    <h5 style="font-size: medium;" th:text="${c.userId}"></h5>
 			                        <p style="font-size: 15px;" th:text="${c.boardCommentDetail}"></p>
 	                                <ul style="list-style: none; float: left; padding-left: 0px;">
@@ -177,6 +194,7 @@
 											<a class="removeReview" style="color: red;" >
 												<input type="hidden" id="sId" name="sId" th:value="${session.SID}">
 												<input type="hidden" id="userId" name="userId" th:value="${c.userId}">
+												<input type="hidden" id="boardCommentCd" name="boardCommentCd" th:value="${c.boardCommentCd}">
 												삭제
 											</a>
 										</li>
@@ -249,10 +267,12 @@
 							</div>
 							<div class="form-group row">
 								<div class="col-md-3 col-sm-3">
-									<label class="control-label" for="boardCommentDetail">답글</label>
+									<label class="control-label" for="boardCommentDetail">댓글</label>
 								</div>
 								<div class="col-md-9 col-sm-9">
 									<input type="hidden" th:value="${board.boardCd}" name="boardCd">
+									<input type="hidden" name="boardCommentCd">
+									<input type="hidden" name="parentCd">
 									<input type="text" class="form-control" id="boardCommentDetail" name="boardCommentDetail" placeholder="작성해주세요.">
 								</div>
 							</div>

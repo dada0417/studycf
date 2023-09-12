@@ -33,14 +33,16 @@ public class BoardService {
 	
 	private static final Logger log = LoggerFactory.getLogger(BoardService.class);
 	
+
+	
 	/*게시글 댓글 수*/
 	public int commentCount(String boardCd) {
 		return boardMapper.commentCount(boardCd);
 	}
 	
-	/* 게시글 코드로 답글 조회 */
-	public List<BoardComment> getBoardCommentList(String boardCd){
-		List<BoardComment> boardCommentList = boardMapper.getBoardCommentList(boardCd); 
+	/* 게시글 코드로 댓글 조회 */
+	public List<BoardComment> getBoardCommentList(String boardCd, String parentCd, String boardCommentCd){
+		List<BoardComment> boardCommentList = boardMapper.getBoardCommentList(boardCd, parentCd, boardCommentCd); 
 		return boardCommentList; 
 	}
 	

@@ -16,5 +16,7 @@ public class BoardComment {
 	private String boardCommentDetail;
 	private String boardCommentDate;
 	private String boardCommentState;
+	private String parentCd;
+	private String paOrder;
 	
 }

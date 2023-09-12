@@ -21,6 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import studycf.dto.Board;
 import studycf.dto.BoardComment;
 import studycf.dto.BoardCtg;
+import studycf.dto.Seat;
 import studycf.service.BoardService;
 
 
@@ -36,14 +37,43 @@ public class BoardController {
 	
 	private static final Logger log = LoggerFactory.getLogger(BoardController.class);
 	
-	/* 게시물 답글 등록 */
+	
+	
+	/* 게시물 댓글 등록 */
 	@PostMapping("/addBoardComment")
 	public String addBoardComment(BoardComment boardComment
-								,@RequestParam(name = "boardCd", required = false) String boardCd) {
+								,@RequestParam(name = "boardCd", required = false) String boardCd
+								,@RequestParam(name = "parentCd", required = false) String parentCd
+								,@RequestParam(name = "boardCommentCd", required = false) String boardCommentCd) {
 		
-		boardService.addBoardComment(boardComment);
+		if(boardComment.getParentCd() == null) {
+			
+			List<BoardComment> commentPa = boardService.getBoardCommentList(boardCd, parentCd, boardCommentCd);
+			
+			if(commentPa.isEmpty()) {
+				boardComment.setParentCd("0");
+				boardService.addBoardComment(boardComment);
+			}else {
+				BoardComment recentList = commentPa.get(commentPa.size()-1);
+				String recentParent = recentList.getParentCd();
+				
+				boardComment.setParentCd(recentParent+1);
+				boardService.addBoardComment(boardComment);	
+			}
+		}else {
+			List<BoardComment> commentPa2 = boardService.getBoardCommentList(boardCd, parentCd, boardCommentCd);
+			BoardComment recentList2 = commentPa2.get(commentPa2.size()-1);
+			String paOrder = recentList2.getPaOrder();
+			if(paOrder == null) {
+				boardService.addBoardComment(boardComment);
+			}else {
+				boardComment.setPaOrder(paOrder+1);
+				boardService.addBoardComment(boardComment);
+			}
+		}
 		
 		Board board = boardService.getBoardDetail(boardCd);
+		
 		
 		return "redirect:/board/boardDetail?"+"boardCd=" + board.getBoardCd();
 	}
@@ -80,24 +110,28 @@ public class BoardController {
 	}
 	
 	/* 게시글 코드로 상세 조회 */
-	/* 게시물 댓글 조회  */
+	/* 게시물 댓글/답글 조회  */
 	@GetMapping("/boardDetail")
 	public String getBoardDetail(Model model 
-								,@RequestParam(value = "boardCd", required = false) String boardCd) {
+								,@RequestParam(value = "boardCd", required = false) String boardCd
+								,@RequestParam(value = "parentCd", required = false) String parentCd
+								,@RequestParam(value = "boardCommentCd", required = false) String boardCommentCd) {
+		
 		Board board = boardService.getBoardDetail(boardCd);
 		Board boardPre = boardService.getBoardPre(boardCd);
 		Board boardNext = boardService.getBoardNext(boardCd);
-		List<BoardComment> commentList = boardService.getBoardCommentList(boardCd);
+		List<BoardComment> commentList = boardService.getBoardCommentList(boardCd, parentCd, boardCommentCd);
+		
 		int commentCount = boardService.commentCount(boardCd);
 		
 		boardService.boardViewUpdate(boardCd);
 		
-		model.addAttribute("title", 			"게시글 상세보기");
-		model.addAttribute("board", 			board);
-		model.addAttribute("boardPre", 			boardPre);
-		model.addAttribute("boardNext", 		boardNext);
-		model.addAttribute("commentList", 		commentList);
-		model.addAttribute("commentCount", 		commentCount);
+		model.addAttribute("title", 				"게시글 상세보기");
+		model.addAttribute("board", 				board);
+		model.addAttribute("boardPre", 				boardPre);
+		model.addAttribute("boardNext", 			boardNext);
+		model.addAttribute("commentList", 			commentList);
+		model.addAttribute("commentCount", 			commentCount);
 		
 		log.info("boardcd : {}", boardCd);
 		log.info("board : {}", board);

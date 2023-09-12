@@ -57,7 +57,7 @@
                           </thead>
                           <tbody id="boardBody">
                               <tr th:if="${not #lists.isEmpty(boardList)}" th:each="l : ${boardList}">
-                              	<input type="hidden" th:value="${l.boardCd}">
+                              	<input type="hidden" name="boardCd" th:value="${l.boardCd}">
                               	<td th:text="${l.boardCtg.boardCtgNm}"></td>
                               	<td th:text="${l.boardTitle}"></td>
                               	<td th:text="${l.userId}"></td>

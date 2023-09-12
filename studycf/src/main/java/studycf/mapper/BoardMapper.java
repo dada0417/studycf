@@ -12,11 +12,12 @@ import studycf.dto.BoardCtg;
 @Mapper
 public interface BoardMapper {
 	
+	
 	//게시글 댓글 수 
 	public int commentCount(String boardCd);
 	
 	// 게시글 댓글 조회 
-	public List<BoardComment> getBoardCommentList(String boardCd);
+	public List<BoardComment> getBoardCommentList(String boardCd, String parentCd, String boardCommentCd);
 	
 	//게시글 댓글 등록
 	public int addBoardComment(BoardComment boardComment);
