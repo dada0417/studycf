@@ -28,14 +28,20 @@
 			var $addCommentForm = $('#addCommentForm');
 			
 	
+			$('input[name="rep"]').click(function(){
+				var commentCdV = $('input:radio[name="rep"]:checked').next().val();
+				var parentV = $('input:radio[name="rep"]:checked').next().next().val();
+				
+				$('#boardCommentCdV').val(commentCdV);
+				$('#parentCdV').val(parentV);
+				
+				console.log(commentCdV);
+				console.log(parentV);
+			});
+			
 			$addCommentForm.on('click','#addCommentBtn', function(){
 				var userId2 = $('#userIdC').val();
-				var commentCd = $('.reply').data('notifyid');
-				var parent = $('.reply').data('id');
 				var commentDetail = $('input[name="boardCommentDetail"]').val();
-				$('input[name="boardCommentCd"]').val(commentCd);
-				$('input[name="parentCd"]').val(parent);
-
 				
 				if(userId2 == ''){
 					alert("로그인 후 등록 가능합니다.");
@@ -102,6 +108,9 @@
 	.leave-btn {
 		margin: 10px 10px 15px 0px;
 	}
+	.liHover:hover{
+		background-color: #66615B;
+	}
 	</style>
 
 
@@ -110,9 +119,9 @@
 		<div class="content">
             <div class="container-fluid">
             	<div class="row">
-                  <div class="col-md-12" th:if="${not #lists.isEmpty(board)}" th:each="l : ${board}">
+                  <div class="col-md-12" th:if="${not #lists.isEmpty(board)}" th:each="l : ${board}" style="margin-bottom: 20px;">
                         <div class="card">
-                            <div class="content">
+                            <div class="content" style="padding-bottom: 30px;">
 	                            <div class="row">
 				                    <ul class="nav navbar-nav navbar-right">
 				                        <li class="dropdown">
@@ -174,31 +183,73 @@
 				                    </div>
 				                </div>
 				                <div class="row" th:if="${not #lists.isEmpty(commentList)}" th:each="c:${commentList}" style="margin-left: 10px">    
-				                	<ul class="nav navbar-nav navbar-right">
-				                        <li class="dropdown">
-				                              <a href="#" class="dropdown-toggle modifyB" data-toggle="dropdown">
-													<i class="ti-more"></i>
-				                              </a>
-				                              <ul class="dropdown-menu">
-				                                <li  th:if="${session.SID eq c.userId}"><a>수정</a></li>
-				                                <li  th:if="${session.SID eq c.userId}"><a>삭제</a></li>
-				                                <li><a class="reply" data-toggle="modal" data-target="#addCommentModal" data-notifyid ="${commentList.boardCommentCd}" data-id ="${commentList.parentCd}">답글</a></li>
-				                              </ul>
-				                        </li>
-				                    </ul>
-				                    <h5 style="font-size: medium;" th:text="${c.userId}"></h5>
-			                        <p style="font-size: 15px;" th:text="${c.boardCommentDetail}"></p>
-	                                <ul style="list-style: none; float: left; padding-left: 0px;">
-	                                	<li style="float: left; padding-right: 5px;"><p style="font-size: 12px;">[[${c.boardCommentDate}]]</p></li>
-	                                	<li style="float: left; font-size: small;" id="removeComment">
-											<a class="removeReview" style="color: red;" >
+					                <div class="row" th:if="${c.paOrder == null}" style="margin-left: 10px">    
+					                	<ul class="nav navbar-nav navbar-right">
+					                        <li class="dropdown">
+					                              <a href="#" class="dropdown-toggle modifyB" data-toggle="dropdown">
+														<i class="ti-more"></i>
+					                              </a>
+					                              <ul class="dropdown-menu">
+					                                <li  th:if="${session.SID eq c.userId}"><a style="color: #9A9A9A; font-size: 15px;">수정</a></li>
+					                                <li  th:if="${session.SID eq c.userId}"><a style="color: #9A9A9A; font-size: 15px;">삭제</a></li>
+					                                <li class="liHover">
+					                                	<label style="display: block; padding: 10px 15px;">답글
+						                                	<a class="reply" data-toggle="modal" data-target="#addCommentModal" style="color: #777;">
+						                                		<input  type="radio" name="rep" style="opacity: 0;">
+						                                		<input type="hidden" class="comCd" name="boardCommentCd" th:value="${c.boardCommentCd}">
+																<input type="hidden" class="paCd" name="parentCd" th:value="${c.parentCd}">
+						                                	</a>
+					                                	</label>
+					                                </li>
+					                              </ul>
+					                        </li>
+					                    </ul>
+					                    <h5 style="font-size: medium;" th:text="${c.userId}"></h5>
+				                        <p style="font-size: 15px;" th:text="${c.boardCommentDetail}"></p>
+		                                <ul style="list-style: none; float: left; padding-left: 0px;">
+		                                	<li style="float: left; padding-right: 5px;"><p style="font-size: 12px;">[[${c.boardCommentDate}]]</p></li>
+		                                	<li style="float: left; font-size: small;" id="removeComment">
 												<input type="hidden" id="sId" name="sId" th:value="${session.SID}">
 												<input type="hidden" id="userId" name="userId" th:value="${c.userId}">
-												<input type="hidden" id="boardCommentCd" name="boardCommentCd" th:value="${c.boardCommentCd}">
-												삭제
-											</a>
-										</li>
-	                                </ul>
+											</li>
+		                                </ul>
+		                            </div>
+					                <div class="row" th:unless="${c.paOrder == null}" style="margin-left: 10px;">    
+					                	<div style="width: 2%; float: left;">
+					                		<h5 style="font-size: medium;"><i class="ti-arrow-right"></i></h5>
+					                	</div>
+					                	<div style="width: 98%; float: right;">
+						                	<ul class="nav navbar-nav navbar-right">
+						                        <li class="dropdown">
+						                              <a href="#" class="dropdown-toggle modifyB" data-toggle="dropdown">
+															<i class="ti-more"></i>
+						                              </a>
+						                              <ul class="dropdown-menu">
+						                                <li  th:if="${session.SID eq c.userId}"><a>수정</a></li>
+						                                <li  th:if="${session.SID eq c.userId}"><a>삭제</a></li>
+						                                <li class="liHover">
+						                                	<label style="display: block; padding: 10px 15px;">답글
+							                                	<a class="reply" data-toggle="modal" data-target="#addCommentModal" style="color: #777;">
+							                                		<input  type="radio" name="rep" style="opacity: 0;">
+							                                		<input type="hidden" class="comCd" name="boardCommentCd" th:value="${c.boardCommentCd}">
+																	<input type="hidden" class="paCd" name="parentCd" th:value="${c.parentCd}">
+							                                	</a>
+						                                	</label>
+						                                </li>
+						                              </ul>
+						                        </li>
+						                    </ul>
+						                    <h5 style="font-size: medium;" th:text="${c.userId}"></h5>
+					                        <p style="font-size: 15px;" th:text="${c.boardCommentDetail}"></p>
+			                                <ul style="list-style: none; float: left; padding-left: 0px;">
+			                                	<li style="float: left; padding-right: 5px;"><p style="font-size: 12px;">[[${c.boardCommentDate}]]</p></li>
+			                                	<li style="float: left; font-size: small;" id="removeComment">
+													<input type="hidden" id="sId" name="sId" th:value="${session.SID}">
+													<input type="hidden" id="userId" name="userId" th:value="${c.userId}">
+												</li>
+			                                </ul>
+					                	</div>
+		                            </div>
 	                            </div>
 	                            <div class="text-center" th:unless="${not #lists.isEmpty(commentList)}" style="font-size: smaller;">
 									<h5>댓글이 없습니다.</h5>
@@ -271,8 +322,8 @@
 								</div>
 								<div class="col-md-9 col-sm-9">
 									<input type="hidden" th:value="${board.boardCd}" name="boardCd">
-									<input type="hidden" name="boardCommentCd">
-									<input type="hidden" name="parentCd">
+									<input type="hidden" id="boardCommentCdV" name="boardCommentCd">
+									<input type="hidden" id="parentCdV" name="parentCd">
 									<input type="text" class="form-control" id="boardCommentDetail" name="boardCommentDetail" placeholder="작성해주세요.">
 								</div>
 							</div>

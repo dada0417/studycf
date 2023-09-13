@@ -21,22 +21,49 @@
 					
 				$(location).attr('href','/board/boardDetail?boardCd='+boardCd);
 			});
+			
+			
+			$(document).on('click','.btn-default',function(){
+				var ctgCd = $('.btn-default').val()
+				console.log(ctgCd);
+				
+				
+				
+			})
 		});
+		
+		
+		
 	</script>
 </th:block>
 <th:block layout:fragment="customCss">
 	<style>
-		.addBtn {
+	.addBtn {
 		color: #fff;
 		background: #26B99A;
 		border: 1px solid #169F85;
 		float:  right; 
 	}
+	.ctgCheck li {
+		list-style: none;
+		float: left;
+		margin-right: 10px;
+		margin-bottom: 25px;
+			}
 	
 	</style>
 
 </th:block>
 <th:block layout:fragment = "customContents">
+	<div class="container-fluid">
+      <div class="row">
+      	<ul class="ctgCheck">
+      		<li><button class="btn btn-default btn-block" type="button" th:value="gong" th:onclick = "|location.href='@{/board/boardList(boardCtgCd=gong)}'|">공지사항</button> </li>
+      		<li><button class="btn btn-default btn-block" type="button" th:value="qna" th:onclick = "|location.href='@{/board/boardList(boardCtgCd=qna)}'|">자주묻는질문</button></li>
+      		<li><button class="btn btn-default btn-block" type="button" th:value="question" th:onclick = "|location.href='@{/board/boardList(boardCtgCd=question)}'|" >질문하기</button></li>
+      	</ul>
+      </div>
+    </div> 
 	<div class="container-fluid">
       <div class="row">
           <div class="col-md-12">

@@ -73,10 +73,7 @@
 				c.board_cd = #{boardCd}
 			</if>
 			<if test="parentCd != null and parentCd != ''">
-				c.parent_cd = #{parentCd}
-			</if>
-			<if test="boardCommentCd != null and boardCommentCd != ''">
-				c.board_comment_cd = #{boardCommentCd}
+				and c.parent_cd = #{parentCd}
 			</if>
 		</trim>
 		order by c.parent_cd, c.pa_order;
@@ -103,7 +100,7 @@
 				,#{boardCd}
 				,#{userId}
 				,#{boardCommentDetail}
-				,'N'
+				,'Y'
 				,NOW()
 				,#{parentCd}
 				,#{paOrder}
@@ -220,6 +217,11 @@
 			board_ctg as bc
 			on
 			b.board_ctg_cd = bc.board_ctg_cd
+		<trim prefix="WHERE">
+			<if test="boardCtgCd != null and boardCtgCd != ''">
+			 	b.board_ctg_cd = #{boardCtgCd}
+			</if>
+		</trim>	
 		ORDER BY board_cd DESC
 		LIMIT #{startRow}, #{rowPerPage};
 	</select>
@@ -253,7 +255,6 @@
 			, #{boardTitle}
 			, #{boardContent}
 			, NOW()
-			, #{boardViews}
 			, 0);
 	</insert>
 	

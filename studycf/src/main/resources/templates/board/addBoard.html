@@ -7,8 +7,8 @@
 	<title th:text="${title}"></title>
 </th:block>
 <th:block layout:fragment="customJs">
-
-	<script type="text/javascript">
+	<script type="text/javascript" th:src="@{/assets/js/jquery-3.6.0.min.js}"></script>
+	<script>
 	/* 게시글 등록 유효성검사 */
 	$(function(){
 		function validationCheck(data){

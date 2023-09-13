@@ -43,30 +43,43 @@ public class BoardController {
 	@PostMapping("/addBoardComment")
 	public String addBoardComment(BoardComment boardComment
 								,@RequestParam(name = "boardCd", required = false) String boardCd
-								,@RequestParam(name = "parentCd", required = false) String parentCd
-								,@RequestParam(name = "boardCommentCd", required = false) String boardCommentCd) {
+								,@RequestParam(name = "parentCd", required = false) String parentCd) {
+		log.info("boardCd : {}", boardCd);
+		log.info("parentCd : {}", parentCd);
+		log.info("boardComment : {}", boardComment);
 		
-		if(boardComment.getParentCd() == null) {
-			
-			List<BoardComment> commentPa = boardService.getBoardCommentList(boardCd, parentCd, boardCommentCd);
+		if(boardComment.getParentCd() == "") {
+			//댓글리스트
+			List<BoardComment> commentPa = boardService.getBoardCommentList(boardCd, parentCd);
 			
 			if(commentPa.isEmpty()) {
+				//댓글이 등록되지 않은 상태
 				boardComment.setParentCd("0");
 				boardService.addBoardComment(boardComment);
 			}else {
+				//댓글이 있을 때 댓글 추가, 리스트 마지막 값
 				BoardComment recentList = commentPa.get(commentPa.size()-1);
 				String recentParent = recentList.getParentCd();
+				log.info("recentParent : {}", recentParent);
 				
 				boardComment.setParentCd(recentParent+1);
+				
+				log.info("boardComment : {}", boardComment);
+				
 				boardService.addBoardComment(boardComment);	
 			}
 		}else {
-			List<BoardComment> commentPa2 = boardService.getBoardCommentList(boardCd, parentCd, boardCommentCd);
+			//댓글에 답글 달기
+			List<BoardComment> commentPa2 = boardService.getBoardCommentList(boardCd, parentCd);
+			//리스트가져오기
 			BoardComment recentList2 = commentPa2.get(commentPa2.size()-1);
 			String paOrder = recentList2.getPaOrder();
 			if(paOrder == null) {
+				//답댓이 없을 때 
+				boardComment.setPaOrder("0");
 				boardService.addBoardComment(boardComment);
 			}else {
+				//있을 때
 				boardComment.setPaOrder(paOrder+1);
 				boardService.addBoardComment(boardComment);
 			}
@@ -115,12 +128,12 @@ public class BoardController {
 	public String getBoardDetail(Model model 
 								,@RequestParam(value = "boardCd", required = false) String boardCd
 								,@RequestParam(value = "parentCd", required = false) String parentCd
-								,@RequestParam(value = "boardCommentCd", required = false) String boardCommentCd) {
+								) {
 		
 		Board board = boardService.getBoardDetail(boardCd);
 		Board boardPre = boardService.getBoardPre(boardCd);
 		Board boardNext = boardService.getBoardNext(boardCd);
-		List<BoardComment> commentList = boardService.getBoardCommentList(boardCd, parentCd, boardCommentCd);
+		List<BoardComment> commentList = boardService.getBoardCommentList(boardCd, parentCd);
 		
 		int commentCount = boardService.commentCount(boardCd);
 		
@@ -144,9 +157,11 @@ public class BoardController {
 	/* 게시글 전체 목록 조회 */
 	@GetMapping("/boardList")
 	public String getBoardList(Model model
-							,@RequestParam(name = "currentPage", required = false, defaultValue = "1") int currentPage) {
+							,@RequestParam(name = "currentPage", required = false, defaultValue = "1") int currentPage
+							,@RequestParam(value = "boardCtgCd", required = false) String boardCtgCd) {
+		log.info("boardCtgCd 받기 : {}", boardCtgCd);
 		
-		Map<String, Object> resultMap =  boardService.getBoardList(currentPage);
+		Map<String, Object> resultMap =  boardService.getBoardList(currentPage, boardCtgCd);
 		
 		log.info("resultMap 받기 : {}", resultMap);
 		log.info("resultMap.get(\"boardList\") : {}",resultMap.get("boardList"));

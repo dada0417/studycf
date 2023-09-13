@@ -41,8 +41,8 @@ public class BoardService {
 	}
 	
 	/* 게시글 코드로 댓글 조회 */
-	public List<BoardComment> getBoardCommentList(String boardCd, String parentCd, String boardCommentCd){
-		List<BoardComment> boardCommentList = boardMapper.getBoardCommentList(boardCd, parentCd, boardCommentCd); 
+	public List<BoardComment> getBoardCommentList(String boardCd, String parentCd){
+		List<BoardComment> boardCommentList = boardMapper.getBoardCommentList(boardCd, parentCd); 
 		return boardCommentList; 
 	}
 	
@@ -87,7 +87,7 @@ public class BoardService {
 	
 
 	/* 게시글 전체 목록 조회 */
-	public Map<String, Object> getBoardList(int currentPage) {
+	public Map<String, Object> getBoardList(int currentPage, String boardCtgCd) {
 		
 		int rowPerPage = 9;
 		
@@ -101,6 +101,7 @@ public class BoardService {
 		
 		paramMap.put("startRow", startRow);
 		paramMap.put("rowPerPage", rowPerPage);
+		paramMap.put("boardCtgCd", boardCtgCd);
 		
 		int startPageNum = 1;
 		int endPageNum = 10;
