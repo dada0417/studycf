@@ -7,6 +7,9 @@
 	</th:block>
 	<!-- 사용자 정의 JsScript 파일-->
 	<th:block layout:fragment="customJs">
+	   <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9696f86aa51589e438f5a1f67cab55ba&libraries=services,clusterer,drawing"></script>
+	 	
+	
 	</th:block>
 	
 	<!-- 사용자 정의 Script-->
@@ -126,30 +129,19 @@
                 	</div>
                 </div>
                 <div class="row">
-
-                    <div class="col-md-12">
-                        <div class="card">
-                            <div class="header">
-                                <h4 class="title">Users Behavior</h4>
-                                <p class="category">24 Hours performance</p>
-                            </div>
-                            <div class="content">
-                                <div id="chartHours" class="ct-chart"></div>
-                                <div class="footer">
-                                    <div class="chart-legend">
-                                        <i class="fa fa-circle text-info"></i> Open
-                                        <i class="fa fa-circle text-danger"></i> Click
-                                        <i class="fa fa-circle text-warning"></i> Click Second Time
-                                    </div>
-                                    <hr>
-                                    <div class="stats">
-                                        <i class="ti-reload"></i> Updated 3 minutes ago
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                   <div class="col-md-12">
+                       <div class="card">
+                           <div class="header">
+                               <h4 class="title">카페 위치</h4>
+                               <p class="category">전북 전주시 완산구 서신로 5 2층</p>
+                           </div>
+                           <div class="content">
+                               <div id="map" style="width:100%;height:400px;"></div>
+                           </div>
+                           
+                       </div>
+                   </div>
+               </div>
                 <div class="row">
                     <div class="col-md-6">
                         <div class="card">
@@ -199,5 +191,132 @@
                 </div>
             </div>
  
+			<script>
+				// 검색 결과 목록이나 마커를 mouserover했을 때 장소명을 표출할 인포윈도우를 생성합니다
+				var infowindow = new kakao.maps.InfoWindow({zIndex:1});
+
+				// 마커를 클릭했을 때 표출할 overlay를 생성합니다
+				var overlay = new kakao.maps.CustomOverlay();
+
+				var title = '하드스터디카페';
+				
+				// 커스텀 오버레이를 닫기 위해 호출되는 함수입니다 
+				function closeOverlay() {
+					overlay.setMap(null);
+				}
+				
+				var map = new kakao.maps.Map(document.getElementById('map'), { // 지도를 표시할 div
+				    center : new kakao.maps.LatLng(35.825754, 127.115603), // 지도의 중심좌표 
+				    level : 3 // 지도의 확대 레벨 
+				});
+				
+				// 주소-좌표 변환 객체를 생성합니다
+				var geocoder = new kakao.maps.services.Geocoder();
+				
+				// 마커 클러스터러를 생성합니다 
+				var clusterer = new kakao.maps.MarkerClusterer({
+					map: map, // 마커들을 클러스터로 관리하고 표시할 지도 객체 
+					averageCenter: true, // 클러스터에 포함된 마커들의 평균 위치를 클러스터 마커 위치로 설정 
+					minLevel: 10 // 클러스터 할 최소 지도 레벨 
+				});
+				// 검색결과 목록 또는 마커를 mouseover했을 때 호출되는 함수입니다
+				// 인포윈도우에 장소명을 표시합니다
+				function displayInfowindow(marker, title) {
+					var content = '<div style="padding:5px;z-index:1;">하드스터디카페</div>';
+
+					infowindow.setContent(content);
+					infowindow.open(map, marker);
+				}
+
+				// 지도를 재설정할 범위정보를 가지고 있을 LatLngBounds 객체를 생성합니다
+				var bounds = new kakao.maps.LatLngBounds();
+				
+				// 마커를 클릭했을 때 호출되는 함수입니다
+				function displayOverlay(marker, title, result, code) {
+					
+					var regionName = result.address.region_1depth_name.concat(' ', result.address.region_2depth_name, ' '),
+						jibun = result.address.address_name.substring(regionName.length);
+					
+					// 커스텀 오버레이에 표시할 컨텐츠 입니다
+					// 커스텀 오버레이는 아래와 같이 사용자가 자유롭게 컨텐츠를 구성하고 이벤트를 제어할 수 있기 때문에
+					// 별도의 이벤트 메소드를 제공하지 않습니다 
+					var content =	'<div class="overlayWrap">' + 
+									'	<div class="overlayInfo" style="background-color: white;">' + 
+									'		<div class="overlayTitle">하드스터디카페<div class="overlayClose" onclick="closeOverlay()" title="닫기"></div>' + 
+									'		</div>' + 
+									'		<div class="overlayBody">' + 
+									'			<div class="overlayDesc">' + 
+									'				<div class="ellipsis">' + result.address_name + '</div>' + 
+									'				<div class="jibun ellipsis">(지번) ' + jibun + ' </div>' + 
+									'				<div class="jibun ellipsis">(우) ' + result.road_address.zone_no + ' </div>' + 
+									'			</div>' + 
+									'		</div>' + 
+									'	</div>' +    
+									'</div>';
+					
+					
+					// 마커 위에 커스텀오버레이를 표시합니다
+					// 마커를 중심으로 커스텀 오버레이를 표시하기위해 CSS를 이용해 위치를 설정했습니다
+					overlay.setContent(content);
+					overlay.setPosition(marker.getPosition());       
+					
+					// 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
+					overlay.setMap(map);
+				}
+				
+				// 주소로 좌표를 검색합니다
+				geocoder.addressSearch('전북 전주시 완산구 서신로 5', function(result, status) {
+					
+					// 정상적으로 검색이 완료됐으면 
+					if (status === kakao.maps.services.Status.OK) {
+				
+						var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+						
+						console.log('result : ', result);
+						
+						// 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
+						// LatLngBounds 객체에 좌표를 추가합니다
+						bounds.extend(coords);
+						
+						// 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
+						map.setBounds(bounds);
+						
+						// 결과값으로 받은 위치를 마커로 표시합니다
+						// 마커 클러스터러로 관리할 마커 객체는 생성할 때 지도 객체를 설정하지 않습니다
+						var marker = new kakao.maps.Marker({
+							position: coords
+						});
+						
+						(function(marker, title, code) {
+							
+							// 마커와 검색결과 항목에 mouseover 했을때
+							// 해당 장소에 인포윈도우에 장소명을 표시합니다
+							// mouseout 했을 때는 인포윈도우를 닫습니다
+							kakao.maps.event.addListener(marker, 'mouseover', function() {
+								displayInfowindow(marker, title);
+							});
+
+							kakao.maps.event.addListener(marker, 'mouseout', function() {
+								infowindow.close();
+							});
+							
+							// 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
+							kakao.maps.event.addListener(marker, 'click', function() {
+								displayOverlay(marker, title, result[0], code);
+								bounds = null;
+								map.panTo(marker.getPosition());
+							});
+							
+						})(marker);
+						
+						// 클러스터러에 마커를 추가합니다
+						clusterer.addMarker(marker);
+						
+	
+					};
+				});
+			
+		        
+			</script>
 	</th:block>
 </html>
