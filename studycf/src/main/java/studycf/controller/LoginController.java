@@ -26,7 +26,11 @@ public class LoginController {
 	}
 	
 	
-	
+	@GetMapping("/logout")
+	public String logout(HttpSession session) {
+		session.invalidate();
+		return "redirect:/";
+	}
 	
 	
 	//아이디 찾기

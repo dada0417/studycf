@@ -22,11 +22,18 @@
                   </li>
 	              </th:block>
 	          	<th:block th:unless = "${session.SID == null}">
-				  <li>
-                  
-						<p>[[${session.SNAME}]]님</p>
-                     
-                  </li>
+	          		<ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
+                              <a href="#" class="dropdown-toggle modifyB" data-toggle="dropdown">
+									<i class="ti-face-smile"></i>
+									<p>[[${session.SNAME}]]님</p>
+                              </a>
+                              <ul class="dropdown-menu">
+                                <li><a style="color: #9A9A9A; font-size: 15px;" th:href="@{/logout}">LOGOUT</a></li>
+                    	      </ul>
+                        </li>
+                    </ul>
+				 
 	              </th:block>
               </ul>
           </div>
