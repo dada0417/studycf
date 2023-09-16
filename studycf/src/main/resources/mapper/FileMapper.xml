@@ -44,7 +44,8 @@
 			,#{item.reFileName}
 			,#{item.userId}
 			,NOW()
-			,#{item.representImg});
+			,#{item.representImg}
+			)
 		</foreach>
 	</insert>
 	

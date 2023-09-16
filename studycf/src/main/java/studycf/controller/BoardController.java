@@ -181,7 +181,6 @@ public class BoardController {
 	/* 게시글 등록 처리 */
 	@PostMapping("/addBoard")
 	public String addBoard(Board board
-						  ,RedirectAttributes reAttr
 					 	  ,@RequestParam MultipartFile[] boardImgFile
 						  ,HttpServletRequest request) {
 		
@@ -193,18 +192,12 @@ public class BoardController {
 		if("localhost".equals(serverName)) {
 			// server 가 localhost 일때 접근
 			fileRealPath = System.getProperty("user.dir") + "/src/main/resources/static/";
-			System.out.println(System.getProperty("user.dir"));
-			//fileRealPath = request.getSession().getServletContext().getRealPath("/WEB-INF/classes/static/");
 		}else {
 			//배포용 주소
 			fileRealPath = request.getSession().getServletContext().getRealPath("/WEB-INF/classes/static/");
 		}
 		
-		String boardCd = boardService.addBoard(board, boardImgFile, fileRealPath);
-		log.info("boardCd : {}", boardCd);
-		
-		reAttr.addAttribute("boardCd", boardCd);
-		
+		boardService.addBoard(board, boardImgFile, fileRealPath);
 		
 		return "redirect:/board/boardList";
 	}

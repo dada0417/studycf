@@ -80,6 +80,7 @@
 	                          	<th>제목</th>
 	                          	<th>작성자</th>
 	                          	<th>등록일</th>
+	                          	<th>조회</th>
                           	</tr>
                           </thead>
                           <tbody id="boardBody">
@@ -89,7 +90,7 @@
                               	<td th:text="${l.boardTitle}"></td>
                               	<td th:text="${l.userId}"></td>
                               	<td th:text="${l.boardDate}"></td>
-                    
+                              	<td th:text="${l.boardViews}"></td>                    
                               </tr>
                               <tr th:unless="${not #lists.isEmpty(boardList)}">
 								<td colspan="5">등록된 글이 없습니다.</td>
@@ -111,16 +112,7 @@
 			<a th:if="${currentPage < lastPage}" th:href="@{/board/boardList(currentPage=${currentPage + 1})}"><i class="fa fa-angle-right"></i></a>
 		</div>
 	</div>
-	<div class="row" id="addBoardBtn">
-		<div class="col-lg-6 col-md-6 col-sm-6">
-			<div class="cart__btn update__btn">
-				<a th:href="@{/board/addBoard}" 
-				   th:if="${session.SID =='id001'}">
-					게시글 작성하기
-				</a>
-			</div>
-		</div>
-	</div>
+	
 </th:block>
 
 </html>

@@ -89,10 +89,11 @@ public class BoardService {
 	/* 게시글 전체 목록 조회 */
 	public Map<String, Object> getBoardList(int currentPage, String boardCtgCd) {
 		
+		//페이지 당 게시글 수
 		int rowPerPage = 9;
-		
+		//게시글 전체 수
 		double rowCount = boardMapper.getBoardCount();
-		
+		//시작페이지 마지막페이지 계산
 		int lastPage = (int) Math.ceil(rowCount / rowPerPage);
 		
 		int startRow = (currentPage - 1) * rowPerPage;
@@ -135,12 +136,7 @@ public class BoardService {
 	
 	
 	/* 게시글 등록 */
-	public String addBoard(Board board, MultipartFile[] boardImgFile, String fileRealPath) { 
-		
-		// 1. 파일 업로드
-		// 2. 파일 업로드 성공시 파일 DB 인서트
-		// 3. 게시글 인서트
- 		// 4. 결과값 리턴
+	public void addBoard(Board board, MultipartFile[] boardImgFile, String fileRealPath) { 
 		
 		boolean fileCheck = true;
 		
@@ -174,19 +170,13 @@ public class BoardService {
 				relationFileList.add(m);
 			}
 			
-			System.out.println(relationFileList);
 			fileMapper.uploadRelationFileWithBoard(relationFileList);
 			
-			return boardCd;
  		}else {
  			
  			boardMapper.addBoard(board);
 			log.info("add 이후 board : {}", board);
 			
-			String boardCd = board.getBoardCd();
-			log.info("boardCd : {}", boardCd);
-			
-			return boardCd;
  		}
 	
 	}

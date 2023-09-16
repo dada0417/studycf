@@ -111,6 +111,11 @@
 	.liHover:hover{
 		background-color: #66615B;
 	}
+	img {
+	  width: 80%;
+	  height: 80%;
+	  object-fit: cover;
+	}
 	</style>
 
 
@@ -153,20 +158,11 @@
 	                               </div>
                             	 </div>
                                	<div class="row" style="padding-left: 20px; padding-right: 20px;">
-				                    <div class="product__details__pic">
-				                        <div class="product__details__pic__left product__thumb nice-scroll">
-				                        	<th:block th:if="${not #lists.isEmpty(l.tFile)}" th:each="t, i : ${l.tFile}">
-					                            <a class="pt active" th:data-img="${t.representImg}" th:href="@{#product-} + ${i.index+1}">
-					                                <img th:src="@{'/' + ${#strings.replace(t.storedFilePath,'\','/')}}" alt="">
-					                            </a>
-				                            </th:block>
-				                        </div>
-				                        <div class="product__details__slider__content">
-				                            <div class="product__details__pic__slider owl-carousel">
-				                            	<th:block th:if="${not #lists.isEmpty(l.tFile)}" th:each="t, i : ${l.tFile}">
-						                                <img th:data-hash="@{product-} + ${i.index+1}" class="product__big__img" th:src="@{'/' + ${#strings.replace(t.storedFilePath,'\','/')}}" alt="">
-						                        </th:block>
-				                            </div>
+				                    <div class="boardImgList">
+				                        <div class="boardImg">
+			                            	<th:block th:if="${not #lists.isEmpty(l.tFile)}" th:each="t, i : ${l.tFile}">
+					                                <img th:data-hash="@{product-} + ${i.index+1}" class="product__big__img" th:src="@{'/' + ${#strings.replace(t.storedFilePath,'\','/')}}" alt="">
+					                        </th:block>
 				                        </div>
 				                    </div>
             					 </div> 
