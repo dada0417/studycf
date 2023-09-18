@@ -44,6 +44,23 @@
 	</resultMap>
 	
 
+	<!-- 댓글 수정  -->
+	<update id="modifyComment" parameterType="BoardComment">
+		UPDATE
+			board_comment
+		<trim prefix="SET" prefixOverrides=",">
+			<if test="boardCommentDetail != null and boardCommentDetail != ''">
+				board_comment_detail = #{boardCommentDetail}
+			</if>		
+			<if test="boardCommentState != null and boardCommentState != ''">
+				,board_comment_state = #{boardCommentState}
+			</if>		
+		</trim>	
+		WHERE
+			board_comment_cd = #{boardCommentCd}
+	
+	</update>
+
 
 	<!-- 게시글 댓글 수 -->
 	<select id="commentCount" resultType="int">
@@ -52,7 +69,7 @@
 		FROM
 			board_comment
 		Where
-			board_cd = #{boardCd};
+			board_cd = #{boardCd} and board_comment_state = 'Y';
 	</select>
 
 	<!-- 게시글 댓글 리스트 조회 -->
@@ -75,6 +92,7 @@
 			<if test="parentCd != null and parentCd != ''">
 				and c.parent_cd = #{parentCd}
 			</if>
+				and c.board_comment_state = 'Y'
 		</trim>
 		order by c.parent_cd, c.pa_order;
 	</select>
@@ -82,28 +100,27 @@
 	
 	<!-- 게시글 댓글 등록 -->
 	<insert id="addBoardComment" parameterType="boardComment">
-		INSERT INTO board_comment
-		(		 board_comment_cd
-				,board_cd
-				,user_id
-				,board_comment_detail
-				,board_comment_state
-				,board_comment_date
-				,parent_cd
-				,pa_order
-		)VALUES	(
-					(SELECT
-						CONCAT('board_comment_', LPAD(MAX(CAST(SUBSTRING_INDEX(p.board_comment_cd,'_',-1) AS UNSIGNED))+1,2,0))
-					FROM
-						board_comment AS p)	
-						
-				,#{boardCd}
-				,#{userId}
-				,#{boardCommentDetail}
-				,'Y'
-				,NOW()
-				,#{parentCd}
-				,#{paOrder}
+		<selectKey resultType="String" keyProperty="boardCommentCd" order="BEFORE">
+			SELECT sf_new_board_comment_cd()
+		</selectKey>
+		INSERT INTO board_comment		 
+			(board_comment_cd
+			,board_cd
+			,user_id
+			,board_comment_detail
+			,board_comment_state
+			,board_comment_date
+			,parent_cd
+			,pa_order)
+		VALUES(
+			sf_new_board_comment_cd()
+			,#{boardCd}
+			,#{userId}
+			,#{boardCommentDetail}
+			,'Y'
+			,NOW()
+			,#{parentCd}
+			,#{paOrder}
 		);
 	</insert>
 	

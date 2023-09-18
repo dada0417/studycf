@@ -12,6 +12,8 @@ import studycf.dto.BoardCtg;
 @Mapper
 public interface BoardMapper {
 	
+	//댓글 수정
+	public int modifyComment(BoardComment boardCommentCd);
 	
 	//게시글 댓글 수 
 	public int commentCount(String boardCd);

@@ -31,9 +31,14 @@
 			$('input[name="rep"]').click(function(){
 				var commentCdV = $('input:radio[name="rep"]:checked').next().val();
 				var parentV = $('input:radio[name="rep"]:checked').next().next().val();
+				var detail = $('input:radio[name="rep"]:checked').next().next().next().val();
 				
 				$('#boardCommentCdV').val(commentCdV);
 				$('#parentCdV').val(parentV);
+				$('#boardCommentD').val(detail);
+				$('#boardCommentCdV2').val(commentCdV);
+				$('#boardCommentD2').val(detail);
+				
 				
 				console.log(commentCdV);
 				console.log(parentV);
@@ -55,6 +60,24 @@
 				 $addCommentForm.attr('action', '/board/addBoardComment').submit();			
 				
 			});
+			
+			$('#modifyCommentForm').on('click','#modifyCommentBtn', function(){
+				var userId2 = $('#userIdC').val();
+				var commentDetail = $('input[name="boardCommentDetail"]').val();
+				
+				if(userId2 == ''){
+					alert("로그인 후 등록 가능합니다.");
+					return false;
+				}else if(commentDetail == ''){
+					alert("댓글 내용을 입력해주세요.");
+					return false;
+					
+				}
+				
+				$('#modifyCommentForm').attr('action', '/board/modifyComment').submit();			
+				
+			});
+			
 			
 	});
 	
@@ -180,20 +203,36 @@
 				                </div>
 				                <div class="row" th:if="${not #lists.isEmpty(commentList)}" th:each="c:${commentList}" style="margin-left: 10px">    
 					                <div class="row" th:if="${c.paOrder == null}" style="margin-left: 10px">    
+					                	<div th:if="${c.boardCommentState == 'Y'}">
 					                	<ul class="nav navbar-nav navbar-right">
 					                        <li class="dropdown">
 					                              <a href="#" class="dropdown-toggle modifyB" data-toggle="dropdown">
 														<i class="ti-more"></i>
 					                              </a>
 					                              <ul class="dropdown-menu">
-					                                <li  th:if="${session.SID eq c.userId}"><a style="color: #9A9A9A; font-size: 15px;">수정</a></li>
-					                                <li  th:if="${session.SID eq c.userId}"><a style="color: #9A9A9A; font-size: 15px;">삭제</a></li>
+					                                <li  th:if="${session.SID eq c.userId}" class="liHover">
+					                                	<label style="display: block; padding: 10px 15px;">수정
+						                                	<a class="reply" data-toggle="modal" data-target="#modifyCommentModal" style="color: #777;">
+						                                		<input  type="radio" name="rep" style="opacity: 0;">
+						                                		<input type="hidden" class="comCd" name="boardCommentCd" th:value="${c.boardCommentCd}">
+						                                		<input type="hidden" name="parentCd" th:value="${c.parentCd}">
+						                                		<input type="hidden" class="comD" name="boardCommentDetail" th:value="${c.boardCommentDetail}">
+						                                	</a>
+					                                	</label>
+					                                </li>
+					                                <li  th:if="${session.SID eq c.userId}" class="liHover delete">
+					                                	<label style="display: block; padding: 10px 15px;">
+						                                	<a class="del" style="color: #777; display: block;" th:href="@{/board/modifyComment(boardCommentCd=${c.boardCommentCd}, boardCommentState=N, boardCd=${c.boardCd})}">
+						                                		삭제
+						                                	</a>
+				                            	    	</label>
+				                                	</li>
 					                                <li class="liHover">
 					                                	<label style="display: block; padding: 10px 15px;">답글
 						                                	<a class="reply" data-toggle="modal" data-target="#addCommentModal" style="color: #777;">
 						                                		<input  type="radio" name="rep" style="opacity: 0;">
 						                                		<input type="hidden" class="comCd" name="boardCommentCd" th:value="${c.boardCommentCd}">
-																<input type="hidden" class="paCd" name="parentCd" th:value="${c.parentCd}">
+																<input type="hidden" name="parentCd" th:value="${c.parentCd}">
 						                                	</a>
 					                                	</label>
 					                                </li>
@@ -209,6 +248,10 @@
 												<input type="hidden" id="userId" name="userId" th:value="${c.userId}">
 											</li>
 		                                </ul>
+					                	</div>
+					                	<div th:unless="${c.boardCommentState == 'Y'}">
+					                		<p style="font-size: 12px;">삭제된 댓글입니다.
+					                	</div>
 		                            </div>
 					                <div class="row" th:unless="${c.paOrder == null}" style="margin-left: 10px;">    
 					                	<div style="width: 2%; float: left;">
@@ -221,8 +264,23 @@
 															<i class="ti-more"></i>
 						                              </a>
 						                              <ul class="dropdown-menu">
-						                                <li  th:if="${session.SID eq c.userId}"><a>수정</a></li>
-						                                <li  th:if="${session.SID eq c.userId}"><a>삭제</a></li>
+						                                <li  th:if="${session.SID eq c.userId}" class="liHover">
+						                                	<label style="display: block; padding: 10px 15px;">수정
+							                                	<a class="reply" data-toggle="modal" data-target="#modifyCommentModal" style="color: #777;">
+							                                		<input  type="radio" name="rep" style="opacity: 0;">
+							                                		<input type="hidden" class="comCd" name="boardCommentCd" th:value="${c.boardCommentCd}">
+							                                		<input type="hidden" name="parentCd" th:value="${c.parentCd}">
+							                                		<input type="hidden" class="comD" name="boardCommentDetail" th:value="${c.boardCommentDetail}">
+							                                	</a>
+					                                		</label>
+					                                	</li>
+						                                <li  th:if="${session.SID eq c.userId}" class="liHover delete">
+						                                	<label style="display: block; padding: 10px 15px;">
+							                                	<a class="del" style="color: #777; display: block;" th:href="@{/board/modifyComment(boardCommentCd=${c.boardCommentCd}, boardCommentState=N, boardCd=${c.boardCd})}">
+							                                		삭제
+							                                	</a>
+					                            	    	</label>
+					                                	</li>
 						                                <li class="liHover">
 						                                	<label style="display: block; padding: 10px 15px;">답글
 							                                	<a class="reply" data-toggle="modal" data-target="#addCommentModal" style="color: #777;">
@@ -292,7 +350,7 @@
            		</div>
             </div>
         </div>
-        <!-- modal -->
+        <!-- 답글 등록 modal -->
 		<div class="modal fade" id="addCommentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<form id="addCommentForm" th:action="@{/board/addBoardComment}" method="post">
 				<div class="modal-dialog" role="document">
@@ -328,6 +386,48 @@
 							<div class="form-group">
 								<button type="reset" class="btn btn-primary" data-dismiss="modal">취소</button>
 								<button type="button" class="btn btn-danger" id="addCommentBtn">저장</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+		<!-- modal end -->			
+        <!-- 답글 수정 modal -->
+		<div class="modal fade" id="modifyCommentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<form id="modifyCommentForm" th:action="@{/board/modifyComment}" method="post">
+				<div class="modal-dialog" role="document">
+			 		<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLabel">댓글 작성</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<div class="form-group row">
+								<div class="col-md-3 col-sm-3">
+									<label class="control-label" for="userId">아이디</label>
+								</div>
+								<div class="col-md-9 col-sm-9">
+									<input type="text" class="form-control" name="userId" id="userIdC" readonly="readonly" th:value="${session.SID}">
+								</div>
+							</div>
+							<div class="form-group row">
+								<div class="col-md-3 col-sm-3">
+									<label class="control-label" for="boardCommentDetail">댓글</label>
+								</div>
+								<div class="col-md-9 col-sm-9">
+									<input type="hidden" th:value="${board.boardCd}" name="boardCd">
+									<input type="hidden" id="boardCommentCdV2" name="boardCommentCd">
+									<input type="text" class="form-control" id="boardCommentD2" name="boardCommentDetail" placeholder="작성해주세요.">
+								</div>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<div class="form-group">
+								<button type="reset" class="btn btn-primary" data-dismiss="modal">취소</button>
+								<button type="button" class="btn btn-danger" id="modifyCommentBtn">저장</button>
 							</div>
 						</div>
 					</div>

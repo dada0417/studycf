@@ -33,7 +33,14 @@ public class BoardService {
 	
 	private static final Logger log = LoggerFactory.getLogger(BoardService.class);
 	
-
+	/*게시글 댓글 수정*/
+	public int modifyComment(BoardComment boardComment) {
+		
+		int result = boardMapper.modifyComment(boardComment); 
+		
+		return result;
+	}
+	
 	
 	/*게시글 댓글 수*/
 	public int commentCount(String boardCd) {
