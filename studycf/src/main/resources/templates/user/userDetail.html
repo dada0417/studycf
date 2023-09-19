@@ -7,7 +7,8 @@
 </th:block>	
 
 <th:block layout:fragment="customJs">
-	<script type="text/javascript">
+	<script type="text/javascript" th:src="@{/assets/js/jquery-3.6.0.min.js}"></script>
+	<script>
 		$(function(){
 			function validationCheck(data){
 				if(typeof data == 'undefined' || data == '' || data == null){

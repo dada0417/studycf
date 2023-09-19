@@ -108,6 +108,15 @@ public class BoardController {
 	
 	
 	/* 게시글수정 처리 */
+	@GetMapping("/deleteBoard")
+	public String deleteBoard(Board board, Model model) {
+		
+		boardService.modifyBoard(board);
+		
+		return "redirect:/board/boardList";
+	}
+
+	/* 게시글수정 처리 */
 	@PostMapping("/modifyBoard")
 	public String modifyBoard(Board board, Model model) {
 		

@@ -6,7 +6,8 @@
 		<title th:text="${title}"></title>
 </th:block>	  
 <th:block layout:fragment="customJs">
-	<script type="text/javascript">	
+	<script type="text/javascript" th:src="@{/assets/js/jquery-3.6.0.min.js}"></script>
+	<script>	
 			$(function() {
 				function validationCheck(data) {
 					if (typeof data == 'undefined' || data == '' || data == null) {
@@ -43,7 +44,7 @@
 
 
 	<th:block layout:fragment="customContents">  
-	<div class="col-md-12">
+	<div style="display: flex; justify-content: center; align-items: center; min-height: 50dvh;">
 		<div class="card">
 			<div class="header">
 				<h4 class="title">로그인</h4>
@@ -54,7 +55,7 @@
                          <div class="col-md-12">
                              <div class="form-group">
                                  <label for="userPw">아이디</label>
-                                 <input type="text" class="form-control border-input" placeholder="userId" id="userId" name="userId" value="id001">
+                                 <input type="text" style="width: 400px;" class="form-control border-input" placeholder="userId" id="userId" name="userId" value="id001">
                              </div>
                          </div>
                     </div>     

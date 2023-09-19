@@ -14,6 +14,7 @@
  
  */
 /*      light colors - used for select dropdown         */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300&display=swap');
 .ct-blue {
   stroke: #7A9E9F !important; }
 
@@ -28,11 +29,10 @@
 
 .ct-red {
   stroke: #EB5E28 !important; }
-
 h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p, .navbar, .brand, a, .td-name, td {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
-  font-family: 'Muli', "Helvetica", Arial, sans-serif; }
+  font-family: 'Noto Sans KR', sans-serif;}
 
 h1, .h1, h2, .h2, h3, .h3, h4, .h4 {
   font-weight: 400;
@@ -140,7 +140,7 @@ strong {
 body {
   color: #66615b;
   font-size: 14px;
-  font-family: 'Muli', Arial, sans-serif; }
+  font-family: 'Noto Sans KR', sans-serif; }
   body .wrapper {
     min-height: 100vh;
     position: relative; }

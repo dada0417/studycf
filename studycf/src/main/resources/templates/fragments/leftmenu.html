@@ -29,38 +29,26 @@
                 </li>
                 <li>
                     <a th:href="@{/order/addOrder}">
+                        <i class="ti-ticket"></i>
+                        <p>이용권</p>
+                    </a>
+                </li>
+                <li th:if="${session.SID == 'id001'}">
+                    <a th:href="@{/goods/addGoods}">
+                        <i class="ti-plus"></i>
+                        <p>이용권 등록</p>
+                    </a>
+                </li>
+                <li th:if="${session.SID == 'id001'}">
+                    <a th:href="@{/goods/goodsList}">
                         <i class="ti-view-list-alt"></i>
-                        <p>입장권</p>
+                        <p>이용권 목록</p>
                     </a>
                 </li>
                 <li>
                     <a th:href="@{/board/boardList}">
                         <i class="ti-text"></i>
                         <p>게시판</p>
-                    </a>
-                </li>
-                <li>
-                    <a href="icons.html">
-                        <i class="ti-pencil-alt2"></i>
-                        <p>Icons</p>
-                    </a>
-                </li>
-                <li>
-                    <a href="maps.html">
-                        <i class="ti-map"></i>
-                        <p>Maps</p>
-                    </a>
-                </li>
-                <li>
-                    <a href="notifications.html">
-                        <i class="ti-bell"></i>
-                        <p>Notifications</p>
-                    </a>
-                </li>
-				<li class="active-pro">
-                    <a href="upgrade.html">
-                        <i class="ti-export"></i>
-                        <p>Upgrade to PRO</p>
                     </a>
                 </li>
             </ul>

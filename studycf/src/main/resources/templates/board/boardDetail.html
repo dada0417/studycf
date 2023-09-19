@@ -78,7 +78,9 @@
 				
 			});
 			
-			
+			$(document).on('click', '.delBoard', '.del', function(){
+				alert('삭제되었습니다.');
+			})
 	});
 	
 	
@@ -158,7 +160,7 @@
 				                              </a>
 				                              <ul class="dropdown-menu">
 				                                <li  th:if="${session.SID eq l.userId}"><a th:href="@{/board/modifyBoard(boardCd=${l.boardCd})}">수정</a></li>
-				                                <li  th:if="${session.SID eq l.userId}"><a>삭제</a></li>
+				                                <li  th:if="${session.SID eq l.userId}"><a class="delBoard" style="display: block;" th:href="@{/board/deleteBoard(boardCd=${l.boardCd}, boardState='N')}">삭제</a></li>
 				                              </ul>
 				                        </li>
 				                    </ul>
@@ -250,10 +252,12 @@
 		                                </ul>
 					                	</div>
 					                	<div th:unless="${c.boardCommentState == 'Y'}">
-					                		<p style="font-size: 12px;">삭제된 댓글입니다.
+					                		<h5> </h5>
+					                		<p style="font-size: 15px;">삭제된 댓글입니다.
 					                	</div>
 		                            </div>
 					                <div class="row" th:unless="${c.paOrder == null}" style="margin-left: 10px;">    
+					               		<div th:if="${c.boardCommentState =='Y'}">
 					                	<div style="width: 2%; float: left;">
 					                		<h5 style="font-size: medium;"><i class="ti-arrow-right"></i></h5>
 					                	</div>
@@ -303,6 +307,9 @@
 												</li>
 			                                </ul>
 					                	</div>
+					               		</div>
+					               		<div th:unless="${c.boardCommentState == 'Y'}">
+					               		</div>
 		                            </div>
 	                            </div>
 	                            <div class="text-center" th:unless="${not #lists.isEmpty(commentList)}" style="font-size: smaller;">

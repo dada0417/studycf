@@ -20,7 +20,7 @@
 	
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-lg-3 col-sm-6">
+                    <div class="col-lg-6 col-sm-12">
                         <div class="card">
                             <div class="content">
                                 <div class="row">
@@ -45,7 +45,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-sm-6">
+                    <div class="col-lg-6 col-sm-12">
                         <div class="card">
                             <div class="content">
                                 <div class="row">
@@ -70,56 +70,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-sm-6">
-                        <div class="card">
-                            <div class="content">
-                                <div class="row">
-                                    <div class="col-xs-5">
-                                        <div class="icon-big icon-danger text-center">
-                                            <i class="ti-pulse"></i>
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-7">
-                                        <div class="numbers">
-                                            <p>Errors</p>
-                                            23
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="footer">
-                                    <hr />
-                                    <div class="stats">
-                                        <i class="ti-timer"></i> In the last hour
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6">
-                        <div class="card">
-                            <div class="content">
-                                <div class="row">
-                                    <div class="col-xs-5">
-                                        <div class="icon-big icon-info text-center">
-                                            <i class="ti-twitter-alt"></i>
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-7">
-                                        <div class="numbers">
-                                            <p>Followers</p>
-                                            +45
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="footer">
-                                    <hr />
-                                    <div class="stats">
-                                        <i class="ti-reload"></i> Updated now
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
                 <div class="row" style="margin-bottom: 20px;">
                 	<div>                	
@@ -128,6 +78,39 @@
 			            </div>
                 	</div>
                 </div>
+                 <div class="row">
+		          <div class="col-md-12">
+		              <div class="card">
+		                  <div class="header">
+		                      <h4 class="title">이용권</h4>
+		                  </div>
+		                  <div class="content table-responsive table-full-width">
+		                      <table class="table table-striped">
+		                          <thead style="font: bold;">
+		                          	<tr>
+			                            <th>이용권 유형</th>
+			                          	<th>이용권 조건</th>
+			                          	<th>이용권 가격(원)</th>
+			                          	<th>이용권 만료기간(일)</th>
+		                          	</tr>
+		                          </thead>
+		                          <tbody>
+		                              <tr th:if="${not #lists.isEmpty(goodsList)}" th:each="l : ${goodsList}">
+		                              	<td th:text="${l.goodsCtg.goodsCtgNm}"></td>
+		                              	<td th:text="${l.goodsNm}"></td>
+		                              	<td th:text="${l.price}"></td>
+		                              	<td th:text="${l.goodsExpirationDate}"></td>
+		                              </tr>
+		                              <tr th:unless="${not #lists.isEmpty(goodsList)}">
+										<td colspan="5">이용권이 없습니다.</td>
+									</tr>	
+		                          </tbody>
+		                      </table>
+		                  </div>
+		              </div>
+		          </div>
+				</div>
+            </div>
                 <div class="row">
                    <div class="col-md-12">
                        <div class="card">
@@ -142,54 +125,7 @@
                        </div>
                    </div>
                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="card">
-                            <div class="header">
-                                <h4 class="title">Email Statistics</h4>
-                                <p class="category">Last Campaign Performance</p>
-                            </div>
-                            <div class="content">
-                                <div id="chartPreferences" class="ct-chart ct-perfect-fourth"></div>
 
-                                <div class="footer">
-                                    <div class="chart-legend">
-                                        <i class="fa fa-circle text-info"></i> Open
-                                        <i class="fa fa-circle text-danger"></i> Bounce
-                                        <i class="fa fa-circle text-warning"></i> Unsubscribe
-                                    </div>
-                                    <hr>
-                                    <div class="stats">
-                                        <i class="ti-timer"></i> Campaign sent 2 days ago
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="card ">
-                            <div class="header">
-                                <h4 class="title">2015 Sales</h4>
-                                <p class="category">All products including Taxes</p>
-                            </div>
-                            <div class="content">
-                                <div id="chartActivity" class="ct-chart"></div>
-
-                                <div class="footer">
-                                    <div class="chart-legend">
-                                        <i class="fa fa-circle text-info"></i> Tesla Model S
-                                        <i class="fa fa-circle text-warning"></i> BMW 5 Series
-                                    </div>
-                                    <hr>
-                                    <div class="stats">
-                                        <i class="ti-check"></i> Data information certified
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
  
 			<script>
 				// 검색 결과 목록이나 마커를 mouserover했을 때 장소명을 표출할 인포윈도우를 생성합니다

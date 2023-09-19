@@ -11,6 +11,7 @@
 		<result column="board_content"				property="boardContent"/>
 		<result column="board_date"					property="boardDate"/>
 		<result column="board_views"				property="boardViews"/>
+		<result column="board_state"				property="boardState"/>
 		<association property="boardCtg" 	javaType="BoardCtg">
 			<id 	 column="board_ctg_cd" 	property="boardCtgCd"/>
 			<result  column="board_ctg_nm" 	property="boardCtgNm"/>
@@ -92,7 +93,6 @@
 			<if test="parentCd != null and parentCd != ''">
 				and c.parent_cd = #{parentCd}
 			</if>
-				and c.board_comment_state = 'Y'
 		</trim>
 		order by c.parent_cd, c.pa_order;
 	</select>
@@ -128,10 +128,20 @@
 	<update id="modifyBoard" parameterType="Board">
 		UPDATE 
 			board
-		SET
-			board_ctg_cd = #{boardCtgCd},
-			board_title = #{boardTitle},
-			board_content = #{boardContent}
+		<trim prefix="SET" prefixOverrides=",">
+			<if test="boardCtgCd != null and boardCtgCd != ''">
+				board_ctg_cd = #{boardCtgCd}
+			</if>
+			<if test="boardTitle != null and boardTitle != ''">
+				, board_title = #{boardTitle}
+			</if>
+			<if test="boardContent != null and boardContent != ''">
+				, board_content = #{boardContent}
+			</if>
+			<if test="boardState != null and boardState != ''">
+				, board_state = #{boardState}
+			</if>
+		</trim>
 		WHERE
 			board_cd = #{boardCd};
 	</update>
@@ -227,7 +237,8 @@
 			,b.board_title				
 			,b.board_content			
 			,b.board_date				
-			,b.board_views				
+			,b.board_views			
+			,b.board_state	
 		FROM
 			board AS b
 			inner join
@@ -236,8 +247,9 @@
 			b.board_ctg_cd = bc.board_ctg_cd
 		<trim prefix="WHERE">
 			<if test="boardCtgCd != null and boardCtgCd != ''">
-			 	b.board_ctg_cd = #{boardCtgCd}
+			 	b.board_ctg_cd = #{boardCtgCd} and
 			</if>
+			 board_state = 'Y'
 		</trim>	
 		ORDER BY board_cd DESC
 		LIMIT #{startRow}, #{rowPerPage};
@@ -264,7 +276,8 @@
 			, board_title
 			, board_content
 			, board_date
-			, board_views)
+			, board_views
+			, board_state)
 		VALUES(
 			sf_new_board_cd()
 			, #{boardCtgCd}
@@ -272,7 +285,8 @@
 			, #{boardTitle}
 			, #{boardContent}
 			, NOW()
-			, 0);
+			, 0
+			, 'Y');
 	</insert>
 	
 	
