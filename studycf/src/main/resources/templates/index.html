@@ -14,6 +14,12 @@
 	
 	<!-- 사용자 정의 Script-->
 	<th:block layout:fragment="customCss">
+		<style>
+			th {
+				text-align: center;
+			}
+			
+		</style>
 	</th:block>
 	
 	<th:block layout:fragment="customContents">
@@ -86,7 +92,7 @@
 		                  </div>
 		                  <div class="content table-responsive table-full-width">
 		                      <table class="table table-striped">
-		                          <thead style="font: bold;">
+		                          <thead>
 		                          	<tr>
 			                            <th>이용권 유형</th>
 			                          	<th>이용권 조건</th>
@@ -94,7 +100,7 @@
 			                          	<th>이용권 만료기간(일)</th>
 		                          	</tr>
 		                          </thead>
-		                          <tbody>
+		                          <tbody style="text-align: center;">
 		                              <tr th:if="${not #lists.isEmpty(goodsList)}" th:each="l : ${goodsList}">
 		                              	<td th:text="${l.goodsCtg.goodsCtgNm}"></td>
 		                              	<td th:text="${l.goodsNm}"></td>

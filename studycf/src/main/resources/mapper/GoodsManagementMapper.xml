@@ -96,7 +96,12 @@
 		SELECT
 			COUNT(*)
 		FROM
-			goods_management;
+			goods_management
+		<trim prefix="WHERE">
+			<if test="userId != null and userId != ''">
+				user_id = #{sessionId}
+			</if>
+		</trim>
 	</select>
 
 

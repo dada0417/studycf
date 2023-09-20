@@ -100,13 +100,15 @@ public class UserController {
 		
 		Map<String, Object> resultMap = goodsManagementService.usageListById(currentPage, goodsManagementMap);
 		
+		log.info("currentPage : {}", currentPage);
+		
+		model.addAttribute("title", "회원상세정보");
 		model.addAttribute("resultMap", 			resultMap);
 		model.addAttribute("currentPage", 			currentPage);
-		model.addAttribute("usageListById",		resultMap.get("usageListById"));
+		model.addAttribute("usageListById",			resultMap.get("usageListById"));
 		model.addAttribute("lastPage", 				resultMap.get("lastPage"));
 		model.addAttribute("startPageNum", 			resultMap.get("startPageNum"));
 		model.addAttribute("endPageNum", 			resultMap.get("endPageNum"));
-		model.addAttribute("title", "회원상세정보");
 		model.addAttribute("user", user);
 		model.addAttribute("totalTime", totalTime);
 		model.addAttribute("availableGoodsList", availableGoodsList);

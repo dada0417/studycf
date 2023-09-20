@@ -26,7 +26,7 @@ public interface GoodsManagementMapper {
 	public String getTotalTime(String userId); 
 	
 	//이용권 이용 내역 총 튜플 수 
-	public int getUsageListCount();
+	public int getUsageListCount(Object object);
 	
 	//회원의 카페 이용 모든 내역 목록
 	public List<GoodsManagement> usageListById(Map<String, Object> goodsManagementMap);
@@ -39,6 +39,7 @@ public interface GoodsManagementMapper {
 	
 	//이용권 사용
 	public int addGoodsManagement(GoodsManagement goodsManagement);
+
 
 	
 }

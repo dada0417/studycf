@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -54,14 +56,17 @@ public class GoodsManagementService {
 
 	//이용권 이용 내역
 	public Map<String, Object> usageListById(int currentPage, Map<String, Object> goodsManagementMap){
+	
 		
-		int rowPerPage = 5;
+		int rowPerPage = 10;
 		
-		double rowCount = goodsManagementMapper.getUsageListCount();
 		
-		int lastPage = (int)Math.ceil(rowCount/rowPerPage);
+		double rowCount = goodsManagementMapper.getUsageListCount(goodsManagementMap.get("sessionId"));
+		log.info("rowCount: {}", rowCount);
 		
-		int startRow = (currentPage -1)* rowPerPage;
+		int lastPage = (int) Math.ceil(rowCount / rowPerPage);
+		
+		int startRow = (currentPage - 1) * rowPerPage;
 		
 
 		int startPageNum = 1;
@@ -84,7 +89,8 @@ public class GoodsManagementService {
 		goodsManagementMap.put("startRow", startRow);
 		goodsManagementMap.put("rowPerPage", rowPerPage);
 		
-
+		log.info("goodsManagementMap 서비스: {}", goodsManagementMap);
+		
 		List<GoodsManagement> usageListById = goodsManagementMapper.usageListById(goodsManagementMap);
 		 
 		Map<String, Object> resultMap = new HashMap<String, Object>();
@@ -92,6 +98,7 @@ public class GoodsManagementService {
 		resultMap.put("usageListById", usageListById);
 		resultMap.put("startPageNum", startPageNum);
 		resultMap.put("endPageNum", endPageNum);
+		
 		return resultMap;
 
 
