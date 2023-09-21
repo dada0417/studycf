@@ -73,6 +73,8 @@
 									 if($('.seatV').eq(k).val() == data.seatCd){
 											$('.seatV').eq(k).parent().addClass('my');
 											$('.seatV').eq(k).parent().removeAttr('data-target');
+								 }else{
+									 $('.seatV').eq(k).parent().addClass('none');
 								 }
 							}
 							$('.my').attr('data-target', "#modifyModal");
@@ -80,7 +82,11 @@
 						 }
 			 		}); 
 				}
-			 }); 			
+			 }); 	
+			
+			if($('.my').children().val() != null){
+				$('.seat').prop('disabled', true);
+			}
 
 			var $addForm = $('#addForm');
 			var $modifyForm = $('#modifyForm');
@@ -97,20 +103,18 @@
 			ch.forEach((e) => {
 				e.addEventListener('click',handleClick);
 			});
-			
-			
-		
-			$(document).on('click','.seat',function(){
-				var seatCd = $('.click').children().val();
-				var seatNm = seatCd.substring(5);
-				var txt1 = seatNm + '번 좌석을 선택하시겠습니까?';
-				console.log(seatNm);
-				
-				$('#seatCd').text(txt1);
-				$('input[name="seatCd"]').val(seatCd);
-				
-				console.log($('input[name="orderCd"]').val());
-				console.log($('input[name="orderCd2"]').val());
+			$(document).on('click','.seat',function(){			
+					var seatCd = $('.click').children().val();
+					var seatNm = seatCd.substring(5);
+					var txt1 = seatNm + '번 좌석을 선택하시겠습니까?';
+					console.log(seatNm);
+					
+					$('#seatCd').text(txt1);
+					$('input[name="seatCd"]').val(seatCd);
+					
+					console.log($('input[name="orderCd"]').val());
+					console.log($('input[name="orderCd2"]').val());
+					console.log($('.my').children().val());
 				
 			});
 			 

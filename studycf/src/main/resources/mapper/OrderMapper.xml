@@ -31,7 +31,7 @@
 			(order_cd
 			,user_id
 			,goods_cd
-			,remaining_time
+			,give_time
 			,price
 			,order_insert_date
 			,order_expiration_date)
@@ -39,7 +39,7 @@
 				sf_new_order_cd()
 				,#{userId}
 				,#{goodsCd}
-				,#{remainingTime}
+				,#{giveTime}
 				,#{price}
 				,#{orderInsertDate}
 				,#{orderExpirationDate});	

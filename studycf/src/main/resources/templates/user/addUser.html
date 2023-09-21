@@ -60,20 +60,35 @@
 		
 		/* 회원가입시 유효성 검사 */
 		$('#addUserBtn').click(function(){
-			var inputObj = $('#addUserForm').find('input');
+			var isSubmit = true;
+			if($('#userId').val() == ''){
+				alert("아이디를 입력해주세요.");
+				$("#userId").focus();
+				isSubmit = false;
+				return false;
+			}
+			if($("#userPw").val() == ''){
+			    alert("비밀번호를 입력해주세요.");
+			    $("#userPw").focus();
+			    isSubmit = false;
+			    return false;
+			}
+			if($("#userNm").val() == ""){
+			    alert("이름을 입력해주세요.");
+			    $("#userNm").focus();
+			    isSubmit = false;
+			    return false;
+			}
+			if($("#userPhone").val() == ""){
+			    alert("전화번호를 입력해주세요.");
+			    $("#userPhone").focus();
+			    isSubmit = false;
+			    return false;
+			}
+		
+			console.log('유효여부 폼전송할건지?' + isSubmit )
 			
-			$.each(inputObj, function(){
-				var inputData = $(this).val();
-				var result = validationCheck(inputData);
-				
-				// 사용자가 입력하지 않은 경우
-				if(!result){
-					alert('필수 항목입니다. 입력해주세요');
-					$(this).focus();
-					return false;
-				}
-			});
-			
+			if(isSubmit) $('#addUserForm').submit();
 		});
 	});
 	</script>
@@ -115,7 +130,7 @@
                                  <label for="userPw">비밀번호
                                  	<span class="required">*</span>
                                  </label>
-                                 <input type="text" class="form-control border-input" placeholder="비밀번호를 입력해주세요" name="userPw" required>
+                                 <input type="text" class="form-control border-input" placeholder="비밀번호를 입력해주세요" id="userPw" name="userPw" required>
                              </div>
                          </div>
                      </div>
@@ -125,7 +140,7 @@
                                  <label for="userNm">이름
                                  	<span class="required">*</span>	
                                  </label>
-                                 <input type="text" class="form-control border-input" placeholder="이름을 입력해주세요"  name="userNm" required>
+                                 <input type="text" class="form-control border-input" placeholder="이름을 입력해주세요"  name="userNm" id="userNm" required>
                              </div>
                          </div>
                      </div>
@@ -135,7 +150,7 @@
                                  <label for="userPhone">전화번호
                                  	<span class="required">*</span>
                                  </label>
-                                 <input type="text" class="form-control border-input" placeholder="숫자만 입력가능합니다"  name="userPhone" required>
+                                 <input type="text" class="form-control border-input" placeholder="숫자만 입력가능합니다"  name="userPhone" id="userPhone" required>
                              </div>
                          </div>
                      </div>

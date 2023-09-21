@@ -85,6 +85,8 @@
                 </div>
              	 <div class="content" th:unless="${not #lists.isEmpty(availableGoodsList)}" style="font-size: large;">
 					사용할 수 있는 이용권이 없습니다.
+					<br>
+					<a th:href="@{/order/addOrder}">이용권 구매하러 가기</a>
 				</div>                        
             </div>
 </th:block>
