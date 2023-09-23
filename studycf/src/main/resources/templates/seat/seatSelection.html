@@ -20,10 +20,8 @@
 	
 	<script>
 		 $(function(){
-			
 			//이용중인 좌석 선택 방지
 			$(document).ready(function(){
-				
 				 $.ajax({
 					type : 'post',
 					url : '/seat/seatCheck',
@@ -65,35 +63,30 @@
 						'userId' : userId
 					},
 					dataType : 'json',
-					
 					success : function(data){
 						console.log("통신성공");
 						console.log(data);
-								for(var k = 0; k<52; k++){
-									 if($('.seatV').eq(k).val() == data.seatCd){
-											$('.seatV').eq(k).parent().addClass('my');
-											$('.seatV').eq(k).parent().removeAttr('data-target');
+							for(var k = 0; k<52; k++){
+								 if($('.seatV').eq(k).val() == data.seatCd){
+										$('.seatV').eq(k).parent().addClass('my');
+										$('.seatV').eq(k).parent().removeAttr('data-target');
 								 }else{
+									 //내 좌석 외 좌석 클릭 금지
 									 $('.seatV').eq(k).parent().addClass('none');
 								 }
 							}
 							$('.my').attr('data-target', "#modifyModal");
-
 						 }
 			 		}); 
 				}
 			 }); 	
 			
-			if($('.my').children().val() != null){
-				$('.seat').prop('disabled', true);
-			}
 
 			var $addForm = $('#addForm');
 			var $modifyForm = $('#modifyForm');
 
-
+			//좌석 클릭 시 클래스 추가, 해당 클래스의 정보 가져오기 위해
 			const ch = document.querySelectorAll('.seat');
-			
 			function handleClick(event){
 				ch.forEach((e) => {
 					e.classList.remove('click');
@@ -103,6 +96,7 @@
 			ch.forEach((e) => {
 				e.addEventListener('click',handleClick);
 			});
+			//좌석 선택시 모달 내의 내용/데이터 추가
 			$(document).on('click','.seat',function(){			
 					var seatCd = $('.click').children().val();
 					var seatNm = seatCd.substring(5);
@@ -113,66 +107,38 @@
 					$('input[name="seatCd"]').val(seatCd);
 					
 					console.log($('input[name="orderCd"]').val());
-					console.log($('input[name="orderCd2"]').val());
 					console.log($('.my').children().val());
-				
 			});
 			 
 			
-			
+			//좌석 선택하기
 			 $addForm.on('click','#addBtn', function(){
 				var userId = $('input[name="userId"]').val();
 				var or = $('input[name="orderCd"]').val();
-				var or2 = $('input[name="orderCd2"]').val();
-				
 				
 				if(userId == ''){
 					alert("로그인이 필요합니다.");
 					return false;
-				}else if(or == '' && (or2 == 'undefined' || or2 == '' || or2 == null)){
+				}else if(or == 'undefined' || or == '' || or == null){
 					alert("이용권이 필요합니다.");
 					return false;
 				}else{
-						
-					var date1 = new Date();
-					
-					var year = date1.getFullYear();
-					var month = date1.getMonth()+1;
-					var month1 = ('0'+month).slice(-2);
-					var day = ('0' + date1.getDate()).slice(-2);
-					var hours = ('0' + date1.getHours()).slice(-2); 
-					var minutes = ('0' + date1.getMinutes()).slice(-2);
-					var seconds = ('0' + date1.getSeconds()).slice(-2); 
-					var adT = year + '-' + month1  + '-' + day + " " + hours + ':' + minutes  + ':' + seconds;
-					//좌석 변경시 입장시간 변경되지 않도록
-					if($('input[name="admissionTime"]').val() == ''){
-						$('input[name="admissionTime"]').val(adT);
-					}else{
-						$('input[name="admissionTime"]').remove();
-					}
 				 $addForm.attr('action', '/seat/seatSelection').submit();			
 				}
 				
 			});
-			
-			 $(document).on('click', '.change', function(){
-				 $('input[name="seatState"]').val('Y');			
 		
-			 });
 			 $(document).on('click', '.exit', function(){
-				$('input[name="seatState"]').val('Y');
 				$('input[name="leaveTime"]').val('Y');
 				
-
-				
 			 });
 			 
-			 
-			 
+			 //좌석 변경, 퇴장 모달
 			 $modifyForm.on('click','#modifyBtn', function(){
 				if($('input[name="leaveTime"]').val() == ''){
 					$modifyForm.attr('action', '/seat/seatSelection2').submit();
 				}else{
+					//퇴장시간
 					var date1 = new Date();
 					
 					var year = date1.getFullYear();
@@ -186,10 +152,10 @@
 					
 					$('input[name="leaveTime"]').val(leaveT);
 					
-					var adT = $('input[name="admissionTime2"]').val();
+					var adT = $('input[name="admissionTime"]').val();
 					console.log(adT);
 					console.log(leaveT);
-
+					//퇴장시간-입장시간으로 이용시간 구하기
 					var dateA = new Date(adT);
 					var dateB = new Date(leaveT);
 					var diffMSec = dateB.getTime() - dateA.getTime();
@@ -214,13 +180,14 @@
 					
 					$('input[name="useTime"]').val(useTime);
 					
+					//이용권 남은시간 구하기
 					var h2 = useTime.substring(0,useTime.indexOf(":"));
 					var m2 = useTime.substring(useTime.indexOf(":")+1,useTime.indexOf(":")+3);
 					var s2 = useTime.substr(useTime.length-2,2);
 					
 					var useTimeS = h2*60*60*1000 + m2*60*1000 +s2*1000;
 					
-					var give = $('input[name="giveTime2"]').val();
+					var give = $('input[name="giveTime"]').val();
 					console.log(give);
 					
 					var h3 = give.substring(0,give.indexOf(":"));
@@ -477,17 +444,21 @@
 		 		<div class="modal-content">
 					<div class="modal-header">
 						<h5 class="modal-title" id="seatCd"></h5>
-						<th:block th:if="${not #lists.isEmpty(useById)}" th:each="l : ${useById}">
-							<input type="hidden" name="goodsManagementCd" th:value = "${l.goodsManagementCd}">
-							<input type="hidden" name="giveTime3" th:value = "${l.order.giveTime}">
-							<input type="hidden" name="orderCd2" th:value = "${l.orderCd}">
+						<th:block th:if="${not #lists.isEmpty(useById)}">
+							<input type="hidden" name="goodsManagementCd" th:value = "${useById.goodsManagementCd}">
+							<input type="hidden" name="giveTime" th:value = "${useById.order.giveTime}">
+							<input type="hidden" name="orderCd" th:value = "${useById.orderCd}">
+							<input type="hidden" class="form-control" name="seatCd" readonly="readonly">
+							<input type="hidden" class="form-control" name="seatState" value="N" readonly="readonly">
 						</th:block>
-						<input type="hidden" name="orderCd" th:value = "${orderCd}">
-						<input type="hidden" name="goodsCd" th:value = "${goodsCd}">
-						<input type="hidden" name="orderExpirationDate" th:value = "${orderExpirationDate}">
-						<input type="hidden" name="admissionTime">
-						<input type="hidden" class="form-control" name="seatCd" readonly="readonly">
-						<input type="hidden" class="form-control" name="seatState" value="N" readonly="readonly">
+						<th:block th:unless="${not #lists.isEmpty(useById)}">
+							<input type="hidden" name="orderCd" th:value = "${orderCd}">
+							<input type="hidden" name="goodsCd" th:value = "${goodsCd}">
+							<input type="hidden" name="orderExpirationDate" th:value = "${orderExpirationDate}">
+							<input type="hidden" name="admissionTime">
+							<input type="hidden" class="form-control" name="seatCd" readonly="readonly">
+							<input type="hidden" class="form-control" name="seatState" value="N" readonly="readonly">
+						</th:block>
 						<input type="hidden" id="userId" name="userId" th:value="${session.SID}">
 						<button type="reset" class="close" data-dismiss="modal" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
@@ -515,18 +486,19 @@
 			<div class="modal-dialog" role="document">
 		 		<div class="modal-content">
 					<div class="modal-header">
-						<th:block th:if="${not #lists.isEmpty(useById)}" th:each="l : ${useById}">
-							<input type="hidden" name="goodsManagementCd" th:value = "${l.goodsManagementCd}">
-							<input type="hidden" name="giveTime2" th:value = "${l.order.giveTime}">
-							<input type="hidden" name="admissionTime2" th:value = "${l.admissionTime}">
-							<input type="hidden" name="orderCd3" th:value = "${l.orderCd}">
-						</th:block>
-						<input type="hidden" class="form-control" name="seatState" readonly="readonly">
-						<input type="hidden" class="form-control" name="leaveTime" readonly="readonly">
-						<input type="hidden" class="form-control" name="useTime" readonly="readonly">
-						<input type="hidden" class="form-control" name="giveTime" readonly="readonly">
-						<input type="hidden" class="form-control" name="remainingTime" readonly="readonly">
-						<input type="hidden" class="form-control" name="seatCd" readonly="readonly">
+						<th:block th:if="${not #lists.isEmpty(useById)}">
+							<input type="hidden" name="goodsManagementCd" th:value = "${useById.goodsManagementCd}">
+							<input type="hidden" name="giveTime" th:value = "${useById.order.giveTime}">
+							<input type="hidden" name="admissionTime" th:value = "${useById.admissionTime}">
+							<input type="hidden" name="orderCd" th:value = "${useById.orderCd}">
+							<input type="hidden" name="userId" th:value = "${useById.userId}">
+							<input type="hidden" class="form-control" name="seatState" th:value="Y" readonly="readonly">
+							<input type="hidden" class="form-control" name="leaveTime" readonly="readonly">
+							<input type="hidden" class="form-control" name="useTime" readonly="readonly">
+							<input type="hidden" class="form-control" name="remainingTime" readonly="readonly">
+							<input type="hidden" class="form-control" name="seatCd" readonly="readonly">
+						<th:block th:if="${not #lists.isEmpty(useById)}">
+						<input type="hidden" id="userId" name="userId" th:value="${session.SID}">
 						<input type="button" class="change" name="changeSeat" value="변경">
 						<input type="button" class="exit" name="exit" value="퇴장">
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">

@@ -47,7 +47,7 @@ public class OrderController {
 		
 		orderService.addOrder(order);
 	
-		return "redirect:/seat/seatSelection?orderCd="+order.getOrderCd()+"&goodsCd="+order.getGoodsCd()+"&orderExpirationDate="+order.getOrderExpirationDate()+"&goodsCd="+goodsCtgCd;
+		return "redirect:/seat/seatSelection?orderCd="+order.getOrderCd()+"&goodsCd="+order.getGoodsCd()+"&orderExpirationDate="+order.getOrderExpirationDate()+"&goodsCtgCd="+goodsCtgCd;
 	}
 	
 	@GetMapping("/addOrder")

@@ -203,7 +203,7 @@
 				,#{orderCd}
 				,#{goodsCd}
 				,#{seatCd}
-				,#{admissionTime}
+				,NOW()
 				,#{leaveTime}
 				,#{useTime}
 				,#{remainingTime}
