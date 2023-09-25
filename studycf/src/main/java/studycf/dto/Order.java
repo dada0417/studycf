@@ -12,6 +12,7 @@ public class Order {
 	private String userId;
 	private String goodsCd;
 	private String giveTime;
+	private String goodsCtgCd;
 	private String price;
 	private String orderExpirationDate;
 	private String orderInsertDate;

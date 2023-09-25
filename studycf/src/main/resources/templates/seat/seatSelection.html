@@ -22,6 +22,18 @@
 		 $(function(){
 			//이용중인 좌석 선택 방지
 			$(document).ready(function(){
+				//일일권 구매시 뒤로가기 방지
+				var ctg = $('input[name="goodsCtgCd"]').val();
+				console.log(ctg);
+				if(ctg == 'day'){
+					 history.pushState(null, null, location.href); 
+					  window.onpopstate = function(event) { 
+						history.go(1); 
+					  };
+					
+				}
+				
+				
 				 $.ajax({
 					type : 'post',
 					url : '/seat/seatCheck',
@@ -81,7 +93,6 @@
 				}
 			 }); 	
 			
-
 			var $addForm = $('#addForm');
 			var $modifyForm = $('#modifyForm');
 
@@ -236,6 +247,7 @@
               <div class="card">
                   <div class="header">
                       <h4 class="title">좌석선택</h4>
+                      <input type="hidden" name="goodsCtgCd" th:value = "${giveTime}">
                   </div>
                   <div class="content">
                   	<div class="card-body">

@@ -6,12 +6,13 @@
 <mapper namespace="studycf.mapper.OrderMapper">
 	<resultMap type="Order" id="OrderResultMap">
 		<id		column="order_cd"				property="orderCd"/>
-		<result column="goods_cd"			property="goodsCd"/>
-		<result column="user_id"			property="userId"/>
-		<result column="give_time"			property="giveTime"/>
+		<result column="goods_cd"				property="goodsCd"/>
+		<result column="user_id"				property="userId"/>
+		<result column="give_time"				property="giveTime"/>
 		<result column="price"					property="price"/>
 		<result column="order_insert_date"		property="orderInsertDate"/>
 		<result column="order_expiration_date"	property="orderExpirationDate"/>
+		<result column="goods_ctg_cd"			property="goodsCtgCd"/>
 	</resultMap>
 
 	<update id="modifyOrder" parameterType="Order">
@@ -34,7 +35,8 @@
 			,give_time
 			,price
 			,order_insert_date
-			,order_expiration_date)
+			,order_expiration_date
+			,goods_ctg_cd)
 			VALUES (
 				sf_new_order_cd()
 				,#{userId}
@@ -42,7 +44,8 @@
 				,#{giveTime}
 				,#{price}
 				,#{orderInsertDate}
-				,#{orderExpirationDate});	
+				,#{orderExpirationDate}
+				,#{goodsCtgCd});	
 	</insert>
 	
 	
@@ -57,6 +60,7 @@
 			,g.price						
 			,g.goods_expiration_date		
 			,g.goods_insert_date			
+			,g.goods_ctg_cd			
 		FROM 
 			goods AS g
 			INNER JOIN

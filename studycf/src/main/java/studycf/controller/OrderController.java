@@ -42,12 +42,13 @@ public class OrderController {
 	
 	//이용권 구매
 	@PostMapping("/addOrder")
-	public String addOrder(Order order, String goodsCtgCd) {
-		log.info("이용권 주문에 입력한 데이터 : ", order);
+	public String addOrder(Order order) {
+		log.info("이용권 주문에 입력한 데이터 : {}", order);
 		
 		orderService.addOrder(order);
+		
 	
-		return "redirect:/seat/seatSelection?orderCd="+order.getOrderCd()+"&goodsCd="+order.getGoodsCd()+"&orderExpirationDate="+order.getOrderExpirationDate()+"&goodsCtgCd="+goodsCtgCd;
+		return "redirect:/seat/seatSelection?orderCd="+order.getOrderCd()+"&goodsCd="+order.getGoodsCd()+"&giveTime="+order.getGoodsCtgCd()+"&orderExpirationDate="+order.getOrderExpirationDate();
 	}
 	
 	@GetMapping("/addOrder")
