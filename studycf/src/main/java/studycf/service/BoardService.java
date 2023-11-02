@@ -22,7 +22,7 @@ import studycf.mapper.FileMapper;
 @Service
 @Transactional
 public class BoardService {
-	
+	//생성자 주입
 	private final BoardMapper boardMapper;
 	private final FileMapper fileMapper;
 	
