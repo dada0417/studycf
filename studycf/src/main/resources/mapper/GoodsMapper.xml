@@ -44,6 +44,7 @@
 	</update>
 
 	<select id="getGoodsInfoByCd" parameterType="Goods" resultMap="GoodsResultMap">
+		/*이용권 코드로 이용권 정보 조회*/
 		SELECT 
 			g.goods_cd						
 			,g.goods_ctg_cd					

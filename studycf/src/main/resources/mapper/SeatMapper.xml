@@ -7,12 +7,11 @@
 	<resultMap type="Seat" id="SeatResultMap">
 		<id		column="seat_cd"				property="seatCd"/>
 		<result column="seat_state"			property="seatState"/>
-		
 	</resultMap>
-	
-	
+
 	
 	<select id="getSeatCount" resultType="int">
+		/*이용중인 좌석 수*/
 		SELECT
 			COUNT(*)
 		FROM

@@ -45,8 +45,8 @@
 	</resultMap>
 	
 
-	<!-- 댓글 수정  -->
 	<update id="modifyComment" parameterType="BoardComment">
+		/*댓글 수정*/
 		UPDATE
 			board_comment
 		<trim prefix="SET" prefixOverrides=",">
@@ -63,8 +63,8 @@
 	</update>
 
 
-	<!-- 게시글 댓글 수 -->
 	<select id="commentCount" resultType="int">
+		/*게시글 댓글 수 */
 		SELECT
 			COUNT(*)
 		FROM
@@ -73,8 +73,8 @@
 			board_cd = #{boardCd} and board_comment_state = 'Y';
 	</select>
 
-	<!-- 게시글 댓글 리스트 조회 -->
 	<select id="getBoardCommentList" parameterType="String" resultMap="boardCommentResultMap">
+		/*게시글 댓글 조회*/
 		SELECT 
 			c.board_comment_cd
 			, c.board_cd
@@ -98,8 +98,8 @@
 	</select>
 	
 	
-	<!-- 게시글 댓글 등록 -->
 	<insert id="addBoardComment" parameterType="boardComment">
+		/*게시글 댓글 등록*/
 		<selectKey resultType="String" keyProperty="boardCommentCd" order="BEFORE">
 			SELECT sf_new_board_comment_cd()
 		</selectKey>
@@ -124,8 +124,8 @@
 		);
 	</insert>
 	
-	<!-- 게시글 수정 -->
 	<update id="modifyBoard" parameterType="Board">
+		/*게시글 수정*/
 		UPDATE 
 			board
 		<trim prefix="SET" prefixOverrides=",">
@@ -146,8 +146,8 @@
 			board_cd = #{boardCd};
 	</update>
 	
-	<!-- 다음글 보기 -->
 	<select id="getBoardNext" parameterType="String" resultMap="boardResultMap">
+		/*게시글 다음글 보기*/
 		<![CDATA[
 		SELECT
 		    board_cd,
@@ -160,8 +160,8 @@
 		]]>
 	</select>
 	
-	<!-- 이전글 보기 -->
 	<select id="getBoardPre" parameterType="String" resultMap="boardResultMap">
+		/*현재 게시글의 이전글 보기*/
 		<![CDATA[
 		SELECT
 		    board_cd,
@@ -175,8 +175,8 @@
 	</select>
 		
 	
-	<!-- 게시글 상세보기 -->
 	<select id="getBoardDetail" parameterType="String" resultMap="boardResultMap">
+		/*게시글 상세보기*/
 		SELECT
 				b.board_cd
 				,b.board_ctg_cd
@@ -214,8 +214,9 @@
 		</trim>
 	</select>
 	
-	<!-- 게시글 조회수 -->
+
 	<update id="boardViewUpdate" parameterType="String">
+		/*게시글 조회수 */
 		UPDATE 
 			board
 		SET
@@ -227,8 +228,8 @@
 		</trim>
 	</update>
 	
-	<!-- 게시글 목록 -->
 	<select id="getBoardList" parameterType="map" resultType="map" resultMap="boardResultMap">
+		/*게시글 목록*/
 		SELECT
 			b.board_cd					
 			,b.board_ctg_cd		
@@ -255,8 +256,8 @@
 		LIMIT #{startRow}, #{rowPerPage};
 	</select>
 	
-	<!-- 게시글 총 튜플 수 -->
 	<select id="getBoardCount" resultType="int">
+		/*게시글 총 튜플 수*/	
 		SELECT
 			COUNT(*)
 		FROM
@@ -264,8 +265,8 @@
 	</select>
 	
 	
-	<!-- 게시글 작성 -->
 	<insert id="addBoard" parameterType="Board">
+		/*게시글 등록*/
 		<selectKey resultType="String" keyProperty="boardCd" order="BEFORE">
 			SELECT sf_new_board_cd()
 		</selectKey>
@@ -290,8 +291,8 @@
 	</insert>
 	
 	
-	<!-- 게시글 카테고리 조회 -->
 	<select id="getBoardCtg" parameterType="String" resultMap="boardResultMap">
+		/*게시글 카테고리*/
 		SELECT 
 			bc.board_ctg_cd
 			, bc.board_ctg_nm

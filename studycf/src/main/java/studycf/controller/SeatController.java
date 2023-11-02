@@ -54,7 +54,7 @@ public class SeatController {
 	/*좌석 변경시 */
 	@PostMapping("/seatSelection2")
 	public String seatSelection2(Seat seat, GoodsManagement goodsManagement) {
-		
+		//좌석 상태 변경
 		seatService.seatSelection(seat);
 				
 		return "redirect:/seat/seatSelection?goodsManagementCd="+goodsManagement.getGoodsManagementCd();
@@ -62,13 +62,17 @@ public class SeatController {
 	/*좌석 이용 */
 	@PostMapping("/seatSelection")
 	public String seatSelection(Seat seat, GoodsManagement goodsManagement, Order order) {
-		if(goodsManagement.getGoodsManagementCd() == null) {			
+		//좌석 선택
+		if(goodsManagement.getGoodsManagementCd() == null) {
+			//좌석 처음 선택시
 			goodsManagementService.addGoodsManagement(goodsManagement);
 			seatService.seatSelection(seat);
 		}else if(goodsManagement.getLeaveTime() == null){
+			//좌석 변경 선택 시 좌석 재 선택
 			goodsManagementService.modifyGM(goodsManagement);
 			seatService.seatSelection(seat);
 		}else {
+			//좌석 이용 종료 시
 			goodsManagementService.modifyGM(goodsManagement);
 			orderService.modifyOrder(order);
 			seatService.seatSelection(seat);
@@ -87,6 +91,7 @@ public class SeatController {
 								@RequestParam(name="giveTime", required=false) String giveTime
 								,HttpSession session, GoodsManagement goodsManagement, Order order) {
 		String sessionId = (String)session.getAttribute("SID");
+		//현재 카페 이용중인 정보 확인
 		GoodsManagement useById = goodsManagementService.getUseById(sessionId);
 		log.info("좌석이용 확인 : {}", useById);
 		
@@ -99,21 +104,7 @@ public class SeatController {
 		
 		return"seat/seatSelection";
 	}
-	/*
-	 * //좌석 목록 조회
-	 * 
-	 * @GetMapping ("/seatList") public String seatList(Model model) {
-	 * 
-	 * List<Seat> seatList = seatService.getSeatList();
-	 * 
-	 * log.info("목록 : {}", seatList);
-	 * 
-	 * model.addAttribute("title", "좌석 목록"); model.addAttribute("seatList",
-	 * seatList);
-	 * 
-	 * return "seat/seatList"; }
-	 */
-	
+
 	
 	
 

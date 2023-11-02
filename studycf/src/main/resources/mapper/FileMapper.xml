@@ -5,6 +5,7 @@
 
 <mapper namespace="studycf.mapper.FileMapper">
 	<delete id="deleteRelFileWithBoard" parameterType="String">
+		/*게시판 파일 삭제*/
 		DELETE
 			rfwg
 		FROM
@@ -14,6 +15,7 @@
 	</delete>
 	
 	<delete id="deleteFile" parameterType="String">
+		/**/
 		DELETE t_file FROM t_file WHERE file_cd=#{deleteImg}
 	</delete>
 	<update id="modifyFile" parameterType="Map"> 

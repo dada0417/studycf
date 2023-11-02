@@ -43,6 +43,8 @@ public class UserController {
 	
 	private static final Logger log = LoggerFactory.getLogger(UserController.class);
 	
+	
+	//회원 전체 목록
 	@GetMapping("/userList")
 	public String userList(User user, Model model){
 		List<User> userList = userService.userList(user);
@@ -51,6 +53,7 @@ public class UserController {
 		return "user/userList";
 	}
 	
+	//관리자가 회원 대신 퇴장 처리
 	@PostMapping("/userDetail2")
 	public String userListById(String userId, Seat seat, GoodsManagement goodsManagement, Order order) {
 		goodsManagementService.modifyGM(goodsManagement);
@@ -61,12 +64,13 @@ public class UserController {
 		return "redirect:/user/userDetail2?userId="+userId;
 	}
 	
-	//회원이용상세정보
+	//관리자가 회원 이용상세정보 조회
 		@GetMapping("/userDetail2")
 		public String userListById(String userId, Model model
 									,@RequestParam(name = "currentPage", required = false, defaultValue = "1") int currentPage) {
-		
+			//이용가능 이용권 목록
 			List<GoodsManagement> availableGoodsList = goodsManagementService.availableGoodsListById(userId);
+			//현재 이용중인 이용내역
 			GoodsManagement useById = goodsManagementService.getUseById(userId);
 			
 			//카페 총 이용시간
@@ -75,7 +79,7 @@ public class UserController {
 			Map<String, Object> goodsManagementMap = new HashMap<>();
 
 			goodsManagementMap.put("userId", userId);
-			
+			//카페 이용 전체 내역
 			Map<String, Object> resultMap = goodsManagementService.usageListById(currentPage, goodsManagementMap);
 			
 			log.info("currentPage : {}", currentPage);
@@ -152,6 +156,7 @@ public class UserController {
 		
 		log.info("회원정보조회 아이디 : {}", sessionId);
 		User user = userService.getUserInfoById(sessionId);
+		//이용가능한 이용권 목록
 		List<GoodsManagement> availableGoodsList = goodsManagementService.availableGoodsListById(sessionId);
 		
 		//카페 총 이용시간
@@ -160,7 +165,7 @@ public class UserController {
 		Map<String, Object> goodsManagementMap = new HashMap<>();
 
 		goodsManagementMap.put("sessionId", sessionId);
-		
+		//카페 이용내역
 		Map<String, Object> resultMap = goodsManagementService.usageListById(currentPage, goodsManagementMap);
 		
 		log.info("currentPage : {}", currentPage);
@@ -206,7 +211,6 @@ public class UserController {
 		
 		return "user/addUser";
 	}
-	
 	
 	
 	// 아이디 중복체크 여부

@@ -23,8 +23,9 @@ public class MainController {
 	
 	@GetMapping("/")
 	public String index(Model model, String goodsCtgCd) {
+		//이용중 좌석수
 		int seatCount = seatService.getSeatCount();
-		
+		//이용권 목록
 		List<Goods> goodsList = goodsService.getGoodsList(goodsCtgCd);
 		
 		model.addAttribute("seatCount", seatCount);

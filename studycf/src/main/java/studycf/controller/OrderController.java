@@ -2,7 +2,7 @@ package studycf.controller;
 
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
+
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import studycf.dto.Goods;
-import studycf.dto.GoodsManagement;
 import studycf.dto.Order;
 import studycf.service.GoodsManagementService;
 import studycf.service.GoodsService;
@@ -50,7 +49,7 @@ public class OrderController {
 	
 		return "redirect:/seat/seatSelection?orderCd="+order.getOrderCd()+"&goodsCd="+order.getGoodsCd()+"&giveTime="+order.getGoodsCtgCd()+"&orderExpirationDate="+order.getOrderExpirationDate();
 	}
-	
+	//이용권 구매 화면
 	@GetMapping("/addOrder")
 	public String addGoods(Model model, 
 			@RequestParam(name="goodsCtgCd", required = false) String goodsCtgCd) {
@@ -64,7 +63,7 @@ public class OrderController {
 	}
 	
 	
-	//이용권 목록 조회
+	//주문 목록 조회
 	@GetMapping ("/orderList")
 	public String getOrderList(Model model) {
 		List<Order> orderList = orderService.getOrderList();

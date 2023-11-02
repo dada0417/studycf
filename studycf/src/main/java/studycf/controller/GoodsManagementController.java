@@ -56,7 +56,7 @@ public class GoodsManagementController {
 		return seatCheckById;
 	}
 	
-	
+	//회원이 이용가능한 이용권 목록
 	@GetMapping("/usingList")
 	public String availableGoodsListById(HttpSession session, Model model, Order order) {
 		String sessionId = (String)session.getAttribute("SID");
@@ -87,7 +87,7 @@ public class GoodsManagementController {
 	}
 	//이용권 사용 화면 
 	@GetMapping("/addGoodsManagement")
-	public String addGoods(Model model) {
+	public String addGoodsManagement(Model model) {
 				
 		model.addAttribute("title", "이용권 등록");		
 		return "/goodsManagement/addGoodsManagement";

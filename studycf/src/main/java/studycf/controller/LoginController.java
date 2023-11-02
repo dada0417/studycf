@@ -25,7 +25,7 @@ public class LoginController {
 		this.userService = userService;
 	}
 	
-	
+	//로그아웃 처리
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
 		session.invalidate();
@@ -34,7 +34,6 @@ public class LoginController {
 	
 	
 	//아이디 찾기
-	
 		@PostMapping("/loginId")
 		@ResponseBody
 		public String isPhoneCheck(@RequestParam(name = "userPhone" , required = false) String userPhone) {
@@ -45,7 +44,7 @@ public class LoginController {
 			log.info(result);
 			return result;
 		}
-		
+		//아이디 찾기 화면
 		@GetMapping("/loginId")
 		public String loginId(Model model) {
 			model.addAttribute("title", "아이디 찾기");
@@ -53,7 +52,6 @@ public class LoginController {
 		}	
 		
 		//비밀번호 찾기
-		
 		@PostMapping("/loginPw")
 		@ResponseBody
 		public String isIdCheck2(@RequestParam(name = "userId" , required = false) String userId) {
@@ -64,7 +62,7 @@ public class LoginController {
 
 			return result;
 		}
-		
+		//비번 찾기 화면
 		@GetMapping("/loginPw")
 		public String loginPw(Model model) {
 			model.addAttribute("title", "비밀번호 찾기");

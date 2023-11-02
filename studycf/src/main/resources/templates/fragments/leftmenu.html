@@ -27,6 +27,12 @@
                         <p> 내정보 </p>
                     </a>
                 </li>
+                <li th:if="${session.SID == 'id001'}">
+                    <a th:href="@{/user/userList}">
+                        <i class="ti-face-smile"></i>
+                        <p>회원 목록</p>
+                    </a>
+                </li>
                 <li>
                     <a th:href="@{/order/addOrder}">
                         <i class="ti-ticket"></i>

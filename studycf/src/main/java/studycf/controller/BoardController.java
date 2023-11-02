@@ -1,6 +1,6 @@
 package studycf.controller;
 
-import java.util.HashMap;
+
 import java.util.List;
 import java.util.Map;
 
@@ -15,14 +15,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 
 import studycf.dto.Board;
 import studycf.dto.BoardComment;
 import studycf.dto.BoardCtg;
-import studycf.dto.Seat;
+
 import studycf.service.BoardService;
 
 
@@ -107,7 +107,7 @@ public class BoardController {
 	}
 	
 	
-	/* 게시글수정 처리 */
+	/* 게시글수정 처리(삭제) */
 	@GetMapping("/deleteBoard")
 	public String deleteBoard(Board board, Model model) {
 		
@@ -153,14 +153,17 @@ public class BoardController {
 								,@RequestParam(value = "boardCd", required = false) String boardCd
 								,@RequestParam(value = "parentCd", required = false) String parentCd
 								) {
-		
+		//게시글 상세보기
 		Board board = boardService.getBoardDetail(boardCd);
+		//이전글
 		Board boardPre = boardService.getBoardPre(boardCd);
+		//다음글
 		Board boardNext = boardService.getBoardNext(boardCd);
+		//게시글 댓글 조회
 		List<BoardComment> commentList = boardService.getBoardCommentList(boardCd, parentCd);
-		
+		//댓글수
 		int commentCount = boardService.commentCount(boardCd);
-		
+		//조회수 증가
 		boardService.boardViewUpdate(boardCd);
 		
 		model.addAttribute("title", 				"게시글 상세보기");

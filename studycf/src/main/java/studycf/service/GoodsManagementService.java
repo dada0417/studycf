@@ -1,12 +1,9 @@
 package studycf.service;
 
-
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +28,7 @@ public class GoodsManagementService {
 
 	private static final Logger log = LoggerFactory.getLogger(GoodsManagementService.class);
 	
-	//회원이 이용권을 사용해 카페 이용하는 이용권 사용 내역
+	//회원이 이용권을 사용해 카페 이용중인 정보 내역
 	public GoodsManagement getUseById(String userId) {
 		GoodsManagement  result = goodsManagementMapper.getUseById(userId);
 		
@@ -54,7 +51,7 @@ public class GoodsManagementService {
 		return totalTime;
 	}
 
-	//이용권 이용 내역
+	//회원의 이용권 이용 내역
 	public Map<String, Object> usageListById(int currentPage, Map<String, Object> goodsManagementMap){
 	
 		

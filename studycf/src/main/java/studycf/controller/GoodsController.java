@@ -41,7 +41,7 @@ public class GoodsController {
 	}
 	
 	
-	
+	//이용권 수정
 	@GetMapping("/modifyGoods")
 	public String modifyGoods(@RequestParam(value="goodsCd") String goodsCd
 			,Model model) {
@@ -63,7 +63,7 @@ public class GoodsController {
 		goodsService.addGoods(goods);
 		return "redirect:/goods/goodsList";
 	}
-	
+	//이용권 등록
 	@GetMapping("/addGoods")
 	public String addGoods(Model model) {
 		model.addAttribute("title", "이용권 등록");

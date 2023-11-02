@@ -1,6 +1,5 @@
 package studycf.mapper;
 
-
 import java.util.List;
 import java.util.Map;
 
@@ -8,15 +7,10 @@ import org.apache.ibatis.annotations.Mapper;
 
 import studycf.dto.GoodsManagement;
 
-
-
 @Mapper
 public interface GoodsManagementMapper {
 	
-	//남은 시간 확인을 위한 사용자의 최근 이용권 사용 내역
-	
-	
-	//회원이 이용권을 사용해 카페 이용중인 이용권 사용 내역 
+	//회원이 이용권을 사용해 카페 이용중인 정보 내역 
 	public GoodsManagement getUseById(String userId);
 	
 	//본인 이용중인 좌석 확인

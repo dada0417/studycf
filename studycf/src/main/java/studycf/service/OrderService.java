@@ -24,7 +24,7 @@ public class OrderService {
 
 	private static final Logger log = LoggerFactory.getLogger(OrderService.class);
 	
-	//이용권 시간 수정
+	//이용권 시간 변경
 	public int modifyOrder(Order order) {
 		
 		int result = orderMapper.modifyOrder(order);

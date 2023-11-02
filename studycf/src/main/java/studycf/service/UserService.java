@@ -29,31 +29,25 @@ public class UserService {
 		return result;
 	}
 	
-	
-	/*회원정보 수정*/
+	//회원정보 수정
 	public int modifyUser(User user) {
 		int result = userMapper.modifyUser(user);
 		return result;
 	}
 	
-	/* 회원가입 */
+	//회원가입
 	public int addUser(User user) {
 		int result = userMapper.addUser(user);
 		return result;
 	}
 	
-	
-	/* 아이디 중복 체크 */
+	//아이디 중복 체크 
 	public boolean isIdCheck(String userId) {
 		boolean result = userMapper.isIdCheck(userId);
 		return result;
 	}
 	
-	
-	/**
-	 * 비밀번호 찾기
-	 */
-	
+	//비밀번호 찾기
 	public String isIdCheck2(String userId) {
 		log.info(userId);
 		String result = userMapper.isIdCheck2(userId);
@@ -61,35 +55,19 @@ public class UserService {
 		return result;
 	}
 	
-	/**아이디찾기*/
+	//아이디 찾기
 	public String isPhoneCheck(String userPhone) {
 
 		String result = userMapper.isPhoneCheck(userPhone);
 
 		return result;
 	}
-	
-	
 
-	/**
-	 * *회원상세정보
-	 * */
+	//회원 상세 정보 조회
 	public User getUserInfoById(String userId) {
 		User user = userMapper.getUserInfoById(userId);
 		log.info(userId);
 		return user;
 	}
-
-
-
-
-
-
-
-
-
-
-
-
 
 }

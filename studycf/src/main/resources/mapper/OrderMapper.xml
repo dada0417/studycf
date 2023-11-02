@@ -16,6 +16,7 @@
 	</resultMap>
 
 	<update id="modifyOrder" parameterType="Order">
+		/*주문정보 중 주어진 시간 변경*/
 		UPDATE goods_order
 		set give_time = #{giveTime}
 		WHERE

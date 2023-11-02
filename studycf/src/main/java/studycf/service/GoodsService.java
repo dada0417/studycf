@@ -28,7 +28,6 @@ public class GoodsService {
 	public int modifyGoods(Goods goods) {
 		int result = goodsMapper.modifyGoods(goods);
 		return result;
-		
 	}
 	
 	//이용권 상세조회

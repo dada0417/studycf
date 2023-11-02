@@ -23,7 +23,8 @@ public class SeatService {
 	}
 
 	private static final Logger log = LoggerFactory.getLogger(SeatService.class);
-
+	
+	//이용중인 좌석 확인
 	public List<Seat> seatCheck(){
 		List<Seat> seatCheck = seatMapper.seatCheck();
 		log.info("예약된 좌석 확인 서비스");

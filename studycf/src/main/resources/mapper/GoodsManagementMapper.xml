@@ -44,7 +44,7 @@
 	</resultMap>
 	
 	<select id="getUseById" resultType="GoodsManagement" resultMap="GoodsManagementResultMap">
-		/*회원이 이용권을 사용해 카페 이용중인 이용권 사용 내역 */
+		/*회원이 이용권을 사용해 카페 이용중인 이용권 정보 내역 */
 		SELECT 
 			gm.goods_management_cd
 			, gm.user_id
@@ -163,6 +163,7 @@
 	</select>
 			
 	<update id="modifyGM" parameterType="GoodsManagement">
+		/*이용권 사용 정보 수정*/
 		UPDATE goods_management
 		<trim prefix="SET" prefixOverrides=",">
 				seat_cd		= #{seatCd, jdbcType=VARCHAR}
@@ -210,12 +211,6 @@
 				,#{orderExpirationDate});	
 	</insert>
 	
-
-
-
-
-
-
 
 
 </mapper>  
