@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+ 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/default.html}">
+<th:block layout:fragment="customTitle">
+		<title th:text="${title}"></title>
+</th:block>	
+
+
+<th:block layout:fragment = "customContents">
+	<div class="container-fluid">
+      <div class="row">
+          <div class="col-md-12">
+              <div class="card">
+                  <div class="header">
+                      <h4 class="title">회원 목록</h4>
+                      <p class="category">Here is a subtitle for this table</p>
+                  </div>
+                  <div class="content table-responsive table-full-width">
+                      <table class="table table-striped">
+                          <thead style="font: bold;">
+                          	<tr>
+	                            <th>회원 아이디</th>
+	                          	<th>회원 이름</th>
+	                          	<th>회원 이메일</th>
+	                          	<th>회원 전화번호</th>
+	                          	<th>스터디카페 이용 상세보기</th>
+                          	</tr>
+                          </thead>
+                          <tbody>
+                              <tr th:if="${not #lists.isEmpty(userList)}" th:each="l : ${userList}">
+                              	<td th:text="${l.userId}"></td>
+                              	<td th:text="${l.userNm}"></td>
+                              	<td th:text="${l.userEmail}"></td>
+                              	<td th:text="${l.userPhone}"></td>
+                             	<td>
+                             		<button type="button" th:onclick="|location.href='@{/user/userDetail2(userId=${l.userId})}'|">이용확인</button>	
+                             	</td>
+                              </tr>
+                              <tr th:unless="${not #lists.isEmpty(userList)}">
+								<td colspan="5">회원이 없습니다.</td>
+							</tr>	
+                          </tbody>
+                      </table>
+                  </div>
+              </div>
+          </div>
+		</div>
+	</div>
+</th:block>
+
+</html>

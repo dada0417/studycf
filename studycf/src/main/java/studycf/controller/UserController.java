@@ -17,8 +17,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import studycf.dto.GoodsManagement;
+import studycf.dto.Order;
+import studycf.dto.Seat;
 import studycf.dto.User;
 import studycf.service.GoodsManagementService;
+import studycf.service.OrderService;
+import studycf.service.SeatService;
 import studycf.service.UserService;
 
 @Controller
@@ -27,13 +31,72 @@ public class UserController {
 	
 	public final UserService userService;
 	public final GoodsManagementService goodsManagementService;
+	public final OrderService orderService;
+	public final SeatService seatService;
 	
-	public UserController(UserService userService, GoodsManagementService goodsManagementService) {
+	public UserController(UserService userService, GoodsManagementService goodsManagementService,OrderService orderService,SeatService seatService) {
 		this.userService	=	userService;
 		this.goodsManagementService	=	goodsManagementService;
+		this.orderService	=	orderService;
+		this.seatService	=	seatService;
 	}
 	
 	private static final Logger log = LoggerFactory.getLogger(UserController.class);
+	
+	@GetMapping("/userList")
+	public String userList(User user, Model model){
+		List<User> userList = userService.userList(user);
+		model.addAttribute("userList", userList);
+		model.addAttribute("title", "회원 목록");
+		return "user/userList";
+	}
+	
+	@PostMapping("/userDetail2")
+	public String userListById(String userId, Seat seat, GoodsManagement goodsManagement, Order order) {
+		goodsManagementService.modifyGM(goodsManagement);
+		orderService.modifyOrder(order);
+		seatService.seatSelection(seat);
+		
+		
+		return "redirect:/user/userDetail2?userId="+userId;
+	}
+	
+	//회원이용상세정보
+		@GetMapping("/userDetail2")
+		public String userListById(String userId, Model model
+									,@RequestParam(name = "currentPage", required = false, defaultValue = "1") int currentPage) {
+		
+			List<GoodsManagement> availableGoodsList = goodsManagementService.availableGoodsListById(userId);
+			GoodsManagement useById = goodsManagementService.getUseById(userId);
+			
+			//카페 총 이용시간
+			String totalTime = goodsManagementService.getTotalTime(userId);
+			
+			Map<String, Object> goodsManagementMap = new HashMap<>();
+
+			goodsManagementMap.put("userId", userId);
+			
+			Map<String, Object> resultMap = goodsManagementService.usageListById(currentPage, goodsManagementMap);
+			
+			log.info("currentPage : {}", currentPage);
+			
+			model.addAttribute("title", "회원이용상세정보");
+			model.addAttribute("resultMap", 			resultMap);
+			model.addAttribute("currentPage", 			currentPage);
+			model.addAttribute("usageListById",			resultMap.get("usageListById"));
+			model.addAttribute("lastPage", 				resultMap.get("lastPage"));
+			model.addAttribute("startPageNum", 			resultMap.get("startPageNum"));
+			model.addAttribute("endPageNum", 			resultMap.get("endPageNum"));
+			model.addAttribute("totalTime", totalTime);
+			model.addAttribute("availableGoodsList", availableGoodsList);
+			model.addAttribute("useById", useById);
+			
+			log.info("map확인 : {}", goodsManagementMap);
+			log.info("totalTime확인 : {}", totalTime);
+			
+			
+			return "user/userDetail2";
+		}
 	
 	//회원 비밀번호 변경
 	@PostMapping("/modifyUserPw")

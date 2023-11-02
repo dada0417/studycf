@@ -26,12 +26,13 @@
 				var ctg = $('input[name="goodsCtgCd"]').val();
 				console.log(ctg);
 				if(ctg == 'day'){
+					history.replaceState("",{},"/");
 					 history.pushState(null, null, location.href); 
 					  window.onpopstate = function(event) { 
 						history.go(1); 
 					  };
 					
-				}
+				};
 				
 				
 				 $.ajax({

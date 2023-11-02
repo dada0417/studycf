@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+ 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/default.html}">
+<th:block layout:fragment="customTitle">
+		<title th:text="${title}"></title>
+</th:block>	
+
+<th:block layout:fragment="customJs">
+	<script type="text/javascript" th:src="@{/assets/js/jquery-3.6.0.min.js}"></script>
+ 	<script>
+
+		 $(function(){
+			 
+			 
+			var $exitForm = $('#exitForm');
+			$exitForm.on('click','#exBtn', function(){
+					//퇴장시간
+					var date1 = new Date();
+					
+					var year = date1.getFullYear();
+					var month = date1.getMonth()+1;
+					var month1 = ('0'+month).slice(-2);
+					var day = ('0' + date1.getDate()).slice(-2);
+					var hours = ('0' + date1.getHours()).slice(-2); 
+					var minutes = ('0' + date1.getMinutes()).slice(-2);
+					var seconds = ('0' + date1.getSeconds()).slice(-2); 
+					var leaveT = year + '-' + month1  + '-' + day + " " + hours + ':' + minutes  + ':' + seconds;
+					
+					$('input[name="leaveTime"]').val(leaveT);
+					
+					var adT = $('input[name="admissionTime"]').val();
+					console.log(adT);
+					console.log(leaveT);
+					//퇴장시간-입장시간으로 이용시간 구하기
+					var dateA = new Date(adT);
+					var dateB = new Date(leaveT);
+					var diffMSec = dateB.getTime() - dateA.getTime();
+					console.log(dateA.getTime());
+					
+					var h = Math.floor((diffMSec / (1000 * 60 *60 )));
+					var m = Math.floor((diffMSec / (1000 * 60 )) % 60);
+					var s = Math.floor(diffMSec / 1000 ) % 60;
+					
+					 if (h < 10){
+		                    h = "0" + h;
+		                }
+					 if (s < 10){
+		                    s = "0" + s;
+		                }
+	                if (m < 10) {
+	                    m = "0" + m;
+	                }
+
+					var useTime = h+":"+m+":"+s			
+					console.log(h+":"+m+":"+s);
+					
+					$('input[name="useTime"]').val(useTime);
+					
+					//이용권 남은시간 구하기
+					var h2 = useTime.substring(0,useTime.indexOf(":"));
+					var m2 = useTime.substring(useTime.indexOf(":")+1,useTime.indexOf(":")+3);
+					var s2 = useTime.substr(useTime.length-2,2);
+					
+					var useTimeS = h2*60*60*1000 + m2*60*1000 +s2*1000;
+					
+					var give = $('input[name="giveTime"]').val();
+					console.log(give);
+					
+					var h3 = give.substring(0,give.indexOf(":"));
+					var m3 = give.substring(give.indexOf(":")+1,give.indexOf(":")+3);
+					var s3 = give.substr(give.length-2,2);
+					
+					var giveS = h3*60*60*1000 + m3*60*1000 +s3*1000;
+					
+					var re = giveS - useTimeS;
+		
+					
+					var h4 = Math.floor((re / (1000 * 60 *60 )));
+					var m4 = Math.floor((re / (1000 * 60 )) % 60);
+					var s4 = Math.floor(re / 1000 ) % 60;
+					
+					 if (h4 < 10){
+		                    h4 = "0" + h4;
+		                }
+					 if (s4 < 10){
+		                    s4 = "0" + s4;
+		                }
+	                if (m4 < 10) {
+	                    m4 = "0" + m4;
+	                }
+					
+	                var remainingT = h4+":"+m4+":"+s4;
+	                console.log(remainingT);
+					$('input[name="remainingTime"]').val(remainingT);
+					$('input[name="giveTime"]').val(remainingT);
+	                
+					
+					$exitForm.attr('action', '/user/userDetail2').submit();			
+				
+			});
+			 
+			
+		});
+	</script>
+</th:block>
+
+
+
+
+<th:block layout:fragment = "customContents">
+	<div class="container-fluid" th:unless="${#strings.isEmpty(session.SID)}">
+	    <div class="row">
+	        <div class="col-lg-4 col-md-5">
+	            <div class="card">
+	                <div class="header">
+	                    <h4 class="title">이용중인 이용권</h4>
+	                </div>
+	                <div class="content">
+	                    <ul class="list-unstyled team-members">
+                          <li th:if="${not #lists.isEmpty(availableGoodsList)}" th:each="l : ${availableGoodsList}">
+                              <div class="row" >
+                                  <div class="col-xs-6" th:text="${l.goodsCtg.goodsCtgNm}">
+                               		       
+                                  </div>
+                                  <div class="col-xs-6" th:text="${l.goods.goodsNm}">
+                                  </div>
+                              </div>
+                          </li>
+                          <li>
+                              <div class="row">
+                                  <div class="col-xs-6">
+                                		누적 이용시간
+                                  </div>
+                                  <div class="col-xs-6" th:text="${totalTime}">
+                                      <br />
+                                      <span class="text-danger"><small>상세보기</small></span>
+                                  </div>
+                              </div>
+                          </li>
+                      </ul>
+	                </div>
+	            </div>
+	        </div>
+	        <div class="container-fluid">
+      <div class="row">
+          <div class="col-md-12">
+              <div class="card">
+                  <div class="header">
+                      <h4 class="title">이용권 사용 내역</h4>
+                  </div>
+                  <div class="content table-responsive table-full-width">
+                      <table class="table table-striped">
+                          <thead style="font: bold;">
+                          	<tr>
+	                            <th>이용권 유형</th>
+	                          	<th>이용권 조건</th>
+	                          	<th>입장시간</th>
+	                          	<th>퇴장시간</th>
+	                          	<th>이용시간</th>
+	                          	<th>이용권 만료일</th>
+	                          	<th>퇴장</th>
+                          	</tr>
+                          </thead>
+                          <tbody>
+                              <tr th:if="${not #lists.isEmpty(usageListById)}" th:each="l : ${usageListById}">
+                              	<td th:text="${l.goodsCtg.goodsCtgNm}"></td>
+                              	<td th:text="${l.goods.goodsNm}"></td>
+                              	<td th:text="${l.admissionTime}"></td>
+                              	<td th:text="${l.leaveTime}"></td>
+                              	<td th:text="${l.useTime}"></td>
+                              	<td th:text="${l.orderExpirationDate}"></td>                            
+                              	<td><button th:if="${#lists.isEmpty(l.leaveTime)}" type="button" id="exitBtn" data-toggle="modal" data-target="#exitModal">퇴장</button></td>                            
+                              </tr>
+                              <tr th:unless="${not #lists.isEmpty(usageListById)}">
+								<td colspan="7">이용내역 없습니다.</td>
+							  </tr>	
+                          </tbody>
+                      </table>
+                      <div class="col-lg-12 text-center">
+                        <div class="pagination__option" th:if="${not #lists.isEmpty(usageListById)}">
+							<a th:if="${currentPage > 1}" th:href="@{/user/userDetail(currentPage=${currentPage - 1})}"><i class="fa fa-angle-left"></i></a>
+							<th:block th:each="num : ${#numbers.sequence(startPageNum,endPageNum)}">
+								<label th:if="${currentPage eq num}" th:text="${(num<10) ? '0' + num  :  num }"></label>
+								<a th:unless="${currentPage eq num}" th:href="@{/user/userDetail(currentPage=${num})}" th:text="${(num<10) ? '0' + num  :  num }"></a>
+							</th:block>
+							<a th:if="${currentPage < lastPage}" th:href="@{/user/userDetail(currentPage=${currentPage + 1})}"><i class="fa fa-angle-right"></i></a>
+						</div>
+                    </div>
+                  </div>
+              </div>
+          </div>
+		</div>
+	</div>
+	    </div>
+	</div>
+	<!-- 내 좌석 변경 모달 -->
+		<div class="modal fade" id="exitModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-mod="true">
+ 		 <div class="modal-overlay">
+	      </div>
+		<form id="exitForm" method="post">
+			<div class="modal-dialog" role="document">
+		 		<div class="modal-content">
+					<div class="modal-header">
+						<h5>퇴장처리 하시겠습니까?</h5>
+						<th:block th:if="${not #lists.isEmpty(useById)}">
+							<input type="hidden" name="goodsManagementCd" th:value = "${useById.goodsManagementCd}">
+							<input type="hidden" name="giveTime" th:value = "${useById.order.giveTime}">
+							<input type="hidden" name="admissionTime" th:value = "${useById.admissionTime}">
+							<input type="hidden" name="orderCd" th:value = "${useById.orderCd}">
+							<input type="hidden" name="userId" th:value = "${useById.userId}">
+							<input type="hidden" name="seatCd" th:value = "${useById.seatCd}">
+							<input type="hidden" class="form-control" name="seatState" th:value="Y" readonly="readonly">
+							<input type="hidden" class="form-control" name="leaveTime" readonly="readonly">
+							<input type="hidden" class="form-control" name="useTime" readonly="readonly">
+							<input type="hidden" class="form-control" name="remainingTime" readonly="readonly">
+						<th:block th:if="${not #lists.isEmpty(useById)}">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="form-group row">
+							<div class="col-md-9 col-sm-9">
+								<button type="reset" class="btn btn-primary" data-dismiss="modal">취소</button>
+								<button type="button" class="btn btn-info" id="exBtn" name="exBtn">확인</button>
+								
+							</div>
+						</div>
+					</div>
+					
+				</div>
+			</div>
+		</form>
+	</div>
+	<!-- modal end -->
+</th:block>
+
+</html>

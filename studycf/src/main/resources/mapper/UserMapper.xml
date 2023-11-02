@@ -12,6 +12,20 @@
 		<result column="user_drop"	property="userDrop"/>
 		<result column="user_reg_date"	property="userRegDate"/>
 	</resultMap>
+	
+	
+	<select id="userList" parameterType="User" resultMap="UserResultMap">
+		SELECT 
+			u.user_id
+			, u.user_pw
+			, u.user_nm
+			, u.user_phone
+			, u.user_email
+			, u.user_drop
+			, u.user_reg_date
+		FROM
+			user AS u
+	</select>
 
 	<update id="modifyUser" parameterType="User">
 		UPDATE user

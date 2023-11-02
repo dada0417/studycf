@@ -1,6 +1,8 @@
 package studycf.service;
 
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -21,6 +23,11 @@ public class UserService {
 		}
 	
 	private static final Logger log = LoggerFactory.getLogger(UserService.class);
+	
+	public List<User> userList(User user){
+		List<User> result = userMapper.userList(user);
+		return result;
+	}
 	
 	
 	/*회원정보 수정*/
