@@ -55,15 +55,10 @@
   - 게시글 카테고리 별 조회 가능
 
 ## 개발환경
-▶ Language : Java, JavaScript(JQuery : jquery-3.6.0), HTML, CSS
-
-▶ DB : MySQL
-
-▶ DB관리툴 : HeidiSQL 10.1.0.5464
-
-▶ 서버 : apache - 9.0.1
-
-▶ WAS : Tomcat - 9.0.1
-
-▶ 협업툴 : GitHub, ERDCloud : Eclipse Oxygen.1a Release (4.7.1a), STS4 4.2.1, springframework 5.3.7, spring-webmvc 5.3.7, Maven, mybatis-3.5.6, mybatis-spring 2.0.6, bootstrap
+- Language : Java, JavaScript(JQuery : jquery-3.6.0), HTML, CSS
+- DB : MySQL
+- DB관리툴 : HeidiSQL 10.1.0.5464
+- 서버 : apache - 9.0.1
+- WAS : Tomcat - 9.0.1
+- 협업툴 : GitHub, ERDCloud : Eclipse Oxygen.1a Release (4.7.1a), STS4 4.2.1, springframework 5.3.7, spring-webmvc 5.3.7, Maven, mybatis-3.5.6, mybatis-spring 2.0.6, bootstrap
 API : spring-jdbc-5.3.7, mysql-connector-java 8.0.25 , log4j 2.13.3, thymeleaf-3.0.12, jackson.core 2.11.4
