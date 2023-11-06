@@ -41,7 +41,6 @@ public class BoardService {
 		return result;
 	}
 	
-	
 	/*게시글 댓글 수*/
 	public int commentCount(String boardCd) {
 		return boardMapper.commentCount(boardCd);
