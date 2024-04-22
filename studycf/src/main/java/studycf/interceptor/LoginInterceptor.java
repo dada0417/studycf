@@ -6,8 +6,11 @@ import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
+
+import studycf.config.auth.PrincipalDetails;
 
 @Component
 public class LoginInterceptor implements HandlerInterceptor {
@@ -37,15 +40,15 @@ public class LoginInterceptor implements HandlerInterceptor {
 	    }
 	}
 
-	@Override
-	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
+	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
+							@AuthenticationPrincipal PrincipalDetails principal)
 			throws Exception {
 		
-		HttpSession session = request.getSession();
+		
 		/**
 		 * 기본 타입 오브젝트 -> String으로 형변환
 		 */
-		String sessionId = (String)session.getAttribute("SID");
+		String sessionId = (String)principal.getUsername();
 		if(sessionId == null) {
 			
 			saveDest(request);
