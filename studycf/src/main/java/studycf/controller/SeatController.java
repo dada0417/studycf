@@ -2,10 +2,10 @@ package studycf.controller;
 
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import studycf.config.auth.PrincipalDetails;
 import studycf.dto.GoodsManagement;
 import studycf.dto.Order;
 import studycf.dto.Seat;
@@ -88,19 +89,29 @@ public class SeatController {
 								@RequestParam(name="orderCd", required=false) String orderCd,
 								@RequestParam(name="goodsCd", required=false) String goodsCd,
 								@RequestParam(name="orderExpirationDate", required=false) String orderExpirationDate,
-								@RequestParam(name="giveTime", required=false) String giveTime
-								,HttpSession session, GoodsManagement goodsManagement, Order order) {
-		String sessionId = (String)session.getAttribute("SID");
-		//현재 카페 이용중인 정보 확인
-		GoodsManagement useById = goodsManagementService.getUseById(sessionId);
-		log.info("좌석이용 확인 : {}", useById);
+								@RequestParam(name="giveTime", required=false) String giveTime,
+								@AuthenticationPrincipal PrincipalDetails principal, GoodsManagement goodsManagement, Order order) {
+		
+		if(principal != null) {
+			String sessionId = (String)principal.getUsername();
+			log.info("sessionId 확인 : {}", sessionId);
+			
+			//현재 카페 이용중인 정보 확인
+			GoodsManagement useById = goodsManagementService.getUseById(sessionId);
+			log.info("좌석이용 확인 : {}", useById);
+			model.addAttribute("useById", useById);
+		}
+		
+			
+	
+		
 		
 		model.addAttribute("goodsManagementCd", goodsManagementCd);
 		model.addAttribute("orderCd", orderCd);
 		model.addAttribute("goodsCd", goodsCd);
 		model.addAttribute("giveTime", giveTime);
 		model.addAttribute("orderExpirationDate", orderExpirationDate);
-		model.addAttribute("useById", useById);
+		
 		
 		return"seat/seatSelection";
 	}

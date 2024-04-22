@@ -4,10 +4,10 @@ package studycf.controller;
 
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import studycf.config.auth.PrincipalDetails;
 import studycf.dto.GoodsManagement;
 import studycf.dto.Order;
 import studycf.service.GoodsManagementService;
@@ -58,8 +59,8 @@ public class GoodsManagementController {
 	
 	//회원이 이용가능한 이용권 목록
 	@GetMapping("/usingList")
-	public String availableGoodsListById(HttpSession session, Model model, Order order) {
-		String sessionId = (String)session.getAttribute("SID");
+	public String availableGoodsListById(@AuthenticationPrincipal PrincipalDetails principal, Model model, Order order) {
+		String sessionId = (String)principal.getUsername();
 		
 		 List<GoodsManagement> availableGoodsList = goodsManagementService.availableGoodsListById(sessionId);
 		model.addAttribute("availableGoodsList", availableGoodsList);

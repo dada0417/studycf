@@ -11,6 +11,7 @@
 		<result column="user_email"	property="userEmail"/>
 		<result column="user_drop"	property="userDrop"/>
 		<result column="user_reg_date"	property="userRegDate"/>
+		<result column="role"	property="role"/>
 	</resultMap>
 	
 	
@@ -65,6 +66,7 @@
 			,user_email
 			,user_drop
 			,user_reg_date
+			,role
 		)	VALUES (
 			 #{userId}
 			,#{userPw}
@@ -73,6 +75,7 @@
 			,#{userEmail}
 			,'N'
 			,CURDATE()
+			,#{role}
 		);
 	</insert>
 	
@@ -119,6 +122,7 @@
 			,user_email
 			,user_drop
 			,user_reg_date
+			,role
 		FROM 
 			user
 		WHERE 

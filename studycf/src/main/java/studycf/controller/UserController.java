@@ -4,10 +4,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import studycf.config.SecurityConfig;
+import studycf.config.auth.PrincipalDetails;
 import studycf.dto.GoodsManagement;
 import studycf.dto.Order;
 import studycf.dto.Seat;
@@ -33,12 +36,14 @@ public class UserController {
 	public final GoodsManagementService goodsManagementService;
 	public final OrderService orderService;
 	public final SeatService seatService;
+	private final SecurityConfig securityConfig;
 	
-	public UserController(UserService userService, GoodsManagementService goodsManagementService,OrderService orderService,SeatService seatService) {
+	public UserController(UserService userService, GoodsManagementService goodsManagementService,OrderService orderService,SeatService seatService, SecurityConfig securityConfig) {
 		this.userService	=	userService;
 		this.goodsManagementService	=	goodsManagementService;
 		this.orderService	=	orderService;
 		this.seatService	=	seatService;
+		this.securityConfig	=	securityConfig;
 	}
 	
 	private static final Logger log = LoggerFactory.getLogger(UserController.class);
@@ -65,6 +70,7 @@ public class UserController {
 	}
 	
 	//관리자가 회원 이용상세정보 조회
+		@Secured("ROLE_MANAGER")
 		@GetMapping("/userDetail2")
 		public String userListById(String userId, Model model
 									,@RequestParam(name = "currentPage", required = false, defaultValue = "1") int currentPage) {
@@ -150,9 +156,11 @@ public class UserController {
 	
 	//회원상세정보
 	@GetMapping("/userDetail")
-	public String getUserInfoById(HttpSession session, Model model
+	public String getUserInfoById(@AuthenticationPrincipal PrincipalDetails principal, Model model
 								,@RequestParam(name = "currentPage", required = false, defaultValue = "1") int currentPage) {
-		String sessionId = (String)session.getAttribute("SID");
+		String sessionId = (String)principal.getUsername();
+		
+
 		
 		log.info("회원정보조회 아이디 : {}", sessionId);
 		User user = userService.getUserInfoById(sessionId);
@@ -191,16 +199,17 @@ public class UserController {
 	//회원 가입
 	@PostMapping("/addUser")
 	public String addUser(User user) {
-		
-		log.info("회원가입폼 시작");
-		
+		String rawPw = user.getUserPw();
+		String encPw = securityConfig.encodedPwd().encode(rawPw);
+		user.setUserPw(encPw);
+		user.setRole("ROLE_ADMIN");
 		log.info("회원가입폼에서 입력받은 데이터:{}", user);
 		
 		int result = userService.addUser(user);
 		
 		log.info("result : {}", result);
 		
-		return "redirect:/";
+		return "redirect:/login";
 	}
 	
 	//회원 가입 페이지 이동

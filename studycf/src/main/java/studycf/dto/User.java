@@ -15,6 +15,7 @@ public class User {
 	private String userEmail; 
 	private String userDrop;
 	private String userRegDate;
+	private String role;
 	
 	private GoodsManagement goodsManagement;
 }
