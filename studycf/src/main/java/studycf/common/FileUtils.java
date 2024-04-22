@@ -29,6 +29,7 @@ public class FileUtils {
 		this.fileRealPath = fileRealPath;
 	}
 	
+	
 	public List<Map<String, String>> parseFileInfo() {
 		
 		// 파일이 존재하지 않은 경우 

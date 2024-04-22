@@ -29,7 +29,7 @@
 						alert('구매할 이용권을 선택해주세요.');
 						isSubmit = false;
 						return false;
-					}if($("#userId").val() == ""){
+					}if($("#userId").val() == "anonymousUser"){
 						alert("로그인해주세요");
 						isSubmit = false;
 						return false;
@@ -212,7 +212,7 @@
 	                                        	<span class="goodsCtgCdNm"></span>
 	                                        	<span class="goodsNm"></span>
 	                                             <input type="hidden" id="goodsCd" name="goodsCd" required>
-		                                    	<input type="hidden" th:value="${session.SID}" id="userId" name="userId" required>
+		                                    	<input type="hidden" th:value="${#authentication.name}" id="userId" name="userId" required>
 	                                        </div>
 	                                    </div>
 	                                </li>

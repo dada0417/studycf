@@ -85,6 +85,12 @@
 			    isSubmit = false;
 			    return false;
 			}
+			if($("#userEmail").val() == ""){
+			    alert("이메일 입력해주세요.");
+			    $("#userEmail").focus();
+			    isSubmit = false;
+			    return false;
+			}
 		
 			console.log('유효여부 폼전송할건지?' + isSubmit )
 			

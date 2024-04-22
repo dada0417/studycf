@@ -67,31 +67,34 @@
 			$(document).ready(function(){
 				var userId = $('input[name="userId"]').val();
 				console.log(userId);
-				var vCheck = validationCheck(userId);
-				if(vCheck){
-				 $.ajax({
-					type : 'post',
-					url : '/goodsManagement/seatCheckById',
-					data : {
-						'userId' : userId
-					},
-					dataType : 'json',
-					success : function(data){
-						console.log("통신성공");
-						console.log(data);
-							for(var k = 0; k<52; k++){
-								 if($('.seatV').eq(k).val() == data.seatCd){
-										$('.seatV').eq(k).parent().addClass('my');
-										$('.seatV').eq(k).parent().removeAttr('data-target');
-								 }else{
-									 //내 좌석 외 좌석 클릭 금지
-									 $('.seatV').eq(k).parent().addClass('none');
-								 }
-							}
-							$('.my').attr('data-target', "#modifyModal");
-						 }
-			 		}); 
+				if(userId != null){
+					var vCheck = validationCheck(userId);
+					if(vCheck){
+					 $.ajax({
+						type : 'post',
+						url : '/goodsManagement/seatCheckById',
+						data : {
+							'userId' : userId
+						},
+						dataType : 'json',
+						success : function(data){
+							console.log("통신성공");
+							console.log(data);
+								for(var k = 0; k<52; k++){
+									 if($('.seatV').eq(k).val() == data.seatCd){
+											$('.seatV').eq(k).parent().addClass('my');
+											$('.seatV').eq(k).parent().removeAttr('data-target');
+									 }else{
+										 //내 좌석 외 좌석 클릭 금지
+										 $('.seatV').eq(k).parent().addClass('none');
+									 }
+								}
+								$('.my').attr('data-target', "#modifyModal");
+							 }
+				 		}); 
+					}
 				}
+				
 			 }); 	
 			
 			var $addForm = $('#addForm');
@@ -128,7 +131,7 @@
 				var userId = $('input[name="userId"]').val();
 				var or = $('input[name="orderCd"]').val();
 				
-				if(userId == ''){
+				if(userId == 'anonymousUser'){
 					alert("로그인이 필요합니다.");
 					return false;
 				}else if(or == 'undefined' || or == '' || or == null){
@@ -472,7 +475,7 @@
 							<input type="hidden" class="form-control" name="seatCd" readonly="readonly">
 							<input type="hidden" class="form-control" name="seatState" value="N" readonly="readonly">
 						</th:block>
-						<input type="hidden" id="userId" name="userId" th:value="${session.SID}">
+						<input type="hidden" id="userId" name="userId" th:value="${#authentication.name}">
 						<button type="reset" class="close" data-dismiss="modal" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
@@ -511,7 +514,7 @@
 							<input type="hidden" class="form-control" name="remainingTime" readonly="readonly">
 							<input type="hidden" class="form-control" name="seatCd" readonly="readonly">
 						<th:block th:if="${not #lists.isEmpty(useById)}">
-						<input type="hidden" id="userId" name="userId" th:value="${session.SID}">
+						<input type="hidden" id="userId" name="userId" th:value="${#authentication.name}">
 						<input type="button" class="change" name="changeSeat" value="변경">
 						<input type="button" class="exit" name="exit" value="퇴장">
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">

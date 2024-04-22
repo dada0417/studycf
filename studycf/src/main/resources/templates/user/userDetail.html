@@ -52,10 +52,10 @@
 
 
 <th:block layout:fragment = "customContents">
-	<div class="container-fluid" th:if="${#strings.isEmpty(session.SID)}">
+	<div class="container-fluid" sec:authorize="isAnonymous()">
 			<h4>로그인이 필요한 서비스입니다.</h4>
 	</div>
-	<div class="container-fluid" th:unless="${#strings.isEmpty(session.SID)}">
+	<div class="container-fluid" sec:authorize="isAuthenticated()">
 	    <div class="row">
 	        <div class="col-lg-8 col-md-7">
 	            <div class="card">

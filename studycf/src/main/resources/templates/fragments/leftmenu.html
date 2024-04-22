@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <div class="sidebar" data-background-color="white" data-active-color="danger" th:fragment="leftmenuFragment">
 
     <!--
@@ -27,7 +28,7 @@
                         <p> 내정보 </p>
                     </a>
                 </li>
-                <li th:if="${session.SID == 'id001'}">
+                <li sec:authorize="hasRole('MANAGER')">
                     <a th:href="@{/user/userList}">
                         <i class="ti-face-smile"></i>
                         <p>회원 목록</p>
@@ -39,13 +40,13 @@
                         <p>이용권</p>
                     </a>
                 </li>
-                <li th:if="${session.SID == 'id001'}">
+                <li sec:authorize="hasRole('ROLE_MANAGER')">
                     <a th:href="@{/goods/addGoods}">
                         <i class="ti-plus"></i>
                         <p>이용권 등록</p>
                     </a>
                 </li>
-                <li th:if="${session.SID == 'id001'}">
+                <li sec:authorize="hasRole('ROLE_MANAGER')">
                     <a th:href="@{/goods/goodsList}">
                         <i class="ti-view-list-alt"></i>
                         <p>이용권 목록</p>

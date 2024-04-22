@@ -109,7 +109,7 @@
 
 
 <th:block layout:fragment = "customContents">
-	<div class="container-fluid" th:unless="${#strings.isEmpty(session.SID)}">
+	<div class="container-fluid">
 	    <div class="row">
 	        <div class="col-lg-4 col-md-5">
 	            <div class="card">
@@ -181,10 +181,10 @@
                         <div class="pagination__option" th:if="${not #lists.isEmpty(usageListById)}">
 							<a th:if="${currentPage > 1}" th:href="@{/user/userDetail(currentPage=${currentPage - 1})}"><i class="fa fa-angle-left"></i></a>
 							<th:block th:each="num : ${#numbers.sequence(startPageNum,endPageNum)}">
-								<label th:if="${currentPage eq num}" th:text="${(num<10) ? '0' + num  :  num }"></label>
-								<a th:unless="${currentPage eq num}" th:href="@{/user/userDetail(currentPage=${num})}" th:text="${(num<10) ? '0' + num  :  num }"></a>
+								<label th:if="${currentPage eq num}" th:text="${(num<10) ? '0' + num  :  num }">
+								<a th:if="${currentPage eq num}" th:href="@{/user/userDetail2(currentPage=${num})}" th:text="${(num<10) ? '0' + num  :  num }"></a></label>
 							</th:block>
-							<a th:if="${currentPage < lastPage}" th:href="@{/user/userDetail(currentPage=${currentPage + 1})}"><i class="fa fa-angle-right"></i></a>
+							<a th:if="${currentPage < lastPage}" th:href="@{/user/userDetail2(currentPage=${currentPage + 1})}"><i class="fa fa-angle-right"></i></a>
 						</div>
                     </div>
                   </div>
