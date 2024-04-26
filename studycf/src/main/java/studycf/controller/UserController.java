@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import studycf.config.SecurityConfig;
 import studycf.config.auth.PrincipalDetails;
+import studycf.config.auth.PrincipalOauth2UserService;
 import studycf.dto.GoodsManagement;
 import studycf.dto.Order;
 import studycf.dto.Seat;
@@ -36,14 +37,14 @@ public class UserController {
 	public final GoodsManagementService goodsManagementService;
 	public final OrderService orderService;
 	public final SeatService seatService;
-	private final SecurityConfig securityConfig;
+	private final PrincipalOauth2UserService principalOauth2UserService;
 	
-	public UserController(UserService userService, GoodsManagementService goodsManagementService,OrderService orderService,SeatService seatService, SecurityConfig securityConfig) {
+	public UserController(UserService userService, GoodsManagementService goodsManagementService,OrderService orderService,SeatService seatService, PrincipalOauth2UserService principalOauth2UserService) {
 		this.userService	=	userService;
 		this.goodsManagementService	=	goodsManagementService;
 		this.orderService	=	orderService;
 		this.seatService	=	seatService;
-		this.securityConfig	=	securityConfig;
+		this.principalOauth2UserService	=	principalOauth2UserService;
 	}
 	
 	private static final Logger log = LoggerFactory.getLogger(UserController.class);
@@ -200,7 +201,7 @@ public class UserController {
 	@PostMapping("/addUser")
 	public String addUser(User user) {
 		String rawPw = user.getUserPw();
-		String encPw = securityConfig.encodedPwd().encode(rawPw);
+		String encPw = principalOauth2UserService.encodedPwd().encode(rawPw);
 		user.setUserPw(encPw);
 		user.setRole("ROLE_ADMIN");
 		log.info("회원가입폼에서 입력받은 데이터:{}", user);
