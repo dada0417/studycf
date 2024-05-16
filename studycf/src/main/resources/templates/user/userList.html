@@ -33,8 +33,8 @@
                               	<td th:text="${l.userNm}"></td>
                               	<td th:text="${l.userEmail}"></td>
                               	<td th:text="${l.userPhone}"></td>
-                             	<td>
-                             		<button type="button" th:onclick="|location.href='@{/user/userDetail2(userId=${l.userId})}'|">이용확인</button>	
+                             	<td class="text-center">
+                             		<button type="button" class="btn addBtn" th:onclick="|location.href='@{/user/userDetail2(userId=${l.userId})}'|">이용확인</button>	
                              	</td>
                               </tr>
                               <tr th:unless="${not #lists.isEmpty(userList)}">

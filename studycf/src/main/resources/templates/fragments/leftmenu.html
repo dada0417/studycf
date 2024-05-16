@@ -1,13 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 		xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+		
+		
 <div class="sidebar" data-background-color="white" data-active-color="danger" th:fragment="leftmenuFragment">
 
-    <!--
-		Tip 1: you can change the color of the sidebar's background using: data-background-color="white | black"
-		Tip 2: you can change the color of the active button using the data-active-color="primary | info | success | warning | danger"
-	-->
-		
     	<div class="sidebar-wrapper">
             <div class="logo">
                 <a th:href="@{/}" class="simple-text">
@@ -16,7 +13,7 @@
             </div>
 
             <ul class="nav">
-                <li class="active">
+                <li>
                     <a th:href="@{/}">
                         <i class="ti-panel"></i>
                         <p> 메인화면 </p>

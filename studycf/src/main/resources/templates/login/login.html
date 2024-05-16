@@ -67,20 +67,32 @@
                              </div>
                          </div>
                      </div>
-					<div style="text-align:center; margin-bottom: 10px;">
-						<a th:href="@{/loginId}"> 아이디 찾기 | </a>
+                     <div class="text-center">
+                         <button type="submit" id="loginBtn" style="width: 100%;" class="btn btn-info btn-fill btn-wd">로그인</button>
+                     </div>
+					<div style="text-align:center; margin-bottom: 10px; margin-top: 20px;">
+						<a th:href="@{/loginId}"> 아이디 찾기 |  </a>
 						<a th:href="@{/loginPw}"> 비밀번호 찾기 | </a>
 						<a th:href="@{/user/addUser}"> 회원 가입</a>
 					</div>	
+					<hr />
+					<div class="text-center">
+						<h5>간편 로그인</h5>
+					</div>
 					<div style="text-align:center; margin-bottom: 10px;">
-						<a href="/oauth2/authorization/google"> 구글 로그인 | </a>
-						<a href="/oauth2/authorization/naver"> 네이버 로그인 | </a>
-						<a href="/oauth2/authorization/kakao"> 카카오 로그인  </a>
+						<a href="/oauth2/authorization/google">
+							<img src="/resource/loginImages/구글.png" style="height: 50px; ">							
+						</a><br>
+						<a href="/oauth2/authorization/naver">
+							<img src="/resource/loginImages/네이버.png" style="height: 50px;">
+						</a><br>
+						<a href="/oauth2/authorization/kakao">
+							<img src="/resource/loginImages/카카오.png" style="height: 50px;">
+						</a>
+						
 						
 					</div>		
-                     <div class="text-center">
-                         <button type="submit" id="loginBtn" class="btn btn-info btn-fill btn-wd">로그인</button>
-                     </div>
+                     
                      <div class="clearfix"></div>
                  </form>
 			</div>
