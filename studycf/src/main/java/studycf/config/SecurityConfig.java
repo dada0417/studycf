@@ -12,8 +12,11 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
+import lombok.RequiredArgsConstructor;
 import studycf.config.auth.PrincipalOauth2UserService;
+
 
 @Configuration
 @EnableWebSecurity //스프링 시큐리티 필터가 스프링 필터체인에 등록
@@ -23,7 +26,8 @@ public class SecurityConfig{
 	@Autowired
 	private PrincipalOauth2UserService principalOauth2UserService;
 	
-	
+	@Autowired
+	private AuthenticationFailureHandler customAuthenticationFailureHandler;
 	
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
@@ -37,6 +41,7 @@ public class SecurityConfig{
 			.formLogin()
 			.loginPage("/login")
 			.loginProcessingUrl("/login")//login 주소가 호출되면 시큐리티가 낚아채서 대신 로그인 진행
+			.failureHandler(customAuthenticationFailureHandler)//로그인 실패 핸들러
 			.defaultSuccessUrl("/")
 			.and()
 			.oauth2Login()

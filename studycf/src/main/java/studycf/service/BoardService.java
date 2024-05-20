@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -31,7 +29,6 @@ public class BoardService {
 		this.fileMapper = fileMapper;
 	}
 	
-	private static final Logger log = LoggerFactory.getLogger(BoardService.class);
 	
 	/*게시글 댓글 수정*/
 	public int modifyComment(BoardComment boardComment) {
@@ -127,7 +124,6 @@ public class BoardService {
 			endPageNum = lastPage;
 		}
 		
-		log.info("paramMap : {}", paramMap);
 		
 		List<Map<String, Object>> boardList = boardMapper.getBoardList(paramMap);
 		
@@ -153,7 +149,6 @@ public class BoardService {
 		}
 		
 		if(!fileCheck) {
-			log.info("파일 있음"+ boardImgFile);
 			
 			//파일 업로드 위한 객체 생성 
 			FileUtils fu = new FileUtils(boardImgFile, board.getUserId(), fileRealPath);
@@ -164,10 +159,8 @@ public class BoardService {
 			
 			// 게시글 등록 - 게시글 코드 selectKey로 담아 줌
 			boardMapper.addBoard(board);
-			log.info("add 이후 board : {}", board);
 			
 			String boardCd = board.getBoardCd();
-			log.info("boardCd : {}", boardCd);
 			
 			// 릴레이션 테이블에 삽입
 			List<Map<String, String>> relationFileList = new ArrayList<>();
@@ -181,7 +174,6 @@ public class BoardService {
  		}else {
  			
  			boardMapper.addBoard(board);
-			log.info("add 이후 board : {}", board);
 			
  		}
 	

@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import studycf.config.SecurityConfig;
 import studycf.config.auth.PrincipalDetails;
 import studycf.config.auth.PrincipalOauth2UserService;
 import studycf.dto.GoodsManagement;

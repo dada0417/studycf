@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import studycf.dto.User;
 import studycf.service.UserService;
 
 @Controller
@@ -72,8 +71,14 @@ public class LoginController {
 	
 		
 	@GetMapping("/login")
-	public String login(Model model) {
+	public String login(Model model,
+						@RequestParam(value = "error", required = false)String error,
+						@RequestParam(value = "exception", required = false)String exception) {
 		model.addAttribute("title", "로그인");
+		model.addAttribute("error", error);
+		model.addAttribute("exception", exception);
+	
+		
 		return "login/login";
 	}
 	

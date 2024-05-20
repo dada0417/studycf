@@ -66,7 +66,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService{
 		
 		User u = userMapper.getUserInfoById(userId);
 		System.out.println(u);
-		
+		//회원 가입
 		if(u == null) {
 			u = User.builder()
 				.userId(userId)
