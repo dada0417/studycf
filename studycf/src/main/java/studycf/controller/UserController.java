@@ -49,10 +49,38 @@ public class UserController {
 	private static final Logger log = LoggerFactory.getLogger(UserController.class);
 	
 	
+	@PostMapping("/userList")
+	public String searchUser(@RequestParam(name="searchKey") String searchKey,
+							@RequestParam(name = "searchValue", required=false)String searchValue, Model model) {
+		
+		if("userEmail".equals(searchKey)) {
+			searchKey = "user_email";
+		}else if("userId".equals(searchKey)) {
+			searchKey = "user_id";
+		}else if("userPhone".equals(searchKey)) {
+			searchKey = "user_phone";			
+		}else{
+			searchKey = "user_nm";
+		}
+		Map<String, Object> resultMap = userService.searchUser(searchKey, searchValue);
+		
+		log.info("resultMap : {} ", resultMap);
+		
+		
+		model.addAttribute("resultMap", resultMap);
+		model.addAttribute("searchList", resultMap.get("searchList"));
+		model.addAttribute("title", "회원 조회");
+		
+		return "user/userList";
+		
+	}
+	
 	//회원 전체 목록
 	@GetMapping("/userList")
 	public String userList(User user, Model model){
-		List<User> userList = userService.userList(user);
+		
+			List<User> userList = userService.userList(user);
+
 		model.addAttribute("userList", userList);
 		model.addAttribute("title", "회원 목록");
 		return "user/userList";

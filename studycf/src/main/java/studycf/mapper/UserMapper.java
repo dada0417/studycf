@@ -1,7 +1,7 @@
 package studycf.mapper;
 
 import java.util.List;
-
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -9,6 +9,9 @@ import studycf.dto.User;
 
 @Mapper
 public interface UserMapper {
+	
+	//회원 검색 
+	public List<Map<String, Object>> searchUser(Map<String, Object> paramMap);
 	
 	//회원 목록
 	public List<User> userList(User user);

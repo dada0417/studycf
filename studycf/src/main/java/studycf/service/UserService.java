@@ -1,7 +1,9 @@
 package studycf.service;
 
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,6 +30,26 @@ public class UserService {
 		List<User> result = userMapper.userList(user);
 		return result;
 	}
+	
+	//회원 검색
+	public Map<String, Object> searchUser(String searchKey, String searchValue){
+		
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		 
+		log.info("search : {}", searchKey);
+		
+		paramMap.put("searchKey", searchKey);
+		paramMap.put("searchValue", searchValue);
+		
+		List<Map<String, Object>> searchList = userMapper.searchUser(paramMap);
+		
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("searchList", searchList);
+	
+		
+		return resultMap;
+	}
+	
 	
 	//회원정보 수정
 	public int modifyUser(User user) {

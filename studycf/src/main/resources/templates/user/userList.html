@@ -6,6 +6,17 @@
 		<title th:text="${title}"></title>
 </th:block>	
 
+<th:block layout:fragment = "customJs">
+	<script type="text/javascript" th:src="@{/assets/js/jquery-3.6.0.min.js}"></script>
+	<script>
+
+	
+	</script>	
+
+
+</th:block>
+
+
 
 <th:block layout:fragment = "customContents">
 	<div class="container-fluid">
@@ -13,8 +24,19 @@
           <div class="col-md-12">
               <div class="card">
                   <div class="header">
-                      <h4 class="title">회원 목록</h4>
-                      <p class="category">Here is a subtitle for this table</p>
+                      <h4 class="title" style="float: left;">회원 목록</h4>
+                      <div class="search" style="float: right;">
+                      	<form th:action="@{/user/userList}" method="post">
+	                      	<select class="form-control border-input" name="searchKey" data-validate-length-range="4" data-validate-words="2" style="float: left; width: 100px;">
+	                      		<option th:value="userEmail">이메일</option>
+	                      		<option th:value="userId">아이디</option>
+	                      		<option th:value="userNm">이 름</option>
+	                      		<option th:value="userPhone">전화번호</option>
+	                      	</select>
+	                      	<input type="text" name="searchValue" class="form-control border-input" style="width: 400px; float: left; " placeholder="회원 검색">
+	                  	 	<input type="submit" style="float: right; width: 65px; height: 40px;" class="btn-info btn-fill form-control" th:value = "검색">
+                      	</form>
+                      </div>
                   </div>
                   <div class="content table-responsive table-full-width">
                       <table class="table table-striped">
@@ -28,7 +50,16 @@
                           	</tr>
                           </thead>
                           <tbody>
-                              <tr th:if="${not #lists.isEmpty(userList)}" th:each="l : ${userList}">
+                              <tr th:if="${not #lists.isEmpty(searchList)}" th:each="s : ${searchList}">
+                              	<td th:text="${s.userId}"></td>
+                              	<td th:text="${s.userNm}"></td>
+                              	<td th:text="${s.userEmail}"></td>
+                              	<td th:text="${s.userPhone}"></td>
+                             	<td class="text-center">
+                             		<button type="button" class="btn addBtn" th:onclick="|location.href='@{/user/userDetail2(userId=${s.userId})}'|">이용확인</button>	
+                             	</td>
+                              </tr>
+                              <tr th:if="${not #lists.isEmpty(userList) AND #lists.isEmpty(searchList)}" th:each="l : ${userList}">
                               	<td th:text="${l.userId}"></td>
                               	<td th:text="${l.userNm}"></td>
                               	<td th:text="${l.userEmail}"></td>
@@ -37,7 +68,8 @@
                              		<button type="button" class="btn addBtn" th:onclick="|location.href='@{/user/userDetail2(userId=${l.userId})}'|">이용확인</button>	
                              	</td>
                               </tr>
-                              <tr th:unless="${not #lists.isEmpty(userList)}">
+                             
+                              <tr th:unless="${not #lists.isEmpty(userList) OR not #lists.isEmpty(searchList)}">
 								<td colspan="5">회원이 없습니다.</td>
 							</tr>	
                           </tbody>

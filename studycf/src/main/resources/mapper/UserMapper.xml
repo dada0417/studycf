@@ -14,6 +14,24 @@
 		<result column="role"	property="role"/>
 	</resultMap>
 	
+	<select id="searchUser" parameterType="User" resultMap="UserResultMap">
+		SELECT
+			u.user_id
+			, u.user_pw
+			, u.user_nm
+			, u.user_phone
+			, u.user_email
+			, u.user_drop
+			, u.user_reg_date
+		FROM
+			user as u
+		<trim prefix="WHERE" prefixOverrides="AND |OR">
+			<if test="searchValue != null and  searchValue != ''">
+				${searchKey} LIKE CONCAT('%', #{searchValue}, '%') 
+			</if>
+		</trim>
+		
+	</select>
 	
 	<select id="userList" parameterType="User" resultMap="UserResultMap">
 		/*회원 전체 목록 조회*/
