@@ -11,7 +11,7 @@
 	<groupId>kr.or.study</groupId>
 	<artifactId>studycf</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<name>studycf</name>
 	<description>study project for Spring Boot</description>
 	<properties>
