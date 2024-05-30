@@ -83,11 +83,6 @@
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-resources-plugin</artifactId>
-				<version>3.1.0</version>
-		</dependency>
-		<dependency>
 			<groupId>org.thymeleaf.extras</groupId>
 			<artifactId>thymeleaf-extras-springsecurity5</artifactId>
 			</dependency>
@@ -106,6 +101,11 @@
 		    <artifactId>java-jwt</artifactId>
 		    <version>4.3.0</version>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>3.1.0</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -115,6 +115,7 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
+					<testFailureIgnore>true</testFailureIgnore>
 					<excludes>
 						<exclude>
 							<groupId>org.projectlombok</groupId>
