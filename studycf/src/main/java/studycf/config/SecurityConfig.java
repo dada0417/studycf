@@ -22,7 +22,6 @@ import studycf.config.auth.PrincipalOauth2UserService;
 @Configuration
 @EnableWebSecurity //스프링 시큐리티 필터가 스프링 필터체인에 등록
 @EnableGlobalMethodSecurity(securedEnabled=true, prePostEnabled = true)//secured 어노테이션 활성화 preAutorize 어노테이션 활성화
-@PropertySource("classpath:application-secret.properties")
 public class SecurityConfig{
 	
 	@Autowired
