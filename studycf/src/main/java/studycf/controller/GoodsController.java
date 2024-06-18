@@ -68,7 +68,7 @@ public class GoodsController {
 	public String addGoods(Model model) {
 		model.addAttribute("title", "이용권 등록");
 		
-		return "/goods/addGoods";
+		return "goods/addGoods";
 	}
 	
 	@PostMapping("/goodsList")

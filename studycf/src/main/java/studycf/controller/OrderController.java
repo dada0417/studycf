@@ -59,7 +59,7 @@ public class OrderController {
 		model.addAttribute("title", "이용권 등록");
 		model.addAttribute("goodsList", goodsList);
 		
-		return "/order/addOrder";
+		return "order/addOrder";
 	}
 	
 	

@@ -65,7 +65,7 @@ public class GoodsManagementController {
 		 List<GoodsManagement> availableGoodsList = goodsManagementService.availableGoodsListById(sessionId);
 		model.addAttribute("availableGoodsList", availableGoodsList);
 		
-		return "/goodsManagement/usingList";
+		return "goodsManagement/usingList";
 	}
 	
 	//이용권 사용 정보 추가
@@ -91,7 +91,7 @@ public class GoodsManagementController {
 	public String addGoodsManagement(Model model) {
 				
 		model.addAttribute("title", "이용권 등록");		
-		return "/goodsManagement/addGoodsManagement";
+		return "goodsManagement/addGoodsManagement";
 	}
 	
 	
