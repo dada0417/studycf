@@ -17,8 +17,11 @@
 		                e.preventDefault();
 				});
 				
-				function validationCheck(data) {
-					if (typeof data == 'undefined' || data == '' || data == null) {
+				function validationCheck(data1, data2) {
+					console.log("data1 : " +data1);
+					console.log("data2 : " +data2);
+					if (data1 === 'undefined' || data1=== '' || data1 === null || data2 === 'undefined' || data2 === '' || data2 === null ) {
+						console.log('data1,data2 뭔가 안됨');
 						return false;
 					}
 					return true;
@@ -26,28 +29,58 @@
 				
 				$('#loginPwBtn').click(function(){
 					var userId = $('input[name="userId"]').val();
+					var userEmail = $('input[name="userEmail"]').val();
 					console.log(userId);
-					var vCheck = validationCheck(userId);
+					console.log(userEmail);
+					var vCheck = validationCheck(userId, userEmail);
 					if(vCheck){
 						$.ajax({
 							type: 'POST',
 							url: '/loginPw',
 							data: {
-								'userId': userId
+								'userId': userId,
+								'userEmail' : userEmail
 							},
-							dataType: 'text'
+							dataType: 'json'
 						}).done(function(data){
 							console.log(data);
 							if(data){
-								alert("비밀번호는 " + data + " 입니다.")
+								$('#userIdModal').val(userId);
+								$('#modifyModal').modal('show');
 							}else{
-								alert('등록된 아이디가 아닙니다.');
+								alert();
 							}
 						}).fail(function(){
-							alert('데이터 응답 실패');
+							alert('아이디 또는 이메일이 맞지 않습니다.');
 						});
+					}else{
+						alert('엥 문제있음')
 					}
 					
+				});
+				
+				$('#alert-success').hide();
+				$('#alert-danger').hide();
+				
+				$("input").keyup(function(){
+					
+					var pw1 = $('#userPw').val();
+					var pw2 = $('#userPwCheck').val();
+					if(pw1 != "" || pw2 != ""){
+						if(pw1 == pw2){
+							$('#alert-success').show();
+							$('#alert-danger').hide();
+							$('#saveBtn').removeAttr('disabled');
+						}else{
+							$('#alert-danger').show();
+							$('#alert-success').hide();
+							$('#saveBtn').attr('disabled', true);
+						}					
+					}				
+				});	
+				
+				$(document).on('click', '#saveBtn', function(){
+					$('#modifyForm').attr('action','/user/modifyUserPw2').submit();
 				});
 				
 			});
@@ -67,7 +100,11 @@
                          <div class="col-md-12">
                              <div class="form-group">
                                  <label for="userId">아이디 </label>
-                                 <input type="text" class="form-control border-input" name="userId" id="userId" value="id001">
+                                 <input type="text" class="form-control border-input" name="userId" id="userId" value="id02">
+                             </div>
+                             <div class="form-group">
+                                 <label for="userEmail">이메일 </label>
+                                 <input type="text" class="form-control border-input" name="userEmail" id="userEmail" value="aa002@google.com">
                              </div>
                          </div>
                     </div>     
@@ -91,5 +128,49 @@
 		<div th:if="${not #strings.isEmpty(result)}">
 			<p th:text="${result}"></p>
 		</div>
+		<!-- 내 좌석 변경 모달 -->
+		<div class="modal fade" id="modifyModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-mod="true">
+ 		 <div class="modal-overlay">
+	      </div>
+		<form id="modifyForm" method="post">
+			<div class="modal-dialog" role="document">
+		 		<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">비밀번호 재설정</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						 <div class="form-group">
+                                 <label for="repw">비밀번호 입력 </label>
+                                 <input type="text" class="form-control border-input" name="userPw" id="userPw">
+                                 <input type="hidden" name="userId" id="userIdModal">
+                             </div>
+                             <div class="form-group">
+                                 <label for="repw">비밀번호 확인 </label>
+                                 <input type="text" class="form-control border-input" name="userPwCheck" id="userPwCheck">
+                             </div>
+                             <div id="alert-success">
+	                          		<p  style="color: blue; margin-left: 15px; font-size: small;">비밀번호가 일치합니다.</p>
+	                          	</div>
+	                          	<div id="alert-danger">
+	                          		<p  style="color: red; margin-left: 15px; font-size: small;">비밀번호가 일치하지 않습니다.</p>
+	                          </div>
+						<div class="modal-footer">
+							<div class="form-group">
+								<button type="button" class="btn btn-primary" data-dismiss="modal">취소</button>
+								<button type="button" class="btn btn-info" id="saveBtn">저장</button>
+							</div>
+						</div>
+					</div>
+					
+				</div>
+			</div>
+		</form>
+	</div>
+	<!-- modal end -->
+	
+	
 	</th:block>
 </html>

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import studycf.dto.User;
 import studycf.service.UserService;
 
 @Controller
@@ -24,23 +25,25 @@ public class LoginController {
 		this.userService = userService;
 	}
 	
-	//로그아웃 처리
-	@GetMapping("/logout")
-	public String logout(HttpSession session) {
-		session.invalidate();
-		return "redirect:/";
-	}
+		//로그아웃 처리
+		@GetMapping("/logout")
+		public String logout(HttpSession session) {
+			session.invalidate();
+			return "redirect:/";
+		}
 	
 	
-	//아이디 찾기
+	    //아이디 찾기
 		@PostMapping("/loginId")
 		@ResponseBody
-		public String isPhoneCheck(@RequestParam(name = "userPhone" , required = false) String userPhone) {
+		public User isEmailCheck(@RequestParam(name = "userEmail" , required = false) String userEmail,
+									User user) {
 			
-			log.info("아이디 찾기 클릭시 요청받은 userPhone의 값: {}", userPhone);
+			log.info("아이디 찾기 클릭시 요청받은 userEmail의 값: {}", userEmail);
+			user.setUserEmail(userEmail);
 			
-			String result = userService.isPhoneCheck(userPhone);
-			log.info(result);
+			User result = userService.IsUserCheck(user);
+			log.info("id찾기 controller : {}", result);
 			return result;
 		}
 		//아이디 찾기 화면
@@ -53,11 +56,16 @@ public class LoginController {
 		//비밀번호 찾기
 		@PostMapping("/loginPw")
 		@ResponseBody
-		public String isIdCheck2(@RequestParam(name = "userId" , required = false) String userId) {
+		public User isIdCheck2(@RequestParam(name = "userId" , required = false) String userId,
+								@RequestParam(name = "userEmail" , required = false) String userEmail,
+							User user) {
 			
 			log.info("비밀번호 찾기 클릭시 요청받은 userId의 값: {}", userId);
+			user.setUserId(userId);
+			user.setUserEmail(userEmail);
 			
-			String result = userService.isIdCheck2(userId);
+			
+			User result = userService.IsUserCheck(user);
 
 			return result;
 		}

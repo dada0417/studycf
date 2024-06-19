@@ -26,27 +26,29 @@
 				
 				/*아이디 찾기 버튼 클릭시 유효성 검사*/
 				$('#loginIdBtn').click(function(){
-					var userPhone = $('input[name="userPhone"]').val();
-					console.log(userPhone);
-					var vCheck = validationCheck(userPhone);
+					var userEmail = $('input[name="userEmail"]').val();
+					console.log(userEmail);
+					var vCheck = validationCheck(userEmail);
 					if(vCheck){
 						$.ajax({
 							type: 'POST',
 							url: '/loginId',
 							data: {
-								'userPhone': userPhone
+								'userEmail': userEmail
 							},
-							dataType: 'text' 
+							dataType: 'json' 
 						}).done(function(data){
-							console.log(data);
+							console.log(data.userId);
 							if(data){
-								alert("아이디는 " + data + " 입니다.")
+								alert("아이디는 " + data.userId + " 입니다.")
 							}else{
-								alert("등록된 전화번호가 없습니다.");
+								alert("등록된 이메일이 없습니다.");
 							}
 						}).fail(function(){
 							alert("데이터 응답 실패");
 						});
+					}else{
+						alert('이메일을 입력해주세요.');
 					}
 					
 				});
@@ -69,8 +71,8 @@
 					<div class="row">
                          <div class="col-md-12">
                              <div class="form-group">
-                                 <label for="userPhone">전화번호 </label>
-                                 <input type="text" class="form-control border-input" name="userPhone" id="userPhone" value="01020000000">
+                                 <label for="userPhone">이메일 </label>
+                                 <input type="text" class="form-control border-input" name="userEmail" id="userEmail" value="aa002@google.com">
                              </div>
                          </div>
                     </div>     

@@ -23,6 +23,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService{
 	
 	@Bean
 	public BCryptPasswordEncoder encodedPwd() {
+		//System.out.println("PrincipalOauth2UserService encodepwd");
 		return new BCryptPasswordEncoder();
 	}
 	@Autowired

@@ -9,13 +9,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import studycf.config.auth.PrincipalDetails;
 import studycf.config.auth.PrincipalOauth2UserService;
@@ -140,13 +144,17 @@ public class UserController {
 	@PostMapping("/modifyUserPw")
 	public String modifyUserPw(User user
 							  ,Model model
-							  ,@RequestParam(name="nowUserPwCheck") String nowUserPwCheck) {
+							  ,@RequestParam(name="nowUserPwCheck") String nowUserPwCheck
+							 ) {
 		
 		log.info("비밀번호 변경 회원정보:{}", user);
 		
 		User userCheck = userService.getUserInfoById(user.getUserId());
 		
-		if(nowUserPwCheck.equals(userCheck.getUserPw())) {
+		String encpw = userCheck.getUserPw();
+		if(BCrypt.checkpw(nowUserPwCheck, encpw)) {
+			String rawPw = user.getUserPw();
+			user.setUserPw(principalOauth2UserService.encodedPwd().encode(rawPw));
 			userService.modifyUser(user);
 			return "redirect:/user/userDetail";
 			
@@ -156,6 +164,16 @@ public class UserController {
 			
 			return "user/modifyUserPw";
 		}
+		
+	}
+	//회원 비밀번호 변경
+	@PostMapping("/modifyUserPw2")
+	public String modifyUserPw2(User user) {
+							
+		String rawPw = user.getUserPw();
+		user.setUserPw(principalOauth2UserService.encodedPwd().encode(rawPw));
+		userService.modifyUser(user);
+		return "redirect:/login";
 		
 	}
 	

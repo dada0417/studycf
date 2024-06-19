@@ -14,6 +14,29 @@
 		<result column="role"	property="role"/>
 	</resultMap>
 	
+	<select id="isUserCheck" parameterType="User" resultMap="UserResultMap">
+		SELECT
+			u.user_id
+			, u.user_pw
+			, u.user_nm
+			, u.user_phone
+			, u.user_email
+			, u.user_drop
+			, u.user_reg_date
+		FROM
+			user as u
+		<trim prefix="WHERE" prefixOverrides="AND |OR">
+			<if test="userId != null and userId != ''">
+				u.user_id = #{userId} AND
+			</if>
+			<if test="userEmail != null and userEmail != ''">
+				u.user_email = #{userEmail};
+			</if>
+			
+		</trim>
+			
+	</select>
+	
 	<select id="searchUser" parameterType="User" resultMap="UserResultMap">
 		SELECT
 			u.user_id
@@ -106,7 +129,7 @@
 		WHERE 
 		   user_id = #{userId};
 	</select>
-	
+<!-- 	
 	<select id="isIdCheck2" parameterType="String" resultType="String">
 		/*아이디로 비번 찾기*/
 		SELECT
@@ -128,7 +151,7 @@
 			user_phone = #{userPhone};
 	
 	</select>
-	
+	 -->
 	
 	<select id="getUserInfoById" parameterType="String" resultMap="UserResultMap">
 		/*아이디로 회원정보 조회*/
