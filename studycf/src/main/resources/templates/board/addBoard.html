@@ -21,7 +21,9 @@
 		$('#addBoardBtn').click(function(){
 			var isSubmit = true;
 			if($('#userId').val() == 'anonymousUser'){
-				alert("로그인이 필요합니다.");
+				if(confirm('로그인이 필요합니다.')){
+         			window.location.href = '/login';
+         		}
 				return false;
 			}
 			if($("select[name=boardCtgCd]").val() == ''){
