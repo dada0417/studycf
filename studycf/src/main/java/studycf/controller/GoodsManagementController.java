@@ -60,12 +60,22 @@ public class GoodsManagementController {
 	//회원이 이용가능한 이용권 목록
 	@GetMapping("/usingList")
 	public String availableGoodsListById(@AuthenticationPrincipal PrincipalDetails principal, Model model, Order order) {
-		String sessionId = (String)principal.getUsername();
 		
-		 List<GoodsManagement> availableGoodsList = goodsManagementService.availableGoodsListById(sessionId);
-		model.addAttribute("availableGoodsList", availableGoodsList);
-		
-		return "goodsManagement/usingList";
+		if(principal == null) {
+			model.addAttribute("error", "로그인이 필요한 페이지입니다.");
+			return "goodsManagement/usingList";
+		}else {
+			String sessionId = (String)principal.getUsername();
+			
+			log.info("여긴됨?");
+			
+			 List<GoodsManagement> availableGoodsList = goodsManagementService.availableGoodsListById(sessionId);
+			 log.info("여기눈?");
+			model.addAttribute("availableGoodsList", availableGoodsList);
+			
+			return "goodsManagement/usingList";
+		}
+
 	}
 	
 	//이용권 사용 정보 추가

@@ -24,22 +24,17 @@
 	<script>
 	
 	$(function(){
-		function validationCheck(data){
-			if(typeof data == 'undefined' || data == '' || data == null){
-				return false;
-			}
-			return true;
-		}
 		 //로그인 확인
-			var isSubmit = true;
-			var userId = $('input[name="userId"]').val();
-			console.log(userId);
-			
-			if(userId == ''){
-				alert("로그인이 필요합니다.");
-				return false;
-			}
-		
+		 var err = $('input[name="error"]').val();
+		 console.log(err);
+		window.onload = function() {
+         	if(err != null){
+         		if(confirm(err)){
+         			window.location.href = '/login';
+         		}
+         		
+         	}
+        }
   	});
 	
 	</script>
@@ -86,6 +81,9 @@
              	 <div class="content" th:unless="${not #lists.isEmpty(availableGoodsList)}" style="font-size: large;">
 					사용할 수 있는 이용권이 없습니다.
 					<br>
+					<div th:if="${not #lists.isEmpty(error)}">
+						<input type="hidden" name="error" th:value="${error}">
+					</div>
 					<a th:href="@{/order/addOrder}">이용권 구매하러 가기</a>
 				</div>                        
             </div>
