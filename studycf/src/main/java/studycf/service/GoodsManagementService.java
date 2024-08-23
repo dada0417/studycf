@@ -1,5 +1,9 @@
 package studycf.service;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -7,11 +11,14 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import studycf.dto.GoodsManagement;
+import studycf.dto.Seat;
 import studycf.mapper.GoodsManagementMapper;
+import studycf.mapper.SeatMapper;
 
 
 
@@ -21,12 +28,45 @@ public class GoodsManagementService {
 
 	// 생성자 주입
 	private final GoodsManagementMapper goodsManagementMapper;
-
-	public GoodsManagementService(GoodsManagementMapper goodsManagementMapper) {
+	private final SeatMapper seatMapper;
+	private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+	
+	public GoodsManagementService(GoodsManagementMapper goodsManagementMapper, SeatMapper seatMapper) {
 		this.goodsManagementMapper = goodsManagementMapper;
+		this.seatMapper = seatMapper;
 	}
 
 	private static final Logger log = LoggerFactory.getLogger(GoodsManagementService.class);
+	
+	//만료시간이 지나면 자동으로 좌석이용 종료
+	@Scheduled(fixedRate = 60000)
+	public void checkOrderExpirationDate() {
+		List<GoodsManagement> useSeat =  goodsManagementMapper.checkUser();
+		LocalDateTime now = LocalDateTime.now();
+		
+		
+		for(GoodsManagement gm : useSeat) {
+			Seat seat = new Seat();
+			LocalDateTime expiration = LocalDateTime.parse(gm.getOrderExpirationDate(), formatter);
+			if(expiration.isBefore(now)) {
+				LocalDateTime addmision = LocalDateTime.parse(gm.getAdmissionTime(), formatter);
+				gm.setLeaveTime(gm.getOrderExpirationDate());
+				gm.setRemainingTime("00:00:00");
+				Duration du = Duration.between(addmision, expiration);
+				String h = String.format("%02d", du.toHours());
+				String m = String.format("%02d", du.toMinutes()%60);
+				String s = String.format("%02d", du.getSeconds()%60);
+				gm.setUseTime(h+":"+m+":"+s);
+				seat.setSeatCd(gm.getSeatCd());
+				seat.setSeatState("Y");
+				goodsManagementMapper.modifyGM(gm);
+				seatMapper.seatSelection(seat);
+				
+				
+			}
+		}
+		
+	}
 	
 	//회원이 이용권을 사용해 카페 이용중인 정보 내역
 	public GoodsManagement getUseById(String userId) {
@@ -123,8 +163,6 @@ public class GoodsManagementService {
 	 return usingListById; 
 	 }
 	
-	
-	
-
-
 }
+
+

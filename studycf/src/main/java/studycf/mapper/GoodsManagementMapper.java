@@ -10,6 +10,9 @@ import studycf.dto.GoodsManagement;
 @Mapper
 public interface GoodsManagementMapper {
 	
+	//카페 이용중인 회원 목록
+	public List<GoodsManagement> checkUser();
+	
 	//회원이 이용권을 사용해 카페 이용중인 정보 내역 
 	public GoodsManagement getUseById(String userId);
 	

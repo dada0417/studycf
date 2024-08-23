@@ -43,8 +43,26 @@
 		</association>
 	</resultMap>
 	
+	<select id="checkUser" resultType="GoodsManagement" resultMap="GoodsManagementResultMap"> 
+		SELECT
+			goods_management_cd
+			,user_id
+			,seat_cd
+			,admission_time
+			,leave_time
+			,use_time
+			,order_expiration_date
+			,remaining_time
+		FROM
+			goods_management
+		WHERE
+			leave_time IS NULL;
+	</select>
+	
+	
 	<select id="getUseById" resultType="GoodsManagement" resultMap="GoodsManagementResultMap">
-		/*회원이 이용권을 사용해 카페 이용중인 이용권 정보 내역 */
+		/*회원이 현재 사용 중인 이용권의 정보 */
+	
 		SELECT 
 			gm.goods_management_cd
 			, gm.user_id

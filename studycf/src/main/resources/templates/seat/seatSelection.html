@@ -137,7 +137,7 @@
 					return false;
 				}else if(or == 'undefined' || or == '' || or == null){
 					alert("이용권이 필요합니다.");
-					location.href = 'http://localhost/goodsManagement/usingList';
+					location.href = 'http://ec2-13-209-229-212.ap-northeast-2.compute.amazonaws.com:8080/goodsManagement/usingList';
 					return false;
 				}else{
 				 $addForm.attr('action', '/seat/seatSelection').submit();			
