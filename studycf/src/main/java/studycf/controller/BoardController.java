@@ -225,7 +225,7 @@ public class BoardController {
 		}else {
 			log.info("배포용");
 			//배포용 주소
-			fileRealPath = "/var/www/html/images";
+			fileRealPath = "/var/www/html/";
 		}
 		
 		boardService.addBoard(board, boardImgFile, fileRealPath);
