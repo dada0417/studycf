@@ -70,7 +70,7 @@ public class GoodsManagementController {
 			log.info("여긴됨?");
 			
 			 List<GoodsManagement> availableGoodsList = goodsManagementService.availableGoodsListById(sessionId);
-			 log.info("여기눈?");
+			 
 			model.addAttribute("availableGoodsList", availableGoodsList);
 			
 			return "goodsManagement/usingList";

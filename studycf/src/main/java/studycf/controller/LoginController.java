@@ -25,13 +25,7 @@ public class LoginController {
 		this.userService = userService;
 	}
 	
-		//로그아웃 처리
-		@GetMapping("/logout")
-		public String logout(HttpSession session) {
-			session.invalidate();
-			return "redirect:/";
-		}
-	
+
 	
 	    //아이디 찾기
 		@PostMapping("/loginId")

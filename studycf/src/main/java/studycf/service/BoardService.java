@@ -145,6 +145,7 @@ public class BoardService {
 		for (MultipartFile multipartFile : boardImgFile){
 			if(!multipartFile.isEmpty()) {
 				fileCheck = false;
+				break;
 			}
 		}
 		

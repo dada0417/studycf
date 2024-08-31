@@ -18,7 +18,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class FileUtils {
 	
-	private String fileCd;
 	private MultipartFile[] uploadfile;
 	private String userId;
 	private String fileRealPath;
@@ -57,8 +56,7 @@ public class FileUtils {
 				
 				if(ObjectUtils.isEmpty(contentType)){
 					break;
-				}
-				else{
+				}else{
 					// 콘텐츠 이미지 파일 타입별 분류 ( 이미지, file폴더 구분)
 					if(contentType.indexOf("image/") > -1) {						
 						if(contentType.contains("image/jpeg")) {
@@ -82,7 +80,7 @@ public class FileUtils {
 			    	File file = new File(path);
 					
 			    	// 파일 디렉토리 없을 경우 디렉토리생성
-			    	if(file.exists() == false){
+			    	if(!file.exists()){
 						file.mkdirs();
 					}
 			    	
@@ -99,18 +97,12 @@ public class FileUtils {
 			    		resultFileName += fileNameSplit[i];
 			    	}
 			    	
-			    	// 파일의 업로드 경로 설정
-
-			    	
-			    	byte[] bytes;			    	
-			    	Path uploadPath = Paths.get(path + "/" + resultFileName);
+			    	// 파일의 업로드 경로 설정		    	
+			    	Path uploadPath = Paths.get(path, resultFileName);
 			    	
 					try {
-						
-						bytes = multipartFile.getBytes();
-						
 						// 파일업로드 
-						Files.write(uploadPath, bytes);
+						Files.write(uploadPath, multipartFile.getBytes());
 
 
 					} catch (IOException e) {
@@ -122,8 +114,7 @@ public class FileUtils {
 					// 올려진 파일 리스트로 정리(테이블에 삽입할 내용)
 					fileIdx = "file_"+current.format(format)+Long.toString(System.nanoTime());
 					Map<String, String> fileMap = new HashMap<>();
-					fileCd = UUID.randomUUID().toString() + System.nanoTime();
-					fileMap.put("fileCd", fileCd);
+					fileMap.put("fileCd", UUID.randomUUID().toString());
 					fileMap.put("userId", userId);
 					fileMap.put("fileSize", Long.toString(multipartFile.getSize()));
 					fileMap.put("originalFileName", multipartFile.getOriginalFilename());

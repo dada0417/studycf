@@ -220,10 +220,12 @@ public class BoardController {
 		
 		if("localhost".equals(serverName)) {
 			// server 가 localhost 일때 접근
+			log.info("로컬");
 			fileRealPath = System.getProperty("user.dir") + "/src/main/resources/static/";
 		}else {
+			log.info("배포용");
 			//배포용 주소
-			fileRealPath = request.getSession().getServletContext().getRealPath("/WEB-INF/classes/static/");
+			fileRealPath = "/var/www/html/images";
 		}
 		
 		boardService.addBoard(board, boardImgFile, fileRealPath);
