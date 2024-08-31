@@ -74,7 +74,11 @@ public class FileUtils {
 					}
 					
 					// Paths 클래스를 통한 파일의 경로 ( 주소의 / 경로와 실제 os의 경로 \ 와 차이)
-					path = Paths.get(fileRealPath + directory + current.format(format)).toString();
+					if(fileRealPath.contains("www")) {
+						path = Paths.get(fileRealPath + directory).toString();
+					}else {						
+						path = Paths.get(fileRealPath + directory + current.format(format)).toString();
+					}
 			    	
 					// 파일 경로 셋팅
 			    	File file = new File(path);
