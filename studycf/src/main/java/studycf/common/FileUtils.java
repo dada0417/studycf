@@ -124,7 +124,7 @@ public class FileUtils {
 					fileMap.put("originalFileName", multipartFile.getOriginalFilename());
 					fileMap.put("reFileName", resultFileName);
 					if(fileRealPath.contains("www")) {
-						fileMap.put("storedFilePath", directory+ File.separator + resultFileName);
+						fileMap.put("storedFilePath", directory + resultFileName);
 					}else {						
 						fileMap.put("storedFilePath", directory+ current.format(format)+ File.separator + resultFileName);
 					}

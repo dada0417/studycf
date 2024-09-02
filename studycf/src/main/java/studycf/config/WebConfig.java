@@ -2,6 +2,7 @@ package studycf.config;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import studycf.interceptor.LoginInterceptor;
@@ -27,6 +28,10 @@ public class WebConfig implements WebMvcConfigurer{
 		
 	}
 	
-	
+	@Override
+	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+		registry.addResourceHandler("/images/**")
+				.addResourceLocations("file:/var/www/html/images/");
+	}
 	
 }
