@@ -123,7 +123,12 @@ public class FileUtils {
 					fileMap.put("fileSize", Long.toString(multipartFile.getSize()));
 					fileMap.put("originalFileName", multipartFile.getOriginalFilename());
 					fileMap.put("reFileName", resultFileName);
-					fileMap.put("storedFilePath", directory+ current.format(format)+ File.separator + resultFileName);
+					if(fileRealPath.contains("www")) {
+						fileMap.put("storedFilePath", directory+ File.separator + resultFileName);
+					}else {						
+						fileMap.put("storedFilePath", directory+ current.format(format)+ File.separator + resultFileName);
+					}
+					
 					
 					if(representImg == 0) {
 						fileMap.put("representImg", "Y");
