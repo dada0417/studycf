@@ -24,6 +24,12 @@ public class OrderService {
 
 	private static final Logger log = LoggerFactory.getLogger(OrderService.class);
 	
+	//아이디 별 이용권 구매 목록
+	public List<Order> getOrderById(String userId) {
+		List<Order> list = orderMapper.getOrderById(userId);
+		return list;
+	}
+	
 	//이용권 시간 변경
 	public int modifyOrder(Order order) {
 		

@@ -18,5 +18,7 @@ public class Order {
 	private String orderInsertDate;
 	
 	private GoodsManagement goodsManagement;
+	private Goods goods;
+	private GoodsCtg goodsCtg;
 	
 }

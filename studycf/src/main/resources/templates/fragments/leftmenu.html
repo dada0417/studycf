@@ -5,7 +5,7 @@
 		
 <div class="sidebar" data-background-color="white" data-active-color="danger" th:fragment="leftmenuFragment">
 
-    	<div class="sidebar-wrapper">
+    <div class="sidebar-wrapper">
             <div class="logo">
                 <a th:href="@{/}" class="simple-text">
                     HARDSTUDYCAFE
@@ -31,23 +31,31 @@
                         <p>회원 목록</p>
                     </a>
                 </li>
-                <li>
-                    <a th:href="@{/order/addOrder}">
+                <li class="subList">
+                    <a>
                         <i class="ti-ticket"></i>
-                        <p>이용권 구매</p>
+                        <p>이용권<i class="ti-angle-right" style="font-size: 10px; float: right;"></i></p>
                     </a>
-                </li>
-                <li sec:authorize="hasRole('ROLE_MANAGER')">
-                    <a th:href="@{/goods/addGoods}">
-                        <i class="ti-plus"></i>
-                        <p>이용권 등록</p>
-                    </a>
-                </li>
-                <li sec:authorize="hasRole('ROLE_MANAGER')">
-                    <a th:href="@{/goods/goodsList}">
-                        <i class="ti-view-list-alt"></i>
-                        <p>이용권 목록</p>
-                    </a>
+                    <ul class="childList nav" style="display: none; list-style: none; margin-top: 0px; background-color: #F4BB35;">
+                        <li sec:authorize="hasRole('ROLE_MANAGER')">
+                            <a th:href="@{/goods/addGoods}">
+                                <i style="color: white;" class="ti-plus"></i>
+                                <p style="color: white;">이용권 등록</p>
+                            </a>
+                        </li>
+                        <li sec:authorize="hasRole('ROLE_MANAGER')">
+                            <a th:href="@{/goods/goodsList}">
+                                <i style="color: white;" class="ti-view-list-alt"></i>
+                                <p style="color: white;">이용권 목록</p>
+                            </a>
+                        </li>
+                        <li>
+                            <a th:href="@{/order/addOrder}">
+                                <i style="color: white;" class="ti-credit-card"></i>
+                                <p style="color: white;">이용권 구매</p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
                 <li>
                     <a th:href="@{/board/boardList}">
@@ -56,6 +64,6 @@
                     </a>
                 </li>
             </ul>
-    	</div>
+        </div>
     </div>
 </html>

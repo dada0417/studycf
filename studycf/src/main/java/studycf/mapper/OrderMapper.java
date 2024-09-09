@@ -9,6 +9,10 @@ import studycf.dto.Order;
 
 @Mapper
 public interface OrderMapper {
+	
+	//이용권 구매 목록
+	public List<Order> getOrderById(String userId);
+	
 	//이용권 남은 시간 수정
 	public int modifyOrder(Order order);
 	

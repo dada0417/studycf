@@ -37,6 +37,25 @@ $(window).resize(function(){
     }
 });
 
+$(function(){
+	$(document).on('click', '.subList > a', function(){
+        $(this).next('.childList').slideToggle(); 
+    });
+	
+	var activeIndex = localStorage.getItem('activeIndex');
+    if (activeIndex !== null) {
+        $('.nav > li').eq(activeIndex).addClass('active');
+    }
+    $(document).on('click', '.nav > li', function() {
+        
+        $('.nav > li').removeClass('active');
+        $(this).addClass('active');
+
+        var index = $(this).index();
+        localStorage.setItem('activeIndex', index);
+    });
+});
+
 pd = {
     misc:{
         navbar_menu_visible: 0
@@ -129,6 +148,7 @@ pd = {
 
                 }
             });
+             
             navbar_initialized = true;
         }
 

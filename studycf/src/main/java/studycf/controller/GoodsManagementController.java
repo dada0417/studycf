@@ -2,8 +2,9 @@ package studycf.controller;
 
 
 
+import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,6 +36,35 @@ public class GoodsManagementController {
 	}
 	
 	private static final Logger log = LoggerFactory.getLogger(GoodsManagementController.class);
+	
+	
+	//아이디별 카페 이용 내역
+	@GetMapping("/goodsUseList")
+	public String usageListById(@AuthenticationPrincipal PrincipalDetails principal, Model model,
+								@RequestParam(name="currentPage", required = false, defaultValue = "1") int currentPage) {
+			
+		String sessionId = principal.getUsername();
+		
+		Map<String,Object> goodsManagementMap = new HashMap<>();
+		
+		goodsManagementMap.put("sessionId",sessionId);
+		Map<String, Object> resultMap = goodsManagementService.usageListById(currentPage, goodsManagementMap);
+		
+		model.addAttribute("title", "이용권 사용 내역");
+		model.addAttribute("resultMap", resultMap);
+		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("lastPage", resultMap.get("lastPage"));
+		model.addAttribute("startPageNum", resultMap.get("startPageNum"));
+		model.addAttribute("endPageNum", resultMap.get("endPageNum"));
+		model.addAttribute("usageListById", resultMap.get("usageListById"));
+		
+		
+		
+		
+		return "goodsManagement/goodsUseList";
+	}			
+	
+	
 	
 	//좌석 선택시 입장시간 여부 확인
 	@PostMapping("/admissionTimeCheck")

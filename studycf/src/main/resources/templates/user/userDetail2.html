@@ -103,6 +103,30 @@
 			
 		});
 	</script>
+	<style>
+	.btnn{
+		  border-radius: 20px;
+		  box-sizing: border-box;
+		  background-color: transparent;
+		  font-size: 14px;
+		  font-weight: 500;
+		  padding: 7px 18px;
+		  border-color: #EB5E28;
+		  color: #EB5E28;
+		  border: 2px solid;
+		  -webkit-transition: all 150ms linear;
+		  -moz-transition: all 150ms linear;
+		  -o-transition: all 150ms linear;
+		  -ms-transition: all 150ms linear;
+		  transition: all 150ms linear;
+	}
+	.btnn:hover, .btnn:focus, .btnn:active{
+		background-color: #EB5E28;
+	    color: rgba(255, 255, 255, 0.7);
+	    border-color: #EB5E28; 	
+	}
+	
+	</style>
 </th:block>
 
 
@@ -114,7 +138,7 @@
 	        <div class="col-lg-4 col-md-5">
 	            <div class="card">
 	                <div class="header">
-	                    <h4 class="title">이용중인 이용권</h4>
+	                    <h4 class="title">사용중인 이용권</h4>
 	                </div>
 	                <div class="content">
 	                    <ul class="list-unstyled team-members">
@@ -130,7 +154,7 @@
                           <li>
                               <div class="row">
                                   <div class="col-xs-6">
-                                		누적 이용시간
+                                		누적 사용시간
                                   </div>
                                   <div class="col-xs-6" th:text="${totalTime}">
                                       <br />
@@ -149,16 +173,16 @@
                   <div class="header">
                       <h4 class="title">이용권 사용 내역</h4>
                   </div>
-                  <div class="content table-responsive table-full-width">
+                  <div class="content table-responsive table-full-width" style="padding-bottom: 40px;">
                       <table class="table table-striped">
                           <thead style="font: bold;">
                           	<tr>
-	                            <th>이용권 유형</th>
-	                          	<th>이용권 조건</th>
+	                            <th>유형</th>
+	                          	<th>조건</th>
 	                          	<th>입장시간</th>
 	                          	<th>퇴장시간</th>
 	                          	<th>이용시간</th>
-	                          	<th>이용권 만료일</th>
+	                          	<th>만료일</th>
 	                          	<th>퇴장</th>
                           	</tr>
                           </thead>
@@ -170,7 +194,7 @@
                               	<td th:text="${l.leaveTime}"></td>
                               	<td th:text="${l.useTime}"></td>
                               	<td th:text="${l.orderExpirationDate}"></td>                            
-                              	<td><button th:if="${#lists.isEmpty(l.leaveTime)}" type="button" id="exitBtn" data-toggle="modal" data-target="#exitModal">퇴장</button></td>                            
+                              	<td><button th:if="${#lists.isEmpty(l.leaveTime)}" type="button" class="btnn" id="exitBtn" data-toggle="modal" data-target="#exitModal">퇴장</button></td>                            
                               </tr>
                               <tr th:unless="${not #lists.isEmpty(usageListById)}">
 								<td colspan="7">이용내역 없습니다.</td>

@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import studycf.config.auth.PrincipalDetails;
 import studycf.dto.Goods;
 import studycf.dto.Order;
 import studycf.service.GoodsManagementService;
@@ -37,6 +39,16 @@ public class OrderController {
 	private static final Logger log = LoggerFactory.getLogger(OrderController.class);
 	
 	
+	
+	@GetMapping("/orderListById")
+	public String getOrderById(@AuthenticationPrincipal PrincipalDetails principal, Model model, Order order){
+		String sessionId = (String) principal.getUsername();
+		
+		List<Order> list = orderService.getOrderById(sessionId);
+		model.addAttribute("orderListById", list);
+		
+		return "order/orderById";
+	}
 	
 	
 	//이용권 구매

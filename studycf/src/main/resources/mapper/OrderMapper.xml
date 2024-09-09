@@ -13,7 +13,47 @@
 		<result column="order_insert_date"		property="orderInsertDate"/>
 		<result column="order_expiration_date"	property="orderExpirationDate"/>
 		<result column="goods_ctg_cd"			property="goodsCtgCd"/>
+		<association property="goods" javaType="Goods">
+			<id		column="goods_cd"				property="goodsCd"/>
+			<result column="goods_ctg_cd"			property="goodsCtgCd"/>
+			<result column="goods_nm"				property="goodsNm"/>
+			<result column="goods_time_con"			property="goodsTimeCon"/>
+			<result column="price"					property="price"/>
+			<result column="goods_expiration_date"	property="goodsExpirationDate"/>
+			<result column="goods_insert_date"		property="goodsInsertDate"/>
+		</association>
+		<association property="goodsCtg"		javaType="GoodsCtg" >
+			<id		column="goods_ctg_cd"		property="goodsCtgCd"/>
+			<result	column="goods_ctg_nm"		property="goodsCtgNm"/>
+		</association>
 	</resultMap>
+	
+	<select id="getOrderById" parameterType="Order" resultMap="OrderResultMap">
+		SELECT 
+			go.order_cd,
+			go.user_id, 
+			go.goods_cd, 
+			go.give_time, 
+			go.price, 
+			go.order_insert_date, 
+			go.order_expiration_date,
+			g.goods_nm,
+			g.goods_ctg_cd,
+			gc.goods_ctg_nm
+		FROM 
+			goods_order AS go
+			INNER JOIN
+			goods AS g
+			on
+			go.goods_cd = g.goods_cd
+			INNER JOIN 
+			goods_ctg AS gc
+			ON
+			g.goods_ctg_cd = gc.goods_ctg_cd
+		WHERE 
+			go.user_id = #{userId};
+			
+	</select>
 
 	<update id="modifyOrder" parameterType="Order">
 		/*주문정보 중 주어진 시간 변경*/

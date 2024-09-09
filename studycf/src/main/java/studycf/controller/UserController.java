@@ -221,7 +221,8 @@ public class UserController {
 		goodsManagementMap.put("sessionId", sessionId);
 		//카페 이용내역
 		Map<String, Object> resultMap = goodsManagementService.usageListById(currentPage, goodsManagementMap);
-		
+		//이용권 구매 목록
+		List<Order> orderListById = orderService.getOrderById(sessionId);
 		log.info("currentPage : {}", currentPage);
 		
 		model.addAttribute("title", "회원상세정보");
@@ -234,9 +235,11 @@ public class UserController {
 		model.addAttribute("user", user);
 		model.addAttribute("totalTime", totalTime);
 		model.addAttribute("availableGoodsList", availableGoodsList);
+		model.addAttribute("orderListById", orderListById);
 		
 		log.info("map확인 : {}", goodsManagementMap);
 		log.info("totalTime확인 : {}", totalTime);
+		log.info("orderListById확인 : {}", orderListById);
 		
 		
 		return "user/userDetail";

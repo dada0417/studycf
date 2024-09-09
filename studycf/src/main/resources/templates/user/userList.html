@@ -27,13 +27,13 @@
                       <h4 class="title" style="float: left;">회원 목록</h4>
                       <div class="search" style="float: right;">
                       	<form th:action="@{/user/userList}" method="post">
-	                      	<select class="form-control border-input" name="searchKey" data-validate-length-range="4" data-validate-words="2" style="float: left; width: 100px;">
+	                      	<select class="form-control border-input" name="searchKey" data-validate-length-range="4" data-validate-words="2" style="float: left; width: 100px; margin-right: 5px;">
 	                      		<option th:value="userEmail">이메일</option>
 	                      		<option th:value="userId">아이디</option>
 	                      		<option th:value="userNm">이 름</option>
 	                      		<option th:value="userPhone">전화번호</option>
 	                      	</select>
-	                      	<input type="text" name="searchValue" class="form-control border-input" style="width: 400px; float: left; " placeholder="회원 검색">
+	                      	<input type="text" name="searchValue" class="form-control border-input" style="width: 400px; float: left; margin-right: 5px;" placeholder="회원 검색">
 	                  	 	<input type="submit" style="float: right; width: 65px; height: 40px;" class="btn-info btn-fill form-control" th:value = "검색">
                       	</form>
                       </div>
@@ -42,11 +42,11 @@
                       <table class="table table-striped">
                           <thead style="font: bold;">
                           	<tr>
-	                            <th>회원 아이디</th>
-	                          	<th>회원 이름</th>
-	                          	<th>회원 이메일</th>
-	                          	<th>회원 전화번호</th>
-	                          	<th>스터디카페 이용 상세보기</th>
+	                            <th>아이디</th>
+	                          	<th>이   름</th>
+	                          	<th>이메일</th>
+	                          	<th>전화번호</th>
+	                          	<th>이용 상세보기</th>
                           	</tr>
                           </thead>
                           <tbody>

@@ -55,22 +55,21 @@
 
 </th:block>
 <th:block layout:fragment = "customContents">
-	<div class="container-fluid">
-      <div class="row">
-      	<ul class="ctgCheck">
-      		<li><button class="btn btn-default btn-block" type="button" th:value="gong" th:onclick = "|location.href='@{/board/boardList(boardCtgCd=gong)}'|">공지사항</button> </li>
-      		<li><button class="btn btn-default btn-block" type="button" th:value="qna" th:onclick = "|location.href='@{/board/boardList(boardCtgCd=qna)}'|">자주묻는질문</button></li>
-      		<li><button class="btn btn-default btn-block" type="button" th:value="question" th:onclick = "|location.href='@{/board/boardList(boardCtgCd=question)}'|" >질문하기</button></li>
-      	</ul>
-      </div>
-    </div> 
+	
+    <div class="row">
+    	<ul class="ctgCheck">
+    		<li><button class="btn btn-default btn-block" type="button" th:value="gong" th:onclick = "|location.href='@{/board/boardList(boardCtgCd=gong)}'|">공지사항</button> </li>
+    		<li><button class="btn btn-block btn-default" type="button" th:value="qna" th:onclick = "|location.href='@{/board/boardList(boardCtgCd=qna)}'|">자주묻는질문</button></li>
+    		<li><button class="btn btn-block btn-default" type="button" th:value="question" th:onclick = "|location.href='@{/board/boardList(boardCtgCd=question)}'|" >질문하기</button></li>
+    	</ul>
+    </div>
 	<div class="container-fluid">
       <div class="row">
           <div class="col-md-12">
               <div class="card">
                   <div class="header">
-                      <h4 class="title">게시판</h4>
-	                  <button type="button" class="btn addBtn" th:onclick = "|location.href='@{/board/addBoard}'|">게시물 작성하기</button>
+                      <h4 class="title" style="float: left;">게시판</h4>
+	                  <button type="button" class="btn addBtn" th:onclick = "|location.href='@{/board/addBoard}'|" style="float: right; margin-bottom: 20px;">게시물 작성하기</button>
                   </div>
                   <div class="content table-responsive table-full-width">
                       <table class="table table-striped">

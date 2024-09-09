@@ -95,7 +95,7 @@ public class GoodsManagementService {
 	public Map<String, Object> usageListById(int currentPage, Map<String, Object> goodsManagementMap){
 	
 		
-		int rowPerPage = 5;
+		int rowPerPage = 9;
 		
 		
 		double rowCount = goodsManagementMapper.getUsageListCount(goodsManagementMap.get("sessionId"));

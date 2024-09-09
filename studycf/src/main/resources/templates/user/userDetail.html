@@ -141,11 +141,14 @@
                                 		누적 이용시간
                                   </div>
                                   <div class="col-xs-6" th:text="${totalTime}">
-                                      <br />
-                                      <span class="text-danger"><small>상세보기</small></span>
+                                      
                                   </div>
-
-                                 
+                              </div>
+                              <div class="footer">
+                                    <hr />
+                                    <div class="stats" style="float: right;">
+                                       <i class="ti-arrow-right"></i><a class="text-danger" th:href="@{/goodsManagement/goodsUseList}">상세보기</a>
+                                    </div>
                               </div>
                           </li>
                       </ul>
@@ -157,44 +160,30 @@
           <div class="col-md-12">
               <div class="card">
                   <div class="header">
-                      <h4 class="title">이용권 사용 내역</h4>
+                      <h4 class="title">이용권 구매 내역</h4>
                   </div>
                   <div class="content table-responsive table-full-width">
                       <table class="table table-striped">
                           <thead style="font: bold;">
                           	<tr>
-	                            <th>이용권 유형</th>
-	                          	<th>이용권 조건</th>
-	                          	<th>입장시간</th>
-	                          	<th>퇴장시간</th>
-	                          	<th>이용시간</th>
-	                          	<th>이용권 만료일</th>
+	                            <th>유형</th>
+	                          	<th>조건</th>
+	                          	<th>결제일자</th>
+	                          	<th>금액</th>
                           	</tr>
                           </thead>
                           <tbody>
-                              <tr th:if="${not #lists.isEmpty(usageListById)}" th:each="l : ${usageListById}">
+                              <tr th:if="${not #lists.isEmpty(orderListById)}" th:each="l : ${orderListById}">
                               	<td th:text="${l.goodsCtg.goodsCtgNm}"></td>
                               	<td th:text="${l.goods.goodsNm}"></td>
-                              	<td th:text="${l.admissionTime}"></td>
-                              	<td th:text="${l.leaveTime}"></td>
-                              	<td th:text="${l.useTime}"></td>
-                              	<td th:text="${l.orderExpirationDate}"></td>                            
+                              	<td th:text="${l.orderInsertDate}"></td>
+                              	<td th:text="${l.price}"></td>
                               </tr>
-                              <tr th:unless="${not #lists.isEmpty(usageListById)}">
+                              <tr th:unless="${not #lists.isEmpty(orderListById)}">
 								<td colspan="6">이용내역 없습니다.</td>
 							  </tr>	
                           </tbody>
                       </table>
-                      <div class="col-lg-12 text-center">
-                        <div class="pagination__option" th:if="${not #lists.isEmpty(usageListById)}">
-							<a th:if="${currentPage > 1}" th:href="@{/user/userDetail(currentPage=${currentPage - 1})}"><i class="fa fa-angle-left"></i></a>
-							<th:block th:each="num : ${#numbers.sequence(startPageNum,endPageNum)}">
-								<label th:if="${currentPage eq num}" th:text="${(num<10) ? '0' + num  :  num }"></label>
-								<a th:unless="${currentPage eq num}" th:href="@{/user/userDetail(currentPage=${num})}" th:text="${(num<10) ? '0' + num  :  num }"></a>
-							</th:block>
-							<a th:if="${currentPage < lastPage}" th:href="@{/user/userDetail(currentPage=${currentPage + 1})}"><i class="fa fa-angle-right"></i></a>
-						</div>
-                    </div>
                   </div>
               </div>
           </div>
